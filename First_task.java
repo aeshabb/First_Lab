@@ -4,9 +4,9 @@ public class First_task {
         for(int i = 0; i < 19; i++) {
             c[i] = i + 6;
         }
-        // for(int i = 0; i < 19; i++) {
-        //     System.out.print(c[i] + "\n");
-        // }
+        for(int i = 0; i < 19; i++) {
+            System.out.print(c[i] + "\n");
+        }
 
 
 
