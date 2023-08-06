@@ -1,1 +1,1 @@
-javac *.java, jar cfe Project.jar Main Main.class, java -jar Project.jar
+javac *.java, jar cfe Project.jar Main *.class ru/, java -jar Project.jar
