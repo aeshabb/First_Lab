@@ -13,4 +13,9 @@ public class HydroPump extends PhysicalMove {
     protected void applyOppDamage(Pokemon poke, double damage) {
         poke.setMod(Stat.HP, (int) Math.round(damage));
     }
+
+    @Override
+    protected String describe() {
+        return "наносит водяной удар";
+    }
 }

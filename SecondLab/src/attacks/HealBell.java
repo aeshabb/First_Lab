@@ -12,8 +12,13 @@ public class HealBell extends StatusMove {
 
     @Override
     protected void applySelfEffects(Pokemon poke) {
-        Effect cleaning = new Effect();
-        cleaning.clear();
-        poke.addEffect(cleaning);
+        Effect godMode = new Effect();
+        godMode.clear();
+        poke.addEffect(godMode);
+    }
+
+    @Override
+    protected String describe() {
+        return "сбрасывает все эффекты";
     }
 }
