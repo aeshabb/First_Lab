@@ -11,8 +11,8 @@ public class SlackOff extends StatusMove {
     }
 
     @Override
-    protected void applySelfEffects(Pokemon name) {
-        if (name.getHP() < (name.getStat(Stat.HP) / 2))
-            name.setMod(Stat.HP, (int) (name.getHP() - (name.getStat(Stat.HP) / 2)));
+    protected void applySelfEffects(Pokemon poke) {
+        if (poke.getHP() < (poke.getStat(Stat.HP) / 2))
+            poke.setMod(Stat.HP, (int) (poke.getHP() - (poke.getStat(Stat.HP) / 2)));
     }
 }

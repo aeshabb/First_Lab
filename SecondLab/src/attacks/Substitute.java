@@ -11,8 +11,8 @@ public class Substitute extends StatusMove {
     }
 
     @Override
-    protected void applySelfEffects(Pokemon name) {
-        name.setMod(Stat.HP, -(int) (name.getStat(Stat.HP) / 4));
+    protected void applySelfEffects(Pokemon poke) {
+        poke.setMod(Stat.HP, -(int) (poke.getStat(Stat.HP) / 4));
 
     }
 }

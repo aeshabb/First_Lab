@@ -11,7 +11,7 @@ public class ShadowPunch extends PhysicalMove {
     }
 
     @Override
-    protected void applyOppDamage(Pokemon def, double damage) {
-        def.setMod(Stat.HP, (int) damage);
+    protected void applyOppDamage(Pokemon poke, double damage) {
+        poke.setMod(Stat.HP, (int) damage);
     }
 }

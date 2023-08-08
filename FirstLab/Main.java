@@ -21,14 +21,13 @@ public class Main {
         x[i] = num;
     }
     double[][] c = new double[10][17];
-    List<Integer> nums = Arrays.asList(6, 12, 14, 16, 22);
     for(int i = 0; i < 10; i++) {
         for(int j = 0; j < 17; j++) {
             if(c1[i] == 8) {
                 double k = Math.pow((Math.asin(Math.pow((Math.E), -(Math.abs(x[j]))))), ((Math.tan(Math.pow(Math.E, x[j])) + 1) / 4));
                 c[i][j] = k;
             }
-            else if(nums.contains(c1[i])) {
+            else if(c1[i] == 6 || c1[i] == 12 || c1[i] == 14 || c1[i] == 16 || c1[i] == 22) {
                 c[i][j] = Math.sin(Math.pow((0.5 / (Math.pow((0.5 / x[j]), x[j]) - 1)), Math.sin(x[j])));
             }
             else {

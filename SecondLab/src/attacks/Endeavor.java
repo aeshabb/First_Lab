@@ -11,9 +11,9 @@ public class Endeavor extends PhysicalMove {
     }
 
     @Override
-    protected void applyOppEffects(Pokemon name) {
-        if (name.getHP() > name.getLevel()) {
-            name.setMod(Stat.HP, name.getLevel());
+    protected void applyOppEffects(Pokemon poke) {
+        if (poke.getHP() > poke.getLevel()) {
+            poke.setMod(Stat.HP, poke.getLevel());
         }
     }
 }

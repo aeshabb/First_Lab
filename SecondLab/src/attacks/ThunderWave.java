@@ -11,8 +11,8 @@ public class ThunderWave extends PhysicalMove {
     }
 
     @Override
-    protected void applyOppEffects(Pokemon name) {
-        Effect.paralyze(name);
+    protected void applyOppEffects(Pokemon poke) {
+        Effect.paralyze(poke);
 
     }
 

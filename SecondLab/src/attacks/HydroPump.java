@@ -10,7 +10,7 @@ public class HydroPump extends PhysicalMove {
         super(Type.WATER, 110, 80);
     }
 
-    protected void applyOppDamage(Pokemon name, double damage) {
-        name.setMod(Stat.HP, (int) Math.round(damage));
+    protected void applyOppDamage(Pokemon poke, double damage) {
+        poke.setMod(Stat.HP, (int) Math.round(damage));
     }
 }

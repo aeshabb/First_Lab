@@ -11,8 +11,8 @@ public class MorningSun extends StatusMove {
     }
 
     @Override
-    protected void applySelfEffects(Pokemon name) {
-        name.setMod(Stat.HP, -2);
+    protected void applySelfEffects(Pokemon poke) {
+        poke.setMod(Stat.HP, -2);
 
     }
 }

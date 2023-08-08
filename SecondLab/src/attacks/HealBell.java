@@ -11,8 +11,9 @@ public class HealBell extends StatusMove {
     }
 
     @Override
-    protected void applySelfEffects(Pokemon name) {
-        Effect Cleaning = new Effect();
-        Cleaning.clear();
+    protected void applySelfEffects(Pokemon poke) {
+        Effect cleaning = new Effect();
+        cleaning.clear();
+        poke.addEffect(cleaning);
     }
 }

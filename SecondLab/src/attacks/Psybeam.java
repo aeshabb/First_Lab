@@ -11,9 +11,9 @@ public class Psybeam extends PhysicalMove {
     }
 
     @Override
-    protected void applyOppEffects(Pokemon name) {
+    protected void applyOppEffects(Pokemon poke) {
         if (Math.random() <= 0.1) {
-            Effect.confuse(name);
+            Effect.confuse(poke);
         }
     }
 
