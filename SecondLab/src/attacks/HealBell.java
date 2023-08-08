@@ -2,10 +2,10 @@ package attacks;
 
 import ru.ifmo.se.pokemon.Effect;
 import ru.ifmo.se.pokemon.Pokemon;
-import ru.ifmo.se.pokemon.SpecialMove;
+import ru.ifmo.se.pokemon.StatusMove;
 import ru.ifmo.se.pokemon.Type;
 
-public class HealBell extends SpecialMove {
+public class HealBell extends StatusMove {
     public HealBell() {
         super(Type.NORMAL, 0, 0);
     }

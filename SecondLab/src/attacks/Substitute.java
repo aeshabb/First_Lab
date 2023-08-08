@@ -1,11 +1,11 @@
 package attacks;
 
 import ru.ifmo.se.pokemon.Pokemon;
-import ru.ifmo.se.pokemon.SpecialMove;
 import ru.ifmo.se.pokemon.Stat;
+import ru.ifmo.se.pokemon.StatusMove;
 import ru.ifmo.se.pokemon.Type;
 
-public class Substitute extends SpecialMove {
+public class Substitute extends StatusMove {
     public Substitute() {
         super(Type.NORMAL, 0, 0);
     }

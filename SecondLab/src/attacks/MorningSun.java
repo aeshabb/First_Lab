@@ -1,11 +1,11 @@
 package attacks;
 
 import ru.ifmo.se.pokemon.Pokemon;
-import ru.ifmo.se.pokemon.SpecialMove;
 import ru.ifmo.se.pokemon.Stat;
+import ru.ifmo.se.pokemon.StatusMove;
 import ru.ifmo.se.pokemon.Type;
 
-public class MorningSun extends SpecialMove {
+public class MorningSun extends StatusMove {
     public MorningSun() {
         super(Type.NORMAL, 65, 100);
     }
