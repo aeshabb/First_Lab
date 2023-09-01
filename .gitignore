@@ -1,4 +1,4 @@
 SecondLab/bin/
-ThirdLab/.vscode
-ThirdLab/README.md
-ThirdLab/bin/
+ThirdLab/.idea/
+.idea/
+out/
