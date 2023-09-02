@@ -1,9 +1,10 @@
 package command;
 
+import entity.Data;
 import entity.Direction;
 
 public interface Command {
-    public void execute(Direction direction);
+    public void execute(Data data);
 
 
 }

@@ -1,7 +1,6 @@
 package database;
 
 import entity.Enrollee;
-import handlers.EnrolleeDataHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +9,22 @@ public class EnrolleeStorage {
     private List<Enrollee> enrolleeList;
 
     public EnrolleeStorage() {
-        this.enrolleeList = new ArrayList<>();
+
+    }
+    public EnrolleeStorage(List<Enrollee> enrolleeList) {
+        this.enrolleeList = enrolleeList;
+    }
+
+    public void createEnrollee(Enrollee enrollee) {
+
+    }
+    public void readEnrollee(Enrollee enrollee) {
+
+    }
+    public void updateEnrollee(Enrollee enrollee) {
+
+    }
+    public void deleteEnrollee(Enrollee enrollee) {
+
     }
 }

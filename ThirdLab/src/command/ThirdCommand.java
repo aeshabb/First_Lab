@@ -1,10 +1,19 @@
 package command;
 
+import entity.Data;
 import entity.Direction;
 
 public class ThirdCommand implements Command {
+    private final Receiver receiver;
+
+
+    public ThirdCommand(Receiver receiver) {
+
+        this.receiver = receiver;
+    }
+
     @Override
-    public void execute(Direction direction) {
+    public void execute(Data data) {
 
     }
 }

@@ -1,5 +1,5 @@
 package entity;
 
-public enum Subject {
-    MATH, PHYSICS, ENGLISH, INFORMATICS;
+public class Subject {
+    private String name;
 }

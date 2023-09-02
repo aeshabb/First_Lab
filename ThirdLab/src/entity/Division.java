@@ -1,5 +1,5 @@
 package entity;
 
-public enum Division {
-    SPPO, DESIGN, NEUROTECHNOLOGIES;
+public class Division {
+    private String name;
 }
