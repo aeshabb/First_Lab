@@ -1,5 +1,4 @@
 package entity;
-
 public class Direction {
     private String name;
     private int placesInCommon;
@@ -7,8 +6,6 @@ public class Direction {
     private int targetPlaces;
     private Division[] divisions;
     private Subject[] subjects;
-
-
     public Direction(String name, int placesInCommon, int privilegePlaces, int targetPlaces, Division[] divisions, Subject[] subjects) {
         this.setDirection(name);
         this.setPlacesInCommon(placesInCommon);
@@ -17,51 +14,39 @@ public class Direction {
         this.setDivisions(divisions);
         this.setSubjects(subjects);
     }
-
     public String getDirection() {
         return name;
     }
-
     public void setDirection(String name) {
         this.name = name;
     }
-
     public int getPlacesInCommon() {
         return placesInCommon;
     }
-
     public void setPlacesInCommon(int placesInCommon) {
         this.placesInCommon = placesInCommon;
     }
-
     public int getPrivilagePlaces() {
         return privilegePlaces;
     }
-
     public void setPrivilagePlaces(int privilegePlaces) {
         this.privilegePlaces = privilegePlaces;
     }
-
     public int getTergetPlaces() {
         return targetPlaces;
     }
-
     public void setTergetPlaces(int targetPlaces) {
         this.targetPlaces = targetPlaces;
     }
-
     public Division[] getDivisions() {
         return divisions;
     }
-
     public void setDivisions(Division[] divisions) {
         this.divisions = divisions;
     }
-
     public Subject[] getSubjects() {
         return subjects;
     }
-
     public void setSubjects(Subject[] subjects) {
         this.subjects = subjects;
     }

@@ -1,10 +1,4 @@
 package command;
-
-import entity.Data;
-import entity.Direction;
-
 public interface Command {
-    public void execute(Data data);
-
-
+    public void execute(String line);
 }
