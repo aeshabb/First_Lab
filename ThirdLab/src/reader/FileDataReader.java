@@ -1,7 +1,9 @@
 package reader;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+
 public class FileDataReader implements DatabaseReader {
     public List<String> readFromDatabase(String path) throws IOException {
         List<String> fileInfo = new ArrayList<>();
