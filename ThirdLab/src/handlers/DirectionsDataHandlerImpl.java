@@ -24,17 +24,17 @@ public class DirectionsDataHandlerImpl implements DirectionsDataHandler {
             String[] divisionsName = infoAboutDirections[2].split(", ");
             Division[] divisions = new Division[divisionsName.length];
 
+            int count = 0;
             for (String name : divisionsName) {
-                int i = 0;
-                divisions[i] = new Division(name);
-                i++;
+                divisions[count] = new Division(name);
+                count++;
             }
 
             String[] subjectsName = infoAboutDirections[3].split(", ");
             Subject[] subjects = new Subject[subjectsName.length];
 
+            int i = 0;
             for (String name : subjectsName) {
-                int i = 0;
                 subjects[i] = new Subject(name);
                 i++;
             }

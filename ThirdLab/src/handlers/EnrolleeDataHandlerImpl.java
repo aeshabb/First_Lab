@@ -20,26 +20,25 @@ public class EnrolleeDataHandlerImpl implements EnrolleeDataHandler {
             String[] subjectsInfo = infoAboutEnrollees[1].split(", ");
             Subject[] subjects = new Subject[3];
 
+            int count = 0;
             for (String subject : subjectsInfo) {
-                int i = 0;
                 String[] subjectInfo = subject.split(" ");
-
                 if (subjectInfo.length == 2) {
                     String name = subjectInfo[0];
                     int score = Integer.parseInt(subjectInfo[1]);
-                    subjects[i] = new Subject(name, score);
+                    subjects[count] = new Subject(name, score);
                 } else {
-                    String name = subjectInfo[0] + subjectsInfo[1];
+                    String name = subjectInfo[0] + " " + subjectInfo[1];
                     int score = Integer.parseInt(subjectInfo[2]);
-                    subjects[i] = new Subject(name, score);
+                    subjects[count] = new Subject(name, score);
                 }
-                i++;
+                count++;
             }
             String[] divisionsInfo = infoAboutEnrollees[2].split(" ");
             Division[] divisions = new Division[divisionsInfo.length];
 
+            int i = 0;
             for (String divisionName : divisionsInfo) {
-                int i = 0;
                 divisions[i] = new Division(divisionName);
                 i++;
             }

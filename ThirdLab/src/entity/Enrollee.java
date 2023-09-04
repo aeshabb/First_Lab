@@ -1,11 +1,26 @@
 package entity;
 
+import java.util.Arrays;
+
 public class Enrollee {
     private final int id;
     private Subject[] subjects;
     private Division[] division;
     private boolean privileges;
     private boolean target;
+
+    @Override
+    public String toString() {
+        return "Enrollee{" +
+                "id=" + id +
+                ", Результаты ЕГЭ=" + Arrays.toString(subjects) +
+                ", Образовательные программы=" + Arrays.toString(division) +
+                ", Наличие квоты=" + privileges +
+                ", Целевое обучение=" + target +
+                ", Наличие оригиналов=" + originalsToDivision +
+                '}';
+    }
+
     private Division originalsToDivision;
 
     public Enrollee(int id, Subject[] subjects, Division[] division, boolean privileges, boolean target, Division originalsToDivision) {

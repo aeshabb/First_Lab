@@ -4,7 +4,9 @@ import database.DirectionStorage;
 import database.EnrolleeStorage;
 import entity.Direction;
 import entity.Enrollee;
+import handlers.DirectionsDataHandler;
 import handlers.DirectionsDataHandlerImpl;
+import handlers.EnrolleeDataHandler;
 import handlers.EnrolleeDataHandlerImpl;
 import reader.FileDataReader;
 
@@ -12,13 +14,13 @@ import java.io.IOException;
 import java.util.List;
 
 public class Runner {
-    public void fillStrorages() throws IOException {
+    public void fillStorages() throws IOException {
         FileDataReader fileDataReader = new FileDataReader();
-        List<String> stringEnrollee = fileDataReader.readFromDatabase("C:\\Users\\Алексей\\OneDrive\\Рабочий стол\\codes\\Trashbox\\ThirdLab\\resources\\Abitura.txt");
-        List<String> stringDirections = fileDataReader.readFromDatabase("C:\\Users\\Алексей\\OneDrive\\Рабочий стол\\codes\\Trashbox\\ThirdLab\\resources\\Directions.txt");
+        List<String> stringEnrollee = fileDataReader.readFromDatabase("resources/Abitura.txt");
+        List<String> stringDirections = fileDataReader.readFromDatabase("resources/Directions.txt");
 
-        EnrolleeDataHandlerImpl enrolleeDataHandler = new EnrolleeDataHandlerImpl();
-        DirectionsDataHandlerImpl directionsDataHandler = new DirectionsDataHandlerImpl();
+        EnrolleeDataHandler enrolleeDataHandler = new EnrolleeDataHandlerImpl();
+        DirectionsDataHandler directionsDataHandler = new DirectionsDataHandlerImpl();
 
         List<Enrollee> enrolleeList = enrolleeDataHandler.handle(stringEnrollee);
         List<Direction> directionList = directionsDataHandler.handle(stringDirections);

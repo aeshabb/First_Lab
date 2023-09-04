@@ -1,10 +1,25 @@
 package entity;
 
+import java.util.Arrays;
+
 public class Direction {
     private String name;
     private int placesInCommon;
     private int privilegePlaces;
     private int targetPlaces;
+
+    @Override
+    public String toString() {
+        return "Direction{" +
+                "Название направления='" + name + '\'' +
+                ", Всего мест=" + placesInCommon +
+                ", Мест для квоты=" + privilegePlaces +
+                ", Мест для целевого обучения=" + targetPlaces +
+                ", Образовательные программы=" + Arrays.toString(divisions) +
+                ", Предметы для поступления=" + Arrays.toString(subjects) +
+                '}';
+    }
+
     private Division[] divisions;
     private Subject[] subjects;
 

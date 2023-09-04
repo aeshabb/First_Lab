@@ -33,4 +33,8 @@ public class DirectionStorage {
     public Direction getDirectionByName(String name) {
         return directionList.get(1);
     }
+
+    public List<Direction> getDirectionList() {
+        return directionList;
+    }
 }

@@ -8,6 +8,14 @@ public class Subject {
         this.setName(name);
     }
 
+    @Override
+    public String toString() {
+        return "Subject{" +
+                "name='" + name + '\'' +
+                ", score=" + score +
+                '}';
+    }
+
     public Subject(String name, int score) {
         this.setName(name);
         this.setScore(score);

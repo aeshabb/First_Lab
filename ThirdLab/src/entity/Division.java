@@ -7,6 +7,13 @@ public class Division {
         this.setName(name);
     }
 
+    @Override
+    public String toString() {
+        return "Division{" +
+                "Имя образовательной программы='" + name + '\'' +
+                '}';
+    }
+
     public String getName() {
         return name;
     }
