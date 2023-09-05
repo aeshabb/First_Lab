@@ -25,6 +25,7 @@ public class EnrolleeStorage {
     }
 
     public void deleteEnrollee(Enrollee enrollee) {
+        enrolleeList.remove(enrollee);
     }
 
     public List<Enrollee> getEnrolleeList() {

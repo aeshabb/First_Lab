@@ -1,6 +1,7 @@
 package entity;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Direction {
     private String name;
@@ -8,26 +9,14 @@ public class Direction {
     private int privilegePlaces;
     private int targetPlaces;
 
-    @Override
-    public String toString() {
-        return "Direction{" +
-                "Название направления='" + name + '\'' +
-                ", Всего мест=" + placesInCommon +
-                ", Мест для квоты=" + privilegePlaces +
-                ", Мест для целевого обучения=" + targetPlaces +
-                ", Образовательные программы=" + Arrays.toString(divisions) +
-                ", Предметы для поступления=" + Arrays.toString(subjects) +
-                '}';
-    }
-
     private Division[] divisions;
     private Subject[] subjects;
 
     public Direction(String name, int placesInCommon, int privilegePlaces, int targetPlaces, Division[] divisions, Subject[] subjects) {
         this.setDirection(name);
         this.setPlacesInCommon(placesInCommon);
-        this.setPrivilagePlaces(privilegePlaces);
-        this.setTergetPlaces(targetPlaces);
+        this.setPrivilegePlaces(privilegePlaces);
+        this.setTargetPlaces(targetPlaces);
         this.setDivisions(divisions);
         this.setSubjects(subjects);
     }
@@ -48,19 +37,19 @@ public class Direction {
         this.placesInCommon = placesInCommon;
     }
 
-    public int getPrivilagePlaces() {
+    public int getPrivilegePlaces() {
         return privilegePlaces;
     }
 
-    public void setPrivilagePlaces(int privilegePlaces) {
+    public void setPrivilegePlaces(int privilegePlaces) {
         this.privilegePlaces = privilegePlaces;
     }
 
-    public int getTergetPlaces() {
+    public int getTargetPlaces() {
         return targetPlaces;
     }
 
-    public void setTergetPlaces(int targetPlaces) {
+    public void setTargetPlaces(int targetPlaces) {
         this.targetPlaces = targetPlaces;
     }
 
@@ -78,5 +67,32 @@ public class Direction {
 
     public void setSubjects(Subject[] subjects) {
         this.subjects = subjects;
+    }
+
+    @Override
+    public String toString() {
+        return "Direction{" +
+                "name='" + name + '\'' +
+                ", placesInCommon=" + placesInCommon +
+                ", privilegePlaces=" + privilegePlaces +
+                ", targetPlaces=" + targetPlaces +
+                ", divisions=" + Arrays.toString(divisions) +
+                ", subjects=" + Arrays.toString(subjects) +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Direction direction)) return false;
+        return getPlacesInCommon() == direction.getPlacesInCommon() && getPrivilegePlaces() == direction.getPrivilegePlaces() && getTargetPlaces() == direction.getTargetPlaces() && Objects.equals(name, direction.name) && Arrays.equals(getDivisions(), direction.getDivisions()) && Arrays.equals(getSubjects(), direction.getSubjects());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(name, getPlacesInCommon(), getPrivilegePlaces(), getTargetPlaces());
+        result = 31 * result + Arrays.hashCode(getDivisions());
+        result = 31 * result + Arrays.hashCode(getSubjects());
+        return result;
     }
 }

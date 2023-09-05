@@ -1,6 +1,7 @@
 package entity;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Enrollee {
     private final int id;
@@ -8,18 +9,6 @@ public class Enrollee {
     private Division[] division;
     private boolean privileges;
     private boolean target;
-
-    @Override
-    public String toString() {
-        return "Enrollee{" +
-                "id=" + id +
-                ", Результаты ЕГЭ=" + Arrays.toString(subjects) +
-                ", Образовательные программы=" + Arrays.toString(division) +
-                ", Наличие квоты=" + privileges +
-                ", Целевое обучение=" + target +
-                ", Наличие оригиналов=" + originalsToDivision +
-                '}';
-    }
 
     private Division originalsToDivision;
 
@@ -74,5 +63,32 @@ public class Enrollee {
 
     public void setOriginals(Division originals) {
         this.originalsToDivision = originals;
+    }
+
+    @Override
+    public String toString() {
+        return "Enrollee{" +
+                "id=" + id +
+                ", subjects=" + Arrays.toString(subjects) +
+                ", division=" + Arrays.toString(division) +
+                ", privileges=" + privileges +
+                ", target=" + target +
+                ", originalsToDivision=" + originalsToDivision +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Enrollee enrollee)) return false;
+        return getId() == enrollee.getId() && isPrivileges() == enrollee.isPrivileges() && isTarget() == enrollee.isTarget() && Arrays.equals(getSubjects(), enrollee.getSubjects()) && Arrays.equals(getDivision(), enrollee.getDivision()) && Objects.equals(originalsToDivision, enrollee.originalsToDivision);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(getId(), isPrivileges(), isTarget(), originalsToDivision);
+        result = 31 * result + Arrays.hashCode(getSubjects());
+        result = 31 * result + Arrays.hashCode(getDivision());
+        return result;
     }
 }

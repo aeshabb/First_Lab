@@ -11,7 +11,8 @@ public class Invoker {
         this.commands = commands;
     }
 
-    public void executeCommand(String commandName) {
-        Command command = commands.get(commandName);
+    public void executeCommand(String commandNameAndInfo) {
+        Command command = commands.get(commandNameAndInfo.split(" ")[0]);
+        command.execute(commandNameAndInfo.split(" ")[1]);
     }
 }

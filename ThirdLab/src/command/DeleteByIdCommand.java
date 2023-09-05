@@ -9,5 +9,6 @@ public class DeleteByIdCommand implements Command {
 
     @Override
     public void execute(String line) {
+        receiver.deleteById(Integer.parseInt(line));
     }
 }
