@@ -9,5 +9,8 @@ public class ChangeDirNameCommand implements Command {
 
     @Override
     public void execute(String line) {
+        String oldName = line.split(" > ")[0];
+        String newName = line.split(" > ")[1];
+        receiver.changeDirName(oldName, newName);
     }
 }

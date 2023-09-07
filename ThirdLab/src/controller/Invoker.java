@@ -12,7 +12,16 @@ public class Invoker {
     }
 
     public void executeCommand(String commandNameAndInfo) {
-        Command command = commands.get(commandNameAndInfo.split(" ")[0]);
-        command.execute(commandNameAndInfo.split(" ")[1]);
+        String parameters = "";
+        String[] parsedLine = commandNameAndInfo.split(" ");
+        Command command = commands.get(parsedLine[0]);
+        if (parsedLine.length > 1) {
+            for (int i = 1; i < parsedLine.length; i++) {
+                parameters += parsedLine[i] + " ";
+            }
+            command.execute(parameters.strip());
+        } else {
+            command.execute("");
+        }
     }
 }

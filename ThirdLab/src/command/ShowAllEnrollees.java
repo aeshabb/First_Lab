@@ -1,13 +1,14 @@
 package command;
 
-public class ShowEnrolleesCommand implements Command {
+public class ShowAllEnrollees implements Command {
     private final Receiver receiver;
 
-    public ShowEnrolleesCommand(Receiver receiver) {
+    public ShowAllEnrollees(Receiver receiver) {
         this.receiver = receiver;
     }
 
     @Override
     public void execute(String line) {
+        System.out.println(receiver.getEnrolleeList());
     }
 }

@@ -1,8 +1,8 @@
 package database;
 
 import entity.Enrollee;
+import entity.Subject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class EnrolleeStorage {
@@ -16,12 +16,16 @@ public class EnrolleeStorage {
     }
 
     public void createEnrollee(Enrollee enrollee) {
+        enrolleeList.add(enrollee);
     }
 
-    public void readEnrollee(Enrollee enrollee) {
-    }
-
-    public void updateEnrollee(Enrollee enrollee) {
+    public void updateEnrolleeScore(String name, int score, Enrollee enrollee) {
+        Subject[] subjects = enrollee.getSubjects();
+        for (Subject subject : subjects) {
+            if (subject.getName().equals(name)) {
+                subject.setScore(score);
+            }
+        }
     }
 
     public void deleteEnrollee(Enrollee enrollee) {

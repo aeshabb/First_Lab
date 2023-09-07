@@ -13,7 +13,7 @@ public class Direction {
     private Subject[] subjects;
 
     public Direction(String name, int placesInCommon, int privilegePlaces, int targetPlaces, Division[] divisions, Subject[] subjects) {
-        this.setDirection(name);
+        this.setName(name);
         this.setPlacesInCommon(placesInCommon);
         this.setPrivilegePlaces(privilegePlaces);
         this.setTargetPlaces(targetPlaces);
@@ -21,11 +21,11 @@ public class Direction {
         this.setSubjects(subjects);
     }
 
-    public String getDirection() {
+    public String getName() {
         return name;
     }
 
-    public void setDirection(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 

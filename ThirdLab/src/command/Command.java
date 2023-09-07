@@ -1,5 +1,5 @@
 package command;
 
 public interface Command {
-    public void execute(String line);
+    void execute(String line);
 }

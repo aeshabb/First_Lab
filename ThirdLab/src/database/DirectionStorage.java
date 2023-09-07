@@ -1,9 +1,7 @@
 package database;
 
 import entity.Direction;
-import entity.Enrollee;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DirectionStorage {
@@ -23,15 +21,16 @@ public class DirectionStorage {
     public void readDirection(Direction direction) {
     }
 
-    public void updateDirection(Direction direction) {
+    public void changeDirName(String oldName, String newName) {
+        for (Direction direction : directionList) {
+            if (direction.getName().equals(oldName)) {
+                direction.setName(newName);
+            }
+        }
     }
 
     public void deleteDirection(Direction direction) {
         directionList.remove(direction);
-    }
-
-    public Direction getDirectionByName(String name) {
-        return directionList.get(1);
     }
 
     public List<Direction> getDirectionList() {
