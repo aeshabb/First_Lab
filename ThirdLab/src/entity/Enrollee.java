@@ -14,11 +14,11 @@ public class Enrollee {
 
     public Enrollee(int id, Subject[] subjects, Division[] division, boolean privileges, boolean target, Division originalsToDivision) {
         this.id = id;
-        this.setSubjects(subjects);
-        this.setDivision(division);
-        this.setPrivileges(privileges);
-        this.setTarget(target);
-        this.setOriginals(originalsToDivision);
+        this.subjects = subjects;
+        this.division = division;
+        this.privileges = privileges;
+        this.target = target;
+        this.originalsToDivision = originalsToDivision;
     }
 
     public Subject[] getSubjects() {

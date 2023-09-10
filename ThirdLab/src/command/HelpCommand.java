@@ -16,7 +16,7 @@ public class HelpCommand implements Command {
         System.out.println("Сравнить баллы двух абитуриентов: \"compare + (id первого) + (id второго) + (название предмета)\"");
         System.out.println("Вывести список абитуриентов: \"showAllEnrollees\"");
         System.out.println("Вывести список направлений: \"showAllDirections\"");
-        System.out.println("Вывести количество абитуриентов с оригиналами на направлении: \"show + (название направления)\"");
+        System.out.println("Вывести количество абитуриентов с оригиналами на направлении: \"showOriginals + (название направления)\"");
         System.out.println("Завершить работу: \"quit\"");
 
     }

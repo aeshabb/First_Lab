@@ -6,7 +6,7 @@ public class Division {
     private String name;
 
     public Division(String name) {
-        this.setName(name);
+        this.name = name;
     }
 
     public String getName() {

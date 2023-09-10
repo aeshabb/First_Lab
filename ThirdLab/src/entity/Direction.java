@@ -8,17 +8,16 @@ public class Direction {
     private int placesInCommon;
     private int privilegePlaces;
     private int targetPlaces;
-
     private Division[] divisions;
     private Subject[] subjects;
 
     public Direction(String name, int placesInCommon, int privilegePlaces, int targetPlaces, Division[] divisions, Subject[] subjects) {
-        this.setName(name);
-        this.setPlacesInCommon(placesInCommon);
-        this.setPrivilegePlaces(privilegePlaces);
-        this.setTargetPlaces(targetPlaces);
-        this.setDivisions(divisions);
-        this.setSubjects(subjects);
+        this.name = name;
+        this.placesInCommon = placesInCommon;
+        this.privilegePlaces = privilegePlaces;
+        this.targetPlaces = targetPlaces;
+        this.divisions = divisions;
+        this.subjects = subjects;
     }
 
     public String getName() {

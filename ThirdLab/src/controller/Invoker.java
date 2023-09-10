@@ -12,14 +12,15 @@ public class Invoker {
     }
 
     public void executeCommand(String commandNameAndInfo) {
-        String parameters = "";
         String[] parsedLine = commandNameAndInfo.split(" ");
         Command command = commands.get(parsedLine[0]);
         if (parsedLine.length > 1) {
+            StringBuilder parameters = new StringBuilder();
             for (int i = 1; i < parsedLine.length; i++) {
-                parameters += parsedLine[i] + " ";
+                parameters.append(parsedLine[i]);
+                parameters.append(" ");
             }
-            command.execute(parameters.strip());
+            command.execute(parameters.deleteCharAt(parameters.length() - 1).toString());
         } else {
             command.execute("");
         }

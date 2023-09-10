@@ -6,6 +6,7 @@ import entity.Direction;
 import entity.Enrollee;
 import entity.Subject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Receiver {
@@ -27,7 +28,6 @@ public class Receiver {
 
     public void deleteEnrollee(Enrollee enrollee) {
         enrolleeStorage.deleteEnrollee(enrollee);
-        System.out.println("After deleting: " + enrolleeStorage.getEnrolleeList());
     }
 
     public Enrollee getEnrolleeById(int id) {
@@ -67,11 +67,13 @@ public class Receiver {
         return score;
     }
 
-    public void showEnrolleesWithOriginals(String division) {
+    public List<Enrollee> getEnrolleesWithOriginals(String division) {
+        List<Enrollee> enrolleesWithOriginals = new ArrayList<>();
         for (Enrollee enrollee : enrolleeStorage.getEnrolleeList()) {
             if ((enrollee.isOriginals()).getName().equals(division)) {
-                System.out.println(enrollee);
+                enrolleesWithOriginals.add(enrollee);
             }
         }
+        return enrolleesWithOriginals;
     }
 }

@@ -18,9 +18,6 @@ public class DirectionStorage {
         directionList.add(direction);
     }
 
-    public void readDirection(Direction direction) {
-    }
-
     public void changeDirName(String oldName, String newName) {
         for (Direction direction : directionList) {
             if (direction.getName().equals(oldName)) {

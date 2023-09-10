@@ -11,7 +11,8 @@ public class UpdateScoreCommand implements Command {
 
     @Override
     public void execute(String line) {
-        Enrollee enrollee = receiver.getEnrolleeById(Integer.parseInt(line.split(" ")[0]));
-        receiver.updateEnrolleeScore(line.split(" ")[1], Integer.parseInt(line.split(" ")[2]), enrollee);
+        String[] info = line.split(" ");
+        Enrollee enrollee = receiver.getEnrolleeById(Integer.parseInt(info[0]));
+        receiver.updateEnrolleeScore(info[1], Integer.parseInt(info[2]), enrollee);
     }
 }

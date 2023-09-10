@@ -11,7 +11,7 @@ import handlers.DirectionsDataHandlerImpl;
 import handlers.EnrolleeDataHandler;
 import handlers.EnrolleeDataHandlerImpl;
 import reader.FileDataReader;
-import reader.ReadConsoleCommand;
+import reader.InputStream;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,14 +27,14 @@ public class Runner {
     private DirectionStorage directionStorage;
     private Invoker invoker;
 
-    public void runCommands() throws IOException {
-        fillLists();
+    public void runMethods() throws IOException {
+        fillEnrAndDirLists();
         initStorages();
-        startInvoker();
-        parseInputLine();
+        initInvoker();
+        runCommands();
     }
 
-    public void fillLists() throws IOException {
+    private void fillEnrAndDirLists() throws IOException {
         FileDataReader fileDataReader = new FileDataReader();
         List<String> stringEnrollee = fileDataReader.readFromDatabase("resources/Abitura.txt");
         List<String> stringDirections = fileDataReader.readFromDatabase("resources/Directions.txt");
@@ -51,41 +51,41 @@ public class Runner {
         directionStorage = new DirectionStorage(directionList);
     }
 
-    public void startInvoker() throws IOException {
+    private void initInvoker() throws IOException {
         Receiver receiver = new Receiver(enrolleeStorage, directionStorage);
         Map<String, Command> commandMap = fillCommandMap(receiver);
         invoker = new Invoker(commandMap);
     }
 
-    public static Map<String, Command> fillCommandMap(Receiver receiver) {
-        Command change = new ChangeDirNameCommand(receiver);
+    private static Map<String, Command> fillCommandMap(Receiver receiver) {
+        Command changeDirName = new ChangeDirNameCommand(receiver);
         Command update = new UpdateScoreCommand(receiver);
         Command compare = new CompareScoreCommand(receiver);
         Command delete = new DeleteByIdCommand(receiver);
         Command showOriginals = new ShowEnrolleesWithOriginalsCommand(receiver);
-        Command quit = new QuitCommand(receiver);
         Command help = new HelpCommand(receiver);
         Command showEnrollees = new ShowAllEnrollees(receiver);
         Command showDirections = new ShowAllDirections(receiver);
         Map<String, Command> commandMap = new HashMap<>();
-        commandMap.put("changeDirName", change);
+        commandMap.put("changeDirName", changeDirName);
         commandMap.put("delete", delete);
         commandMap.put("updateScore", update);
         commandMap.put("compare", compare);
         commandMap.put("showOriginals", showOriginals);
         commandMap.put("showAllEnrollees", showEnrollees);
         commandMap.put("showAllDirections", showDirections);
-        commandMap.put("quit", quit);
         commandMap.put("help", help);
         return commandMap;
     }
 
-    public void parseInputLine() throws IOException {
+    private void runCommands() throws IOException {
+        invoker.executeCommand("help");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        ReadConsoleCommand readConsoleCommand = new ReadConsoleCommand();
+        InputStream inputStream = new InputStream(br);
         String line;
-        while (!((line = readConsoleCommand.readConsoleString(br)).equals("quit"))) {
+        while (!(line = inputStream.readConsoleString()).equals("quit")) {
             invoker.executeCommand(line);
         }
+        inputStream.stopStream();
     }
 }

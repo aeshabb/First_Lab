@@ -11,8 +11,8 @@ public class Subject {
     }
 
     public Subject(String name, int score) {
-        this.setName(name);
-        this.setScore(score);
+        this.name = name;
+        this.score = score;
     }
 
     public String getName() {
