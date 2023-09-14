@@ -10,12 +10,14 @@ import handlers.DirectionsDataHandler;
 import handlers.DirectionsDataHandlerImpl;
 import handlers.EnrolleeDataHandler;
 import handlers.EnrolleeDataHandlerImpl;
+import logger.Logger;
 import reader.FileDataReader;
 import reader.InputStream;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,20 +55,22 @@ public class Runner {
 
     private void initInvoker() throws IOException {
         Receiver receiver = new Receiver(enrolleeStorage, directionStorage);
-        Map<String, Command> commandMap = fillCommandMap(receiver);
+        Logger logger = new Logger();
+        Map<String, Command> commandMap = fillCommandMap(receiver, logger);
         invoker = new Invoker(commandMap);
     }
 
-    private static Map<String, Command> fillCommandMap(Receiver receiver) {
-        Command changeDirName = new ChangeDirNameCommand(receiver);
-        Command update = new UpdateScoreCommand(receiver);
-        Command compare = new CompareScoreCommand(receiver);
-        Command delete = new DeleteByIdCommand(receiver);
-        Command showOriginals = new ShowEnrolleesWithOriginalsCommand(receiver);
-        Command help = new HelpCommand(receiver);
-        Command showEnrollees = new ShowAllEnrollees(receiver);
-        Command showDirections = new ShowAllDirections(receiver);
+    private Map<String, Command> fillCommandMap(Receiver receiver, Logger logger) {
+        Command changeDirName = new ChangeDirNameCommand(receiver, "Изменить название направления: \"changeDirName + (старое название) + > + (новое название)\"", logger);
+        Command update = new UpdateScoreCommand(receiver, "Изменить балл ЕГЭ абитуриента: \"updateScore + (id абитуриента) + (название предмета) + (балл предмета)\"", logger);
+        Command compare = new CompareScoreCommand(receiver, "Сравнить баллы двух абитуриентов: \"compare + (id первого) + (id второго) + (название предмета)\"", logger);
+        Command delete = new DeleteByIdCommand(receiver, "Удалить абитуриента по id: \"delete + (id абитуриента)\"", logger);
+        Command showOriginals = new ShowEnrolleesWithOriginalsCommand(receiver, "Вывести количество абитуриентов с оригиналами на направлении: \"showOriginals + (название направления)\"", logger);
+        Command showEnrollees = new ShowAllEnrolleesCommand(receiver, "Вывести список абитуриентов: \"showAllEnrollees\"", logger);
+        Command showDirections = new ShowAllDirectionsCommand(receiver, "Вывести список направлений: \"showAllDirections\"", logger);
+
         Map<String, Command> commandMap = new HashMap<>();
+
         commandMap.put("changeDirName", changeDirName);
         commandMap.put("delete", delete);
         commandMap.put("updateScore", update);
@@ -74,7 +78,10 @@ public class Runner {
         commandMap.put("showOriginals", showOriginals);
         commandMap.put("showAllEnrollees", showEnrollees);
         commandMap.put("showAllDirections", showDirections);
+
+        Command help = new HelpCommand(receiver, "Вывести список команд: \"help\"", logger, createDescriptionMap(commandMap));
         commandMap.put("help", help);
+
         return commandMap;
     }
 
@@ -87,5 +94,13 @@ public class Runner {
             invoker.executeCommand(line);
         }
         inputStream.stopStream();
+    }
+
+    private List<String> createDescriptionMap(Map<String, Command> commandMap) {
+        List<String> descriptionList = new ArrayList<>();
+        for (String key : commandMap.keySet()) {
+            descriptionList.add(commandMap.get(key).getDescription());
+        }
+        return descriptionList;
     }
 }

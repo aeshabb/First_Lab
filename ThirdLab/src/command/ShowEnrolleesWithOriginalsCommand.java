@@ -1,18 +1,30 @@
 package command;
 
-import entity.Enrollee;
+import logger.Logger;
 
-public class ShowEnrolleesWithOriginalsCommand implements Command {
+public class ShowEnrolleesWithOriginalsCommand extends Command {
     private final Receiver receiver;
+    private String description;
+    private final Logger logger;
 
-    public ShowEnrolleesWithOriginalsCommand(Receiver receiver) {
+    public ShowEnrolleesWithOriginalsCommand(Receiver receiver, String description, Logger logger) {
+        super(receiver, description, logger);
         this.receiver = receiver;
+        this.description = description;
+        this.logger = logger;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
-    public void execute(String line) {
-        for (Enrollee enrollee : receiver.getEnrolleesWithOriginals(line)) {
-            System.out.println(enrollee);
-        }
+    public void execute(String[] parameters) {
+        logger.printList(receiver.getEnrolleesWithOriginals(parameters[0]));
     }
+
 }

@@ -1,14 +1,30 @@
 package command;
 
-public class DeleteByIdCommand implements Command {
-    private final Receiver receiver;
+import logger.Logger;
 
-    public DeleteByIdCommand(Receiver receiver) {
+public class DeleteByIdCommand extends Command {
+    private final Receiver receiver;
+    private String description;
+    private final Logger logger;
+
+    public DeleteByIdCommand(Receiver receiver, String description, Logger logger) {
+        super(receiver, description, logger);
         this.receiver = receiver;
+        this.description = description;
+        this.logger = logger;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
-    public void execute(String line) {
-        receiver.deleteById(Integer.parseInt(line));
+    public void execute(String[] parameters) {
+        receiver.deleteById(Integer.parseInt(parameters[0]));
     }
+
 }
