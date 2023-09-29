@@ -1,0 +1,189 @@
+{
+  "enrollees": [
+    {
+      "id": 123456789,
+      "subjects": [
+        {
+          "name": "Математика",
+          "score": 100
+        },
+        {
+          "name": "Информатика",
+          "score": 100
+        },
+        {
+          "name": "Русский язык",
+          "score": 100
+        }
+      ],
+      "division": [
+        {
+          "name": "СППО"
+        },
+        {
+          "name": "Нейротех"
+        },
+        {
+          "name": "Дизайн"
+        }
+      ],
+      "privileges": false,
+      "target": false,
+      "originalsToDivision": {
+        "name": "СППО"
+      }
+    },
+    {
+      "id": 857392612,
+      "subjects": [
+        {
+          "name": "Математика",
+          "score": 10
+        },
+        {
+          "name": "Информатика",
+          "score": 10
+        },
+        {
+          "name": "Русский язык",
+          "score": 1
+        }
+      ],
+      "division": [
+        {
+          "name": "СППО"
+        },
+        {
+          "name": "Нейротех"
+        },
+        {
+          "name": "Дизайн"
+        }
+      ],
+      "privileges": false,
+      "target": true,
+      "originalsToDivision": {
+        "name": null
+      }
+    },
+    {
+      "id": 198734573,
+      "subjects": [
+        {
+          "name": "Математика",
+          "score": 50
+        },
+        {
+          "name": "Информатика",
+          "score": 50
+        },
+        {
+          "name": "Русский язык",
+          "score": 17
+        }
+      ],
+      "division": [
+        {
+          "name": "СППО"
+        },
+        {
+          "name": "Нейротех"
+        },
+        {
+          "name": "Дизайн"
+        }
+      ],
+      "privileges": true,
+      "target": false,
+      "originalsToDivision": {
+        "name": "Нейротех"
+      }
+    }
+  ],
+  "directions": [
+    {
+      "name": "Программная инженерия",
+      "placesInCommon": 100,
+      "privilegePlaces": 30,
+      "targetPlaces": 20,
+      "divisions": [
+        {
+          "name": "СППО"
+        },
+        {
+          "name": "Нейротех"
+        },
+        {
+          "name": "Дизайн"
+        }
+      ],
+      "subjects": [
+        {
+          "name": "Математика",
+          "score": 0
+        },
+        {
+          "name": "Информатика",
+          "score": 0
+        },
+        {
+          "name": "Русский язык",
+          "score": 0
+        }
+      ]
+    },
+    {
+      "name": "Прикладная математика и информатика",
+      "placesInCommon": 150,
+      "privilegePlaces": 50,
+      "targetPlaces": 50,
+      "divisions": [
+        {
+          "name": "КТ"
+        }
+      ],
+      "subjects": [
+        {
+          "name": "Математика",
+          "score": 0
+        },
+        {
+          "name": "Информатика",
+          "score": 0
+        },
+        {
+          "name": "Русский язык",
+          "score": 0
+        }
+      ]
+    },
+    {
+      "name": "Software engineering",
+      "placesInCommon": 100,
+      "privilegePlaces": 50,
+      "targetPlaces": 50,
+      "divisions": [
+        {
+          "name": "ИС"
+        }
+      ],
+      "subjects": [
+        {
+          "name": "Математика",
+          "score": 0
+        },
+        {
+          "name": "Информатика",
+          "score": 0
+        },
+        {
+          "name": "Русский язык",
+          "score": 0
+        }
+      ]
+    }
+  ]
+}
+
+
+
