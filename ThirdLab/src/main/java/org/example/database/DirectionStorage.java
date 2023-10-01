@@ -1,14 +1,15 @@
 package org.example.database;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.example.entity.Direction;
 
 import java.util.List;
-
+@Getter
+@NoArgsConstructor
 public class DirectionStorage {
     private List<Direction> directionList;
-
-    public DirectionStorage() {
-    }
 
     public DirectionStorage(List<Direction> directionList) {
         this.directionList = directionList;
@@ -30,7 +31,4 @@ public class DirectionStorage {
         directionList.remove(direction);
     }
 
-    public List<Direction> getDirectionList() {
-        return directionList;
-    }
 }

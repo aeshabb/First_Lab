@@ -1,15 +1,18 @@
 package org.example.database;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.example.entity.Enrollee;
 import org.example.entity.Subject;
 
 import java.util.List;
 
+@Getter
+@NoArgsConstructor
 public class EnrolleeStorage {
     private List<Enrollee> enrolleeList;
-
-    public EnrolleeStorage() {
-    }
 
     public EnrolleeStorage(List<Enrollee> enrolleeList) {
         this.enrolleeList = enrolleeList;
@@ -32,7 +35,4 @@ public class EnrolleeStorage {
         enrolleeList.remove(enrollee);
     }
 
-    public List<Enrollee> getEnrolleeList() {
-        return enrolleeList;
-    }
 }

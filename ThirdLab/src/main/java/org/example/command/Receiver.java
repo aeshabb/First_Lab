@@ -71,7 +71,7 @@ public class Receiver {
     public List<Enrollee> getEnrolleesWithOriginals(String division) {
         List<Enrollee> enrolleesWithOriginals = new ArrayList<>();
         for (Enrollee enrollee : enrolleeStorage.getEnrolleeList()) {
-            if ((enrollee.isOriginals()).getName().equals(division)) {
+            if ((enrollee.getOriginalsToDivision()).getName().equals(division)) {
                 enrolleesWithOriginals.add(enrollee);
             }
         }
@@ -79,32 +79,34 @@ public class Receiver {
     }
 
     public int getEnterPoints(String name) {
-        List<Integer> originalsList = new ArrayList<>();
+        List<Integer> enrolleeWithOriginalsList = new ArrayList<>();
+        Direction direction = getDirectionByName(name);
         for (Enrollee enrollee : enrolleeStorage.getEnrolleeList()) {
-            for (Division division : enrollee.getDivision()) {
-                if (division.getName().equals(name)) {
-                    if (enrollee.getOriginalsToDivision().getName() != null && (enrollee.getOriginalsToDivision().getName()).equals(name)) {
-                        originalsList.add(310);
-                    } else {
-                        int summ = 0;
-                        for (Subject subject : enrollee.getSubjects()) {
-                            summ += subject.getScore();
+            for (Division division : direction.getDivisions()) {
+                if (enrollee.getOriginalsToDivision().getName() != null) {
+                    if ((enrollee.getOriginalsToDivision().getName()).equals(division.getName())) {
+                        if (enrollee.isPrivileges() || enrollee.isTarget()) {
+                            enrolleeWithOriginalsList.add(310);
+                        } else {
+                            int subjectPoints = 0;
+                            for (Subject subject : enrollee.getSubjects()) {
+                                subjectPoints += subject.getScore();
+                            }
+                            enrolleeWithOriginalsList.add(subjectPoints);
                         }
-                        originalsList.add(summ);
                     }
                 }
             }
         }
-        int places = getDirectionFromDivisionsName(name).getPlacesInCommon();
-        if (originalsList.size() > places) {
-            return originalsList.get(places - 1);
+        if (enrolleeWithOriginalsList.size() >= direction.getPlacesInCommon()) {
+            return enrolleeWithOriginalsList.get(direction.getPlacesInCommon() - 1);
         } else {
             return 0;
         }
 
     }
 
-    public Direction getDirectionFromDivisionsName(String name) {
+    public Direction getDirectionByDivisionsName(String name) {
         Direction directionToFind = null;
         for (Direction direction : directionStorage.getDirectionList()) {
             for (Division division : direction.getDivisions()) {
@@ -112,6 +114,16 @@ public class Receiver {
                     directionToFind = direction;
                     break;
                 }
+            }
+        }
+        return directionToFind;
+    }
+
+    public Direction getDirectionByName(String name) {
+        Direction directionToFind = null;
+        for (Direction direction : directionStorage.getDirectionList()) {
+            if (direction.getName().equals(name)) {
+                directionToFind = direction;
             }
         }
         return directionToFind;

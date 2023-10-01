@@ -10,8 +10,8 @@ public class ShowEnterPointsCommand extends Command {
 
     @Override
     public void execute(String[] parameters) {
-        String division = parameters[0];
-        int points = receiver.getEnterPoints(division);
+        String direction = String.join(" ", parameters);
+        int points = receiver.getEnterPoints(direction);
         if (points == 0) {
             printer.printLine("Невозможно определить");
         } else {

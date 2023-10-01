@@ -6,7 +6,7 @@ import org.example.command.*;
 import org.example.controller.Invoker;
 import org.example.database.DirectionStorage;
 import org.example.database.EnrolleeStorage;
-import org.example.entity.ClassForDatabase;
+import org.example.entity.JsonObject;
 import org.example.entity.Direction;
 import org.example.entity.Enrollee;
 import org.example.output.Printer;
@@ -37,11 +37,10 @@ public class Runner {
     private void fillEnrAndDirLists() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         java.io.InputStream inputStream = Main.class.getResourceAsStream("/db.json");
-        ClassForDatabase classForDatabase = mapper.readValue(inputStream, ClassForDatabase.class);
-        System.out.println(classForDatabase.getDirections());
+        JsonObject jsonObject = mapper.readValue(inputStream, JsonObject.class);
 
-        enrolleeList = classForDatabase.getEnrollees();
-        directionList = classForDatabase.getDirections();
+        enrolleeList = jsonObject.getEnrollees();
+        directionList = jsonObject.getDirections();
     }
 
     private void initStorages() {
