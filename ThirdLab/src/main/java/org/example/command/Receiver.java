@@ -8,6 +8,7 @@ import org.example.entity.Enrollee;
 import org.example.entity.Subject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Receiver {
@@ -71,8 +72,10 @@ public class Receiver {
     public List<Enrollee> getEnrolleesWithOriginals(String division) {
         List<Enrollee> enrolleesWithOriginals = new ArrayList<>();
         for (Enrollee enrollee : enrolleeStorage.getEnrolleeList()) {
-            if ((enrollee.getOriginalsToDivision()).getName().equals(division)) {
-                enrolleesWithOriginals.add(enrollee);
+            if (enrollee.getOriginalsToDivision().getName() != null) {
+                if ((enrollee.getOriginalsToDivision()).getName().equals(division)) {
+                    enrolleesWithOriginals.add(enrollee);
+                }
             }
         }
         return enrolleesWithOriginals;
@@ -98,6 +101,8 @@ public class Receiver {
                 }
             }
         }
+        Collections.sort(enrolleeWithOriginalsList, Collections.reverseOrder());
+        System.out.println(enrolleeWithOriginalsList);
         if (enrolleeWithOriginalsList.size() >= direction.getPlacesInCommon()) {
             return enrolleeWithOriginalsList.get(direction.getPlacesInCommon() - 1);
         } else {

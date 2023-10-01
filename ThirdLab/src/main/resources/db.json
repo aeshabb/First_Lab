@@ -16504,7 +16504,7 @@
   "directions": [
     {
       "name": "Программная инженерия",
-      "placesInCommon": 100,
+      "placesInCommon": 250,
       "privilegePlaces": 30,
       "targetPlaces": 20,
       "divisions": [

@@ -1,9 +1,7 @@
 package org.example.database;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.example.entity.Enrollee;
 import org.example.entity.Subject;
 

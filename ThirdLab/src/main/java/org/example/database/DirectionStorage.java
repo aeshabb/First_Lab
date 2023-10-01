@@ -2,7 +2,6 @@ package org.example.database;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.example.entity.Direction;
 
 import java.util.List;
