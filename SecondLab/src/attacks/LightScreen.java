@@ -13,7 +13,6 @@ public class LightScreen extends StatusMove{
 
     @Override
     protected void applySelfEffects(Pokemon p){
-        // Light Screen уменьшает урон от специальных атак на 50% на 5 ходов. Его эффекты распространяются на всех покемонов на пользовательской стороне поля.
         Effect effect = (new Effect()).stat(Stat.SPECIAL_DEFENSE, 3).turns(5);
         p.addEffect(effect);
     }

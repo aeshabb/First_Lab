@@ -12,7 +12,6 @@ public class Gastly extends Pokemon {
         super(name, lvl);
         setStats(30, 35, 30, 100, 35, 80);
         setType(Type.GHOST, Type.POISON);
-        setMove( new HydroPump(), new LightScreen());
-
+        setMove(new HydroPump(), new LightScreen());
     }
 }
