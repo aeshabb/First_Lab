@@ -3,7 +3,7 @@ package timeline;
 public enum DayTime {
     MORNING,
     AFTERNOON,
-    ENENING,
+    EVENING,
     NIGHT
 
 }

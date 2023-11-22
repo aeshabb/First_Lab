@@ -13,9 +13,9 @@ public class Main {
         Place station = new FoodFillingStation("wood", "Food Station", 100);
         Place city = new City("New York", "metal", 100000000);
         Sea sea = new Sea(new Salt(20), "Black sea", "water", 999999999999.52);
-        Buyers buyers = new Buyers(10, new Salt(0), station);
+        Buyers buyers = new Buyers("Покупатели", 160, 55, 100, new Salt(0), station, false);
 
-        Mistress mistress = new Mistress("Хозяйка", 170, 55, 100, new Salt(0), station);
+        Mistress mistress = new Mistress("Хозяйка", 170, 55, 100, new Salt(0), station, false);
         Ponchik ponchik = new Ponchik("Пончик", 130, 40, 50, new Salt(0), city, false);
 
         day = new Day(DayTime.MORNING);
@@ -23,17 +23,19 @@ public class Main {
         ponchik.setPlace(sea);
         ponchik.addSaltFromTheSea(sea);
 
-        ponchik.setPlace(station);
+        mistress.setPreparing(true);
         Table table = new Table("Table", "wood", 5);
         table.setSheet(new Sheet("Продажа соли"));
+        station.addNewBuilding(table);
 
-        ponchik.setPlace(table);
+        ponchik.setPlace(station);
         buyers.buySalt(20, ponchik);
         ponchik.eat();
+        ponchik.setBehavior("Торговал солью и одновременно закусывал, требуя подать ему то одно, то другое блюдо");
 
-        Place veranda = new Veranda("Veranda", "wood", 30);
-        Place kitchen = new Kitchen("Kitchen", "gold", 50);
-        Place annex = new Annex("Annex", "bedrock", 52);
+        Building veranda = new Veranda("Veranda", "wood", 30);
+        Building kitchen = new Kitchen("Kitchen", "gold", 50);
+        Building annex = new Annex("Annex", "bedrock", 52);
         kitchen.setSize(kitchen.getSize() + 30);
         Canopy canopy = new Canopy("Canopy", "Брезент", 20);
 
@@ -50,5 +52,6 @@ public class Main {
 
         ponchik.addSaltFromSomewhere(50);
         mistress.buySalt(ponchik.getSalt().getAmount() * ponchik.getSaltValue(), ponchik);
+
     }
 }

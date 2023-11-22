@@ -2,7 +2,7 @@ package places;
 
 import items.Sheet;
 
-public class Table extends Place {
+public class Table extends Building {
     private Sheet sheet;
     public Table(String name, String material, double size) {
         super(name, material, size);

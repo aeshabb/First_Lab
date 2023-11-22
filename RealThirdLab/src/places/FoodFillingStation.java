@@ -1,7 +1,12 @@
 package places;
 
-public class FoodFillingStation extends Place {
-    public FoodFillingStation(String material, String name, int size) {
-        super(material, name, size);
+import java.util.ArrayList;
+import java.util.List;
+
+public class FoodFillingStation extends Place implements Complementable{
+    public FoodFillingStation(String name, String material, double size) {
+        super(name, material, size);
     }
+
+
 }

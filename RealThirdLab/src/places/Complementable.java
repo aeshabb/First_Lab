@@ -1,5 +1,5 @@
 package places;
 
 public interface Complementable {
-    void addNewBuilding(Place place);
+    void addNewBuilding(Building building);
 }

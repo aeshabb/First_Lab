@@ -3,17 +3,18 @@ package places;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Canopy extends Place implements Complementable{
-    private final List<Place> buildingsUnderCanopy = new ArrayList<>();
+public class Canopy extends Building implements Complementable{
+    private final List<Building> newBuildings = new ArrayList<>();
     public Canopy(String name, String material, double size) {
         super(name, material, size);
     }
 
-    public void addNewBuilding(Place place) {
-        buildingsUnderCanopy.add(place);
+    public void addNewBuilding(Building building) {
+        newBuildings.add(building);
+        System.out.println(building.getName() + " is built");
     }
 
-    public List<Place> getBuildingsUnderCanopy() {
-        return buildingsUnderCanopy;
+    public List<Building> getNewBuildings() {
+        return newBuildings;
     }
 }
