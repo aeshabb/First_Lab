@@ -1,5 +1,7 @@
 package timeline;
 
+import output.ConsolePrinter;
+
 public class Day {
     private DayTime dayTime;
 
@@ -11,7 +13,8 @@ public class Day {
         return dayTime;
     }
 
-    public void setDayTime(DayTime dayTime) {
+    public void setDayTime(DayTime dayTime, ConsolePrinter consolePrinter) {
         this.dayTime = dayTime;
+        consolePrinter.printLine("It's " + dayTime.name() + " now");
     }
 }
