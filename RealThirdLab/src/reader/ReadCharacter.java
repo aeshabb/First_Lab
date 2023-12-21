@@ -12,7 +12,7 @@ public class ReadCharacter {
         this.br = br;
     }
 
-    public String readConsoleString()  {
+    public String readConsoleString() {
         try {
             return br.readLine();
         } catch (IOException e) {
@@ -21,14 +21,15 @@ public class ReadCharacter {
 
     }
 
-    public void stopStream(){
+    public void stopStream() {
         try {
             br.close();
         } catch (IOException e) {
             throw new BufferReaderException("Неверный ввод");
         }
     }
-    public void reset(){
+
+    public void reset() {
         try {
             br.reset();
         } catch (IOException e) {

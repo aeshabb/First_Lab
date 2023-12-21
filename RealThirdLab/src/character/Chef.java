@@ -56,10 +56,11 @@ public class Chef extends Human {
         }
     }
 
-    private static class BrandedKnife {
+    public static class BrandedKnife {
         String name;
         String material;
-        BrandedKnife(String name, String material) {
+
+        public BrandedKnife(String name, String material) {
             this.name = name;
             this.material = material;
         }

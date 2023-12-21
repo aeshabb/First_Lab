@@ -1,7 +1,7 @@
 package food;
 
 public enum Dish {
-    PIZZA,
+    PIZZA(),
     FRIEDCHICKEN,
     BURGER,
     PILAF,

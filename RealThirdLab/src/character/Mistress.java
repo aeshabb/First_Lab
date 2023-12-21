@@ -3,7 +3,6 @@ package character;
 import exception.NegativeBalanceException;
 import food.Salt;
 import output.ConsolePrinter;
-import place.Building;
 import place.Place;
 
 import java.util.ArrayList;
@@ -15,6 +14,8 @@ public class Mistress extends Human implements Buyer {
 
     public Mistress(String name, double height, double weight, double balance, Salt salt, Place place, boolean selling) {
         super(name, height, weight, balance, salt, place, selling);
+        Pet pet = new Pet("Тобик");
+        System.out.println("У " + name + " появился " + pet.name);
     }
 
     public void buySalt(double money, Ponchik ponchik) {
@@ -34,6 +35,7 @@ public class Mistress extends Human implements Buyer {
         setBalance(getBalance() + time);
         consolePrinter.printLine(getName() + " заработала " + time + " медяков");
     }
+
     public void buyProperty(Place propertyToBuy, double cost, ConsolePrinter consolePrinter) {
         if (getBalance() >= cost) {
             setBalance(getBalance() - cost);
@@ -56,10 +58,12 @@ public class Mistress extends Human implements Buyer {
         }
 
     }
+
     public void moneyFromBusiness(Place business, double money, ConsolePrinter consolePrinter) {
         setBalance(getBalance() + money);
         consolePrinter.printLine(getName() + " заработала " + money + " медяков, благодаря " + business.getName());
     }
+
     public boolean isPreparing() {
         return preparing;
     }
@@ -74,5 +78,14 @@ public class Mistress extends Human implements Buyer {
 
     public void setProperty(List<Place> property) {
         this.property = property;
+    }
+
+
+    public class Pet {
+        String name;
+
+        public Pet(String name) {
+            this.name = name;
+        }
     }
 }

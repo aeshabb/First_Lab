@@ -43,6 +43,5 @@ public class AliceStory extends Story {
         chef.mixTheSoup(pot, consolePrinter);
 
 
-
     }
 }

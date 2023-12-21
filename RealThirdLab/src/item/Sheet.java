@@ -1,6 +1,6 @@
 package item;
 
-public class Sheet extends Item{
+public class Sheet extends Item {
     private String description;
 
     public Sheet(String material, String name, String description) {

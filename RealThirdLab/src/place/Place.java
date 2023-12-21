@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class Place implements Complementable{
+public abstract class Place implements Complementable {
     private final List<Building> newBuildings = new ArrayList<>();
     private final List<Item> newItems = new ArrayList<>();
     private String material;
@@ -26,10 +26,12 @@ public abstract class Place implements Complementable{
         newBuildings.add(building);
         consolePrinter.printLine(building.getName() + " is built to " + name);
     }
+
     public void addNewItem(Item item, ConsolePrinter consolePrinter) {
         newItems.add(item);
         consolePrinter.printLine(item.getName() + " added");
     }
+
     public void getSmoky(Smoke smoke, ConsolePrinter consolePrinter) {
         this.smoke = smoke;
         consolePrinter.printLine("Очень дымно");

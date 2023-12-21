@@ -5,7 +5,7 @@ import food.Salt;
 import place.Place;
 import place.Sea;
 
-public class Ponchik extends Human{
+public class Ponchik extends Human {
 
     private double saltValue = 1;
 

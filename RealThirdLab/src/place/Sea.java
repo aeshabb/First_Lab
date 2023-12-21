@@ -2,7 +2,7 @@ package place;
 
 import food.Salt;
 
-public class Sea extends Place{
+public class Sea extends Place {
     private Salt salt;
 
     public Sea(Salt salt, String name, String material, double size) {

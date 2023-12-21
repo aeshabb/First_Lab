@@ -20,6 +20,7 @@ public class ConsolePrinter {
             printLine((i + 1) + ". " + list.get(i));
         }
     }
+
     public <T> void printStack(MyStack<T> stack) {
         for (int i = 0; i < stack.size(); i++) {
             printLine((i + 1) + ". " + stack.get(i));

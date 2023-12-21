@@ -1,6 +1,7 @@
 package story;
 
 import character.*;
+import exception.NegativeBalanceException;
 import food.Dish;
 import food.Salt;
 import item.Door;
@@ -46,5 +47,23 @@ public class ChefStory extends Story {
         chef.bandOverThePot(consolePrinter);
         chef.mixTheSoup(pot, consolePrinter);
         chef.giveDishToEveryone(pot.getDishToCook(), consolePrinter);
+
+
+        Chef suChef = new Chef("SuChef", 190, 80, 200, new Salt(300), kitchen, false) {
+            @Override
+            public void learnHowToCook(double time, double money, ConsolePrinter consolePrinter) {
+                money = money * time * 2;
+                try {
+                    if (getBalance() < money) {
+                        throw new NegativeBalanceException("Недостаточно средств");
+                    }
+                    setBalance(getBalance() - money);
+                    consolePrinter.printLine(getName() + " потребовалось вдвое больше средств для обучения по сравнению с Chef");
+                } catch (NegativeBalanceException e) {
+                    System.out.println("У " + getName() + " недостаточно средств для обучения");
+                }
+            }
+        };
+        suChef.learnHowToCook(10, 9, consolePrinter);
     }
 }

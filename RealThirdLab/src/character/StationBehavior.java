@@ -1,5 +1,7 @@
 package character;
 
+import output.ConsolePrinter;
+
 public interface StationBehavior {
-    void stationBehavior(String behavior);
+    void setBehavior(String behavior, ConsolePrinter consolePrinter);
 }

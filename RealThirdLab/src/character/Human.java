@@ -4,7 +4,7 @@ import food.Salt;
 import output.ConsolePrinter;
 import place.Place;
 
-public abstract class Human implements StationBehavior{
+public abstract class Human implements StationBehavior {
     private String name;
     private double height;
     private double weight;
@@ -24,11 +24,6 @@ public abstract class Human implements StationBehavior{
         this.seller = seller;
     }
 
-    @Override
-    public void stationBehavior(String behavior) {
-        this.behavior = behavior;
-    }
-
     public String getName() {
         return name;
     }
@@ -36,7 +31,6 @@ public abstract class Human implements StationBehavior{
     public void setName(String name) {
         this.name = name;
     }
-
 
     public double getBalance() {
         return balance;
@@ -50,7 +44,6 @@ public abstract class Human implements StationBehavior{
         this.salt = salt;
     }
 
-
     public void setBalance(double balance) {
         this.balance = balance;
     }
@@ -63,7 +56,7 @@ public abstract class Human implements StationBehavior{
         this.place = place;
         consolePrinter.printLine(name + " зашла(ел) в " + place.getName());
     }
-
+    
     public boolean isSeller() {
         return seller;
     }

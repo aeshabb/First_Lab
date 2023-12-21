@@ -2,7 +2,7 @@ package place;
 
 import java.util.Objects;
 
-public abstract class Building extends Place{
+public abstract class Building extends Place {
 
     public Building(String name, String material, double size) {
         super(name, material, size);

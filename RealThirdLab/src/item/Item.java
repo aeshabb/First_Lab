@@ -3,6 +3,7 @@ package item;
 public abstract class Item {
     private String material;
     private String name;
+
     public Item(String material, String name) {
         this.material = material;
         this.name = name;

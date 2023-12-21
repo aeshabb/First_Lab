@@ -1,6 +1,7 @@
 package story;
 
 import character.Buyers;
+import character.Human;
 import character.Mistress;
 import character.Ponchik;
 import food.Salt;
@@ -17,6 +18,7 @@ public class PonchikStory extends Story {
 
     @Override
     public void execute() {
+
         Day day = new Day(DayTime.NIGHT);
         Place station = new FoodFillingStation("Wood", "Food Station", 100);
         Place city = new City("New York", "Metal", 100000000);
@@ -41,14 +43,12 @@ public class PonchikStory extends Story {
         ponchik.setBehavior("Торговал солью и одновременно закусывал, требуя подать ему то одно, то другое блюдо", consolePrinter);
         ponchik.eat();
 
-
         Restaurant restaurant = new Restaurant("ShwermaOtShaha", "Gold", 2052);
         Building veranda = new Veranda("Veranda", "Wood", 30);
         Building kitchen = new Kitchen("Kitchen", "Gold", 50);
         Building annex = new Annex("Annex", "Bedrock", 52);
         kitchen.setSize(kitchen.getSize() + 30);
         Canopy canopy = new Canopy("Canopy", "Брезент", 20);
-
 
         restaurant.addNewBuilding(veranda, consolePrinter);
         restaurant.addNewBuilding(kitchen, consolePrinter);
@@ -62,5 +62,6 @@ public class PonchikStory extends Story {
 
         ponchik.addSaltFromSomewhere(50);
         mistress.buySalt(ponchik.getSalt().getAmount() * ponchik.getSaltValue(), ponchik);
+
     }
 }

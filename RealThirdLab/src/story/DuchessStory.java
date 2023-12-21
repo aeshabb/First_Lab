@@ -9,8 +9,6 @@ import place.*;
 import timeline.Day;
 import timeline.DayTime;
 
-import javax.swing.text.TabExpander;
-
 public class DuchessStory extends Story {
     public DuchessStory(String description, ConsolePrinter consolePrinter) {
         super(description, consolePrinter);
@@ -21,7 +19,7 @@ public class DuchessStory extends Story {
         Complementable kingdom = (building, printer) -> consolePrinter.printLine("В королевстве новое здание - " + building.getName());
 
         Day day = new Day(DayTime.AFTERNOON);
-        Building restaurant = new Restaurant("Restaurant", "Rock", 2052);
+        Building restaurant = new Restaurant("Restaurant", "Rock", 2052) ;
         Building kitchen = new Kitchen("Kitchen", "Gold", 50);
 
         restaurant.addNewBuilding(kitchen, consolePrinter);
@@ -41,7 +39,6 @@ public class DuchessStory extends Story {
 
         Baby baby = duchess.giveABirthToABaby(consolePrinter, new Table("Table", "Wood", 20));
         duchess.rockBaby(baby, consolePrinter);
-
 
 
     }

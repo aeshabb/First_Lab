@@ -3,8 +3,9 @@ package story;
 import newStructure.MyStack;
 import output.ConsolePrinter;
 
-public class StoriesHistory extends Story{
+public class StoriesHistory extends Story {
     private final MyStack<String> storiesHistory = new MyStack<>();
+
     public StoriesHistory(String description, ConsolePrinter consolePrinter) {
         super(description, consolePrinter);
     }
@@ -12,7 +13,7 @@ public class StoriesHistory extends Story{
     @Override
     public void execute() {
         if (storiesHistory.size() >= 5) {
-            consolePrinter.printList(storiesHistory.subList(storiesHistory.size()-5, storiesHistory.size()));
+            consolePrinter.printList(storiesHistory.subList(storiesHistory.size() - 5, storiesHistory.size()));
         } else {
             consolePrinter.printStack(storiesHistory);
         }

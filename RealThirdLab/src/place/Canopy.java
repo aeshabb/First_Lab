@@ -5,8 +5,9 @@ import output.ConsolePrinter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Canopy extends Building implements Complementable{
+public class Canopy extends Building implements Complementable {
     private final List<Building> newBuildings = new ArrayList<>();
+
     public Canopy(String name, String material, double size) {
         super(name, material, size);
     }

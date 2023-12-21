@@ -5,7 +5,7 @@ import output.ConsolePrinter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Veranda extends Building implements Complementable{
+public class Veranda extends Building implements Complementable {
     private final List<Building> newBuildings = new ArrayList<>();
 
     public Veranda(String material, String name, double size) {

@@ -9,10 +9,11 @@ import place.*;
 import timeline.Day;
 import timeline.DayTime;
 
-public class MistressStory extends Story{
+public class MistressStory extends Story {
     public MistressStory(String description, ConsolePrinter consolePrinter) {
         super(description, consolePrinter);
     }
+
     @Override
     public void execute() {
         Day day = new Day(DayTime.MORNING);
@@ -20,6 +21,10 @@ public class MistressStory extends Story{
         Sea sea = new Sea(new Salt(20), "Black sea", "Water", 999999999999.52);
 
         Mistress mistress = new Mistress("Хозяйка", 170, 55, 100, new Salt(0), city, false);
+
+        mistress.new Pet("");
+
+
         Ponchik ponchik = new Ponchik("Пончик", 130, 40, 50, new Salt(0), city, false);
         Buyers buyers = new Buyers("Покупатели", 160, 55, 1000, new Salt(0), city, false);
 
@@ -60,7 +65,6 @@ public class MistressStory extends Story{
 
         mistress.openBusiness(restaurant, consolePrinter);
         mistress.moneyFromBusiness(restaurant, 10000, consolePrinter);
-
 
 
     }

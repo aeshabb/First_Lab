@@ -4,7 +4,7 @@ import output.ConsolePrinter;
 
 import java.util.List;
 
-public class HelpCommand extends Story{
+public class HelpCommand extends Story {
     private List<String> descriptionCommands;
 
     public HelpCommand(String description, ConsolePrinter consolePrinter, List<String> descriptionCommands) {

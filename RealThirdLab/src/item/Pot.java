@@ -5,6 +5,7 @@ import output.ConsolePrinter;
 
 public class Pot extends Item {
     private Dish dishToCook;
+
     public Pot(String material, String name) {
         super(material, name);
     }
@@ -16,6 +17,7 @@ public class Pot extends Item {
     public void setDishToCook(Dish dishToCook) {
         this.dishToCook = dishToCook;
     }
+
     public void mixTheDish(Dish dish, ConsolePrinter consolePrinter) {
         consolePrinter.printLine(dish.name() + " mixed by Chef");
     }
