@@ -1,7 +1,5 @@
 package org.itmo.runner;
 
-import com.opencsv.CSVReader;
-import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
 import org.itmo.command.*;
 import org.itmo.controller.Invoker;
@@ -11,70 +9,61 @@ import org.itmo.entity.LocationFrom;
 import org.itmo.entity.LocationTo;
 import org.itmo.entity.Route;
 import org.itmo.output.ConsolePrinter;
+import org.itmo.reader.ReaderCSV;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
+
 public class Runner {
     private Invoker invoker;
-    private Map<String, List<String>> stringListMap;
     private Set<Route> routeSet;
-    private int size;
     private RouteStorage routeStorage;
+    private Map<String, List<String>> stringListMap;
     private ConsolePrinter consolePrinter;
+    private int size;
+    private LocalDateTime initTimeSet;
 
     public void runMethods() throws IOException, CsvException {
-        readCSV();
+        readCSVFile();
         fillRouteSet(stringListMap, size);
         initStorage();
         initInvoker();
         runCommands();
     }
 
-    private void readCSV() throws IOException, CsvException {
-        CSVReader reader = new CSVReaderBuilder(new FileReader(System.getProperty("path"))).build();
-        String[] line;
-        int size = 0;
-
-        Map<String, List<String>> stringListMap = new HashMap<>();
-        String[] headers = reader.readNext();
-        for (String cur : headers)
-            stringListMap.put(cur, new ArrayList<String>());
-
-        for (String[] row : reader.readAll()) {
-            for (int i = 0; i < row.length; i++) {
-                stringListMap.get(headers[i]).add(row[i]);
-
-            }
-            size++;
-        }
-        this.stringListMap = stringListMap;
-        this.size = size;
+    private void readCSVFile() throws IOException, CsvException {
+        ReaderCSV readerCSV = new ReaderCSV();
+        stringListMap = readerCSV.readCSV(System.getProperty("pathToCSV"));
+        size = stringListMap.get("name").size();
     }
+
 
     private void fillRouteSet(Map<String, List<String>> stringListMap, int size) {
         Set<Route> routeSet = new TreeSet<>();
         for (int i = 0; i < size; i++) {
-            String name = stringListMap.get("StringR").get(i);
-            Coordinates coordinates = new Coordinates(Double.parseDouble(stringListMap.get("DoubleC").get(i)), Integer.parseInt(stringListMap.get("intC").get(i)));
-            LocationFrom locationFrom = new LocationFrom(Long.parseLong(stringListMap.get("longFrom").get(i)), Double.parseDouble(stringListMap.get("doubleFrom").get(i)), Float.parseFloat(stringListMap.get("floatFrom").get(i)), stringListMap.get("StringFrom").get(i));
+            String name = stringListMap.get("name").get(i);
+            Coordinates coordinates = new Coordinates(Double.parseDouble(stringListMap.get("xC").get(i)), Integer.parseInt(stringListMap.get("yC").get(i)));
+            LocationFrom locationFrom = new LocationFrom(Long.parseLong(stringListMap.get("xLF").get(i)), Double.parseDouble(stringListMap.get("yLF").get(i)), Float.parseFloat(stringListMap.get("zLF").get(i)), stringListMap.get("nameLF").get(i));
             LocalDateTime date = LocalDateTime.now();
-            LocationTo locationTo = new LocationTo(Double.parseDouble(stringListMap.get("DoubleTo").get(i)), Long.parseLong(stringListMap.get("LongTo").get(i)), Integer.parseInt(stringListMap.get("IntegerTo").get(i)));
-            Integer distance = Integer.parseInt(stringListMap.get("IntegerR").get(i));
+            LocationTo locationTo = new LocationTo(Double.parseDouble(stringListMap.get("xLT").get(i)), Long.parseLong(stringListMap.get("yLT").get(i)), Integer.parseInt(stringListMap.get("zLT").get(i)));
+            Integer distance = Integer.parseInt(stringListMap.get("distance").get(i));
             routeSet.add(new Route(i + 1, name, coordinates, date, locationFrom, locationTo, distance));
 
         }
         this.routeSet = routeSet;
+        this.initTimeSet = LocalDateTime.now();
 
 
     }
 
     private void initStorage() {
-        this.routeStorage = new RouteStorage((TreeSet<Route>) routeSet);
+        this.routeStorage = new RouteStorage((TreeSet<Route>) routeSet, initTimeSet);
 
     }
 
@@ -94,6 +83,14 @@ public class Runner {
         Command updateCommand = new UpdateCommand(receiver, "Заменить элемент в колекции по id: \"update + (id)\"", printer);
         Command removeByIdCommand = new RemoveByIdCommand(receiver, "Удалить Route по id из коллекции: \"remove_by_id + (id)\"", printer);
         Command clearCommand = new ClearCommand(receiver, "Очистить коллекцию: \"clear\"", printer);
+        Command saveCommand = new SaveCommand(receiver, "Сохранить коллекцию в файл \"save\"", printer);
+        Command addMinCommand = new AddMinCommand(receiver, "Добавить элемент в коллекцию, если он минимальный: \"add_if_min\"", printer);
+        Command removeLowerCommand = new RemoveLowerCommand(receiver, "Удалить все команды, меньше данной: \"remove_lower\"", printer);
+        Command historyCommand = new HistoryCommand(receiver, "Вывести историю: \"history\"", printer);
+        Command minByFromCommand = new MinByFromCommand(receiver, "Вывести Route с минимальным полем LocationFrom: \"min_by_from\"", printer);
+        Command countRoutesLessDistanceCommand = new CountRoutesLessDistanceCommand(receiver, "Вывести количество Route с меньшим полем distance: \"count_less_than_distance\"", printer);
+        Command filterRoutesLessDistanceCommand = new FilterRoutesLessDistance(receiver, "Вывести Route с меньшим полем distance: \"filter_less_than_distance\"", printer);
+
 
         Map<String, Command> commandMap = new HashMap<>();
         commandMap.put("info", infoCommand);
@@ -102,6 +99,13 @@ public class Runner {
         commandMap.put("update", updateCommand);
         commandMap.put("remove_by_id", removeByIdCommand);
         commandMap.put("clear", clearCommand);
+        commandMap.put("save", saveCommand);
+        commandMap.put("add_if_min",addMinCommand);
+        commandMap.put("remove_lower", removeLowerCommand);
+        commandMap.put("history", historyCommand);
+        commandMap.put("min_by_from", minByFromCommand);
+        commandMap.put("count_less_than_distance", countRoutesLessDistanceCommand);
+        commandMap.put("filter_less_than_distance", filterRoutesLessDistanceCommand);
 
         Command help = new HelpCommand(receiver, "Вывести список команд: \"help\"", printer, createDescriptionMap(commandMap));
         commandMap.put("help", help);

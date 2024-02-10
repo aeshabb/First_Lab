@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 public class Main {
     public static void main(String[] args) throws IOException, CsvException {
-        System.setProperty("path", "C:\\Users\\Алексей\\OneDrive\\Рабочий стол\\codes\\Trashbox\\FifthLab\\src\\main\\resources\\db.csv");
+        System.setProperty("pathToCSV", "C:\\Users\\Алексей\\OneDrive\\Рабочий стол\\codes\\Trashbox\\FifthLab\\src\\main\\resources\\db.csv");
         Runner runner = new Runner();
         runner.runMethods();
     }

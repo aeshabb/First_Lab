@@ -13,7 +13,7 @@ public class InfoCommand extends Command {
     public void execute(String[] parameters) {
         printer.printLine(receiver.getCollectionClass().toString());
 
-        printer.printLine("Время иницилизации: "+receiver.getInitTime().toString());
+        printer.printLine("Время иницилизации: " + receiver.getInitTime().toString());
 
         int size = receiver.getCollectionSize();
         printer.printLine("Количество объектов в коллекции: " + size);

@@ -5,10 +5,7 @@ import org.itmo.entity.LocationFrom;
 import org.itmo.entity.Route;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 public class Receiver {
     private final RouteStorage routeStorage;
@@ -35,6 +32,10 @@ public class Receiver {
 
     protected void addRouteToTreeSet(Route route) {
         routeStorage.createRoute(route);
+    }
+
+    protected boolean checkIfMinId(int id) {
+        return id <= routeStorage.getDeletedRoute().size();
     }
 
     protected int getFreeId() {
@@ -77,4 +78,40 @@ public class Receiver {
         set.clear();
     }
 
+    protected void removeLowerId(int id) {
+        for (int i = 0; i < id; i++) {
+            routeStorage.deleteRoute(findRouteById(i));
+        }
+    }
+
+    protected Route getMinByFrom() {
+        long x = 9223372036854775807L;
+        Route route1 = null;
+        for (Route route : routeStorage.getRouteSet()) {
+            if (x > route.getLocationFrom().getxLF()) {
+                x = route.getLocationFrom().getxLF();
+                route1 = route;
+            }
+        }
+        return route1;
+    }
+
+    protected int countRoutesLessDistance(int distance) {
+        int cnt = 0;
+        for (Route route : routeStorage.getRouteSet()) {
+            if (distance > route.getDistance()) {
+                cnt++;
+            }
+        }
+        return cnt;
+    }
+    protected List<Route> getRoutesLessDistance(int distance) {
+        List<Route> routes = new ArrayList<>();
+        for (Route route : routeStorage.getRouteSet()) {
+            if (distance > route.getDistance()) {
+                routes.add(route);
+            }
+        }
+        return routes;
+    }
 }

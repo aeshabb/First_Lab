@@ -1,5 +1,7 @@
 package org.itmo.output;
 
+import org.itmo.newStructure.MyStack;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -26,6 +28,11 @@ public class ConsolePrinter {
         while (iter.hasNext()) {
             printLine((i + 1) + ". " + iter.next());
             i++;
+        }
+    }
+    public <T> void printStack(MyStack<T> stack) {
+        for (int i = 0; i < stack.size(); i++) {
+            printLine((i + 1) + ". " + stack.get(i));
         }
     }
 

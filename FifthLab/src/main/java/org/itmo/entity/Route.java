@@ -1,5 +1,7 @@
 package org.itmo.entity;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.time.LocalDateTime;
 
 public class Route implements Comparable<Route>{
@@ -20,6 +22,8 @@ public class Route implements Comparable<Route>{
         this.to = to;
         this.distance = distance;
     }
+
+
 
     public int getId() {
         return id;
@@ -53,19 +57,19 @@ public class Route implements Comparable<Route>{
         this.creationDate = creationDate;
     }
 
-    public LocationFrom getFrom() {
+    public LocationFrom getLocationFrom() {
         return from;
     }
 
-    public void setFrom(LocationFrom from) {
+    public void setLocationFrom(LocationFrom from) {
         this.from = from;
     }
 
-    public LocationTo getTo() {
+    public LocationTo getLocationTo() {
         return to;
     }
 
-    public void setTo(LocationTo to) {
+    public void setLocationTo(LocationTo to) {
         this.to = to;
     }
 

@@ -1,19 +1,35 @@
 package org.itmo.entity;
 
 public class Coordinates {
-    private Double x; //Максимальное значение поля: 660, Поле не может быть null
-    private int y; //Максимальное значение поля: 909
+    private Double xC; //Максимальное значение поля: 660, Поле не может быть null
+    private int yC; //Максимальное значение поля: 909
 
     public Coordinates(Double x, int y) {
-        this.x = x;
-        this.y = y;
+        this.xC = x;
+        this.yC = y;
     }
 
     @Override
     public String toString() {
         return "Coordinates{" +
-                "x=" + x +
-                ", y=" + y +
+                "x=" + xC +
+                ", y=" + yC +
                 '}';
+    }
+
+    public Double getxC() {
+        return xC;
+    }
+
+    public void setxC(Double xC) {
+        this.xC = xC;
+    }
+
+    public int getyC() {
+        return yC;
+    }
+
+    public void setyC(int yC) {
+        this.yC = yC;
     }
 }

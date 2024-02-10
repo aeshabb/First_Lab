@@ -76,7 +76,7 @@ public class RouteParser {
 
             LocationTo locationTo = new LocationTo(Double.parseDouble(nums[0]), Long.parseLong(nums[1]), Integer.parseInt(nums[2]));
 
-            printer.printLine("Введите дистанцию(целое число)");
+            printer.printLine("Введите дистанцию(натуральное число)");
             Integer distance;
             while (!Validator.validateRouteDistance(line = br.readLine())) {
                 printer.printLine("Неверный ввод!");
@@ -88,7 +88,7 @@ public class RouteParser {
                 distance = Integer.parseInt(line);
             }
             int id;
-            if(args[0].isEmpty()) {
+            if(args.length == 0) {
                 id = receiver.getFreeId();
             } else {
                 id = Integer.parseInt(args[0]);

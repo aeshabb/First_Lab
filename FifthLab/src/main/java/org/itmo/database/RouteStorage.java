@@ -3,6 +3,7 @@ package org.itmo.database;
 import org.itmo.entity.Route;
 
 import java.sql.Time;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +16,8 @@ public class RouteStorage {
     private final List<Integer> deletedRoute = new ArrayList<>();
     private final LocalDateTime initTime;
 
-    public RouteStorage(TreeSet<Route> routeSet) {
-        this.initTime = LocalDateTime.now();
+    public RouteStorage(TreeSet<Route> routeSet, LocalDateTime initTime) {
+        this.initTime = initTime;
         this.routeSet = routeSet;
     }
 

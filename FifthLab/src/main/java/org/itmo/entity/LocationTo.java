@@ -1,22 +1,46 @@
 package org.itmo.entity;
 
 public class LocationTo {
-    private Double x; //Поле не может быть null
-    private Long y; //Поле не может быть null
-    private Integer z; //Поле не может быть null
+    private Double xLT; //Поле не может быть null
+    private Long yLT; //Поле не может быть null
+    private Integer zLT; //Поле не может быть null
 
     public LocationTo(Double x, Long y, Integer z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.xLT = x;
+        this.yLT = y;
+        this.zLT = z;
+    }
+
+    public Double getxLT() {
+        return xLT;
+    }
+
+    public void setxLT(Double xLT) {
+        this.xLT = xLT;
+    }
+
+    public Long getyLT() {
+        return yLT;
+    }
+
+    public void setyLT(Long yLT) {
+        this.yLT = yLT;
+    }
+
+    public Integer getzLT() {
+        return zLT;
+    }
+
+    public void setzLT(Integer zLT) {
+        this.zLT = zLT;
     }
 
     @Override
     public String toString() {
         return "LocationTo{" +
-                "x=" + x +
-                ", y=" + y +
-                ", z=" + z +
+                "x=" + xLT +
+                ", y=" + yLT +
+                ", z=" + zLT +
                 '}';
     }
 }
