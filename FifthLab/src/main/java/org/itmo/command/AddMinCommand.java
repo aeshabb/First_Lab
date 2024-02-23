@@ -1,10 +1,10 @@
 package org.itmo.command;
 
-import org.itmo.output.ConsolePrinter;
+import org.itmo.output.CommandPrinter;
 
 public class AddMinCommand extends Command {
 
-    public AddMinCommand(Receiver receiver, String description, ConsolePrinter printer) {
+    public AddMinCommand(Receiver receiver, String description, CommandPrinter printer) {
         super(receiver, description, printer);
 
     }
@@ -14,12 +14,12 @@ public class AddMinCommand extends Command {
         if (parameters.length != 1) {
             printer.printLine("Неверный ввод аргументов");
         } else {
-            if (receiver.checkIfMinId(Integer.parseInt(parameters[0]))) {
+            if (receiver.checkIfMinDistance(Integer.parseInt(parameters[0]))) {
                 RouteParser routeParser = new RouteParser(receiver, printer, parameters);
                 receiver.addRouteToTreeSet(routeParser.parseRouteFromConsole());
                 printer.printLine("Route добавлен в коллекцию!");
             } else {
-                printer.printLine("Id не минимальный!");
+                printer.printLine("Distance не минимальный!");
             }
         }
 

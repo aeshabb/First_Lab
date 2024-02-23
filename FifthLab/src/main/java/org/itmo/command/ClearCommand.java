@@ -1,10 +1,10 @@
 package org.itmo.command;
 
-import org.itmo.output.ConsolePrinter;
+import org.itmo.output.CommandPrinter;
 
 public class ClearCommand extends Command {
 
-    public ClearCommand(Receiver receiver, String description, ConsolePrinter printer) {
+    public ClearCommand(Receiver receiver, String description, CommandPrinter printer) {
         super(receiver, description, printer);
 
     }

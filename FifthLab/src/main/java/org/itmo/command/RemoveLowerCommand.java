@@ -1,10 +1,10 @@
 package org.itmo.command;
 
-import org.itmo.output.ConsolePrinter;
+import org.itmo.output.CommandPrinter;
 
 public class RemoveLowerCommand extends Command {
 
-    public RemoveLowerCommand(Receiver receiver, String description, ConsolePrinter printer) {
+    public RemoveLowerCommand(Receiver receiver, String description, CommandPrinter printer) {
         super(receiver, description, printer);
 
     }
@@ -14,7 +14,7 @@ public class RemoveLowerCommand extends Command {
         if (parameters.length != 1) {
             printer.printLine("Неверный ввод аргументов");
         } else {
-            receiver.removeLowerId(Integer.parseInt(parameters[0]));
+            receiver.removeLowerDistance(Integer.parseInt(parameters[0]));
         }
     }
 }

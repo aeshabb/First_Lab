@@ -83,7 +83,7 @@ public class Route implements Comparable<Route>{
 
     @Override
     public int compareTo(Route o) {
-        return id - o.id;
+        return distance - o.distance;
     }
 
     @Override

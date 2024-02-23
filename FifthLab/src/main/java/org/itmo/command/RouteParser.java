@@ -4,7 +4,7 @@ import org.itmo.entity.Coordinates;
 import org.itmo.entity.LocationFrom;
 import org.itmo.entity.LocationTo;
 import org.itmo.entity.Route;
-import org.itmo.output.ConsolePrinter;
+import org.itmo.output.CommandPrinter;
 import org.itmo.validator.Validator;
 
 import java.io.BufferedReader;
@@ -14,10 +14,10 @@ import java.time.LocalDateTime;
 
 public class RouteParser {
     private Receiver receiver;
-    private ConsolePrinter printer;
+    private CommandPrinter printer;
     private String[] args;
 
-    RouteParser(Receiver receiver, ConsolePrinter printer, String[] args) {
+    RouteParser(Receiver receiver, CommandPrinter printer, String[] args) {
         this.receiver = receiver;
         this.printer = printer;
         this.args = args;

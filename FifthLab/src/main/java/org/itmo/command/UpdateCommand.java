@@ -1,10 +1,10 @@
 package org.itmo.command;
 
-import org.itmo.output.ConsolePrinter;
+import org.itmo.output.CommandPrinter;
 
 public class UpdateCommand extends Command {
 
-    public UpdateCommand(Receiver receiver, String description, ConsolePrinter printer) {
+    public UpdateCommand(Receiver receiver, String description, CommandPrinter printer) {
         super(receiver, description, printer);
 
     }

@@ -1,13 +1,13 @@
 package org.itmo.command;
 
-import org.itmo.output.ConsolePrinter;
+import org.itmo.output.CommandPrinter;
 
 import java.util.List;
 
 public class HelpCommand extends Command {
     private final List<String> descriptionCommands;
 
-    public HelpCommand(Receiver receiver, String description, ConsolePrinter printer, List<String> descriptionCommands) {
+    public HelpCommand(Receiver receiver, String description, CommandPrinter printer, List<String> descriptionCommands) {
         super(receiver, description, printer);
         this.receiver = receiver;
         this.description = description;

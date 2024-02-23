@@ -1,15 +1,13 @@
 package org.itmo.command;
 
-import org.itmo.output.ConsolePrinter;
-
-import java.io.PrintWriter;
+import org.itmo.output.CommandPrinter;
 
 public abstract class Command {
     protected Receiver receiver;
     protected String description;
-    protected ConsolePrinter printer;
+    protected CommandPrinter printer;
 
-    Command(Receiver receiver, String description, ConsolePrinter printer) {
+    Command(Receiver receiver, String description, CommandPrinter printer) {
         this.receiver = receiver;
         this.description = description;
         this.printer = printer;

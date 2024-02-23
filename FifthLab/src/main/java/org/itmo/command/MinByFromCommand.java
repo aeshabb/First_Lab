@@ -1,11 +1,11 @@
 package org.itmo.command;
 
 import org.itmo.entity.Route;
-import org.itmo.output.ConsolePrinter;
+import org.itmo.output.CommandPrinter;
 
 public class MinByFromCommand extends Command {
 
-    public MinByFromCommand(Receiver receiver, String description, ConsolePrinter printer) {
+    public MinByFromCommand(Receiver receiver, String description, CommandPrinter printer) {
         super(receiver, description, printer);
 
     }

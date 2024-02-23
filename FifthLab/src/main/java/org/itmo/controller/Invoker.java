@@ -17,14 +17,16 @@ public class Invoker {
     }
 
     public boolean executeCommand(String commandNameAndInfo) {
-        commandNameAndInfo = commandNameAndInfo.trim();
-        String[] parsedLine = commandNameAndInfo.split(" ");
-        String[] argsArray = Arrays.copyOfRange(parsedLine, 1, parsedLine.length);
-        if (commands.get(parsedLine[0]) != null) {
-            Command command = commands.get(parsedLine[0]);
-            command.execute(argsArray);
-            commandsHistory.addCommand(parsedLine[0]);
-            return true;
+        if (commandNameAndInfo != null) {
+            commandNameAndInfo = commandNameAndInfo.trim();
+            String[] parsedLine = commandNameAndInfo.split(" ");
+            String[] argsArray = Arrays.copyOfRange(parsedLine, 1, parsedLine.length);
+            if (commands.get(parsedLine[0]) != null) {
+                Command command = commands.get(parsedLine[0]);
+                command.execute(argsArray);
+                commandsHistory.addCommand(parsedLine[0]);
+                return true;
+            }
         }
         return false;
     }

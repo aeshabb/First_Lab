@@ -34,8 +34,9 @@ public class Receiver {
         routeStorage.createRoute(route);
     }
 
-    protected boolean checkIfMinId(int id) {
-        return id <= routeStorage.getDeletedRoute().size();
+    protected boolean checkIfMinDistance(int distance) {
+        Iterator<Route> iter = routeStorage.getRouteSet().iterator();
+        return distance <= iter.next().getDistance();
     }
 
     protected int getFreeId() {
@@ -78,9 +79,15 @@ public class Receiver {
         set.clear();
     }
 
-    protected void removeLowerId(int id) {
-        for (int i = 0; i < id; i++) {
-            routeStorage.deleteRoute(findRouteById(i));
+    protected void removeLowerDistance(int distance) {
+        Iterator<Route> iter = routeStorage.getRouteSet().iterator();
+        List<Route> routesToDelete = new ArrayList<>();
+        Route route;
+        while ((route = iter.next()).getDistance() < distance) {
+            routesToDelete.add(route);
+        }
+        for (Route route1 : routesToDelete) {
+            routeStorage.deleteRoute(route1);
         }
     }
 

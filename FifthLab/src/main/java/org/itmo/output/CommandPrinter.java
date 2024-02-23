@@ -2,18 +2,25 @@ package org.itmo.output;
 
 import org.itmo.newStructure.MyStack;
 
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-public class ConsolePrinter {
+public class CommandPrinter {
+    private final PrintStream printStream;
+
+    public CommandPrinter(PrintStream printStream) {
+        this.printStream = printStream;
+    }
     public void printLine(String lineToPrint) {
-        System.out.println(lineToPrint);
+        printStream.println(lineToPrint);
     }
 
     public <T> void printArray(T[] array) {
         for (T arg : array) {
-            System.out.println(arg);
+            printStream.println(arg);
         }
     }
 

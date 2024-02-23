@@ -1,21 +1,16 @@
 package org.itmo.command;
 
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import org.itmo.entity.Route;
-import org.itmo.output.ConsolePrinter;
+import org.itmo.output.CommandPrinter;
 import org.itmo.reader.ReaderCSV;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.TreeSet;
 
 public class SaveCommand extends Command {
 
-    public SaveCommand(Receiver receiver, String description, ConsolePrinter printer) {
+    public SaveCommand(Receiver receiver, String description, CommandPrinter printer) {
         super(receiver, description, printer);
 
     }
