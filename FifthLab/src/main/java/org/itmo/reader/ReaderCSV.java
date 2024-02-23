@@ -17,7 +17,7 @@ public class ReaderCSV {
     private static String[] headers;
     private static LocalDateTime initTimeSet;
     private static Set<Route> routeSet;
-    public void readCSV(String path) throws IOException, CsvException {
+    public static void readCSV(String path) throws IOException, CsvException {
         CSVReader reader = new CSVReaderBuilder(new FileReader(path)).build();
 
         Map<String, List<String>> stringListMap = new HashMap<>();
@@ -38,7 +38,7 @@ public class ReaderCSV {
         return headers;
     }
 
-    private Set<Route> fillRouteSet(Map<String, List<String>> stringListMap) {
+    private static Set<Route> fillRouteSet(Map<String, List<String>> stringListMap) {
         Set<Route> routeSet = new TreeSet<>();
         int size = stringListMap.get("name").size();
         for (int i = 0; i < size; i++) {
@@ -51,7 +51,7 @@ public class ReaderCSV {
             routeSet.add(new Route(i + 1, name, coordinates, date, locationFrom, locationTo, distance));
 
         }
-        this.initTimeSet = LocalDateTime.now();
+        initTimeSet = LocalDateTime.now();
 
         return routeSet;
     }
