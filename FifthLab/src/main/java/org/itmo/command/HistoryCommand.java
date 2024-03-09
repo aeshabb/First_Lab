@@ -3,7 +3,7 @@ package org.itmo.command;
 import org.itmo.newStructure.MyStack;
 import org.itmo.output.CommandPrinter;
 
-public class HistoryCommand extends Command{
+public class HistoryCommand extends Command {
     private final MyStack<String> commandsHistory = new MyStack<>();
 
     public HistoryCommand(Receiver receiver, String description, CommandPrinter printer) {

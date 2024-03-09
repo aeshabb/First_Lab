@@ -11,7 +11,13 @@ public class RemoveByIdCommand extends Command {
 
     @Override
     public void execute(String[] parameters) {
-        receiver.deleteRouteById(Integer.parseInt(parameters[0]));
-        printer.printLine("Route удален.");
+        try {
+            receiver.deleteRouteById(Integer.parseInt(parameters[0]));
+            printer.printLine("Route удален.");
+        } catch (NumberFormatException num) {
+            printer.printLine("Число не int!");
+        } catch (NullPointerException nullPointerException) {
+            printer.printLine("Такого индекса нет!");
+        }
     }
 }

@@ -1,12 +1,23 @@
 package org.itmo.validator;
 
-import org.apache.commons.lang3.StringUtils;
-
+/**
+ *
+ */
 public class Validator {
+    /**
+     *
+     * @param name
+     * @return
+     */
     public static boolean validateRouteName(String name) {
         return !name.isBlank();
     }
 
+    /**
+     *
+     * @param coordinates
+     * @return
+     */
     public static boolean validateRouteCoordinates(String coordinates) {
         String[] coord = coordinates.split(" ");
         if (coord.length != 2) {
@@ -24,6 +35,11 @@ public class Validator {
         }
     }
 
+    /**
+     *
+     * @param coordinates
+     * @return
+     */
     public static boolean validateRouteLocationFrom(String coordinates) {
         String[] coord = coordinates.split(" ");
         if (coord.length != 3) {
@@ -40,6 +56,11 @@ public class Validator {
         }
     }
 
+    /**
+     *
+     * @param coordinates
+     * @return
+     */
     public static boolean validateRouteLocationTo(String coordinates) {
         String[] coord = coordinates.split(" ");
         if (coord.length != 3) {
@@ -56,9 +77,14 @@ public class Validator {
         }
     }
 
+    /**
+     *
+     * @param distance
+     * @return
+     */
     public static boolean validateRouteDistance(String distance) {
         try {
-            return (Integer.valueOf(distance)) > 1;
+            return (Integer.valueOf(distance)) >= 1;
         } catch (NumberFormatException numberFormatException) {
             return false;
         }

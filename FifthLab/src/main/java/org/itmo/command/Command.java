@@ -12,6 +12,7 @@ public abstract class Command {
         this.description = description;
         this.printer = printer;
     }
+
     abstract public void execute(String[] parameters);
 
     public String getDescription() {

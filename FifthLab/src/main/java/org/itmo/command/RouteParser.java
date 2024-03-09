@@ -34,7 +34,7 @@ public class RouteParser {
             }
             String name = line;
 
-            printer.printLine("Введите координаты x, y через пробел (x-дробный, y-целый): ");
+            printer.printLine("Введите координаты x, y через пробел (x-дробный меньше 909, y-целый меньше 660): ");
             while (!Validator.validateRouteCoordinates(line = br.readLine())) {
                 printer.printLine("Неверный ввод!");
                 printer.printLine("Введите координаты x, y через пробел (x-дробный, y-целый): ");
@@ -88,7 +88,7 @@ public class RouteParser {
                 distance = Integer.parseInt(line);
             }
             int id;
-            if(args.length == 0) {
+            if (args.length == 0) {
                 id = receiver.getFreeId();
             } else {
                 id = Integer.parseInt(args[0]);

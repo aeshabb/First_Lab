@@ -9,34 +9,56 @@ import org.itmo.output.CommandPrinter;
 import org.itmo.reader.ReaderCSV;
 
 import java.io.*;
-import java.time.LocalDateTime;
 import java.util.*;
 
-
+/**
+ * Runner для начала работы программы.
+ */
 public class Runner {
     private Invoker invoker;
     private RouteStorage routeStorage;
     private CommandPrinter commandPrinter;
     private CommandPrinter infoPrinter;
 
-    public Runner(RouteStorage routeStorage, CommandPrinter commandPrinter) {
-        this.routeStorage = routeStorage;
+    /**
+     *
+     * @param commandPrinter задаем режим работы Runner.
+     */
+    public Runner(CommandPrinter commandPrinter) {
         this.commandPrinter = commandPrinter;
     }
 
+    /**
+     *
+     * @param inputStream
+     * @param isScript
+     * @throws IOException
+     * @throws CsvException
+     */
     public void runMethods(InputStream inputStream, boolean isScript) throws IOException, CsvException {
         initInvoker(commandPrinter);
         runCommands(inputStream, isScript);
     }
 
 
+    /**
+     *
+     * @param printer
+     */
     private void initInvoker(CommandPrinter printer) {
+        this.routeStorage = new RouteStorage((TreeSet<Route>) ReaderCSV.getRouteSet(), ReaderCSV.getInitTimeSet());
         Receiver receiver = new Receiver(routeStorage);
         this.commandPrinter = printer;
         Map<String, Command> commandMap = fillCommandMap(receiver, printer);
         invoker = new Invoker(commandMap);
     }
 
+    /**
+     *
+     * @param receiver
+     * @param printer
+     * @return
+     */
     private Map<String, Command> fillCommandMap(Receiver receiver, CommandPrinter printer) {
         PrintStream printStream = new PrintStream(System.out);
         CommandPrinter infoPrinter = new CommandPrinter(printStream);
@@ -50,11 +72,11 @@ public class Runner {
         Command clearCommand = new ClearCommand(receiver, "Очистить коллекцию: \"clear\"", infoPrinter);
         Command saveCommand = new SaveCommand(receiver, "Сохранить коллекцию в файл \"save\"", infoPrinter);
         Command addMinCommand = new AddMinCommand(receiver, "Добавить элемент в коллекцию, если он минимальный: \"add_if_min\"", printer);
-        Command removeLowerCommand = new RemoveLowerCommand(receiver, "Удалить все команды, меньше данной: \"remove_lower\"", printer);
+        Command removeLowerCommand = new RemoveLowerCommand(receiver, "Удалить все элементы, меньше данного: \"remove_lower + (distance)\"", printer);
         Command historyCommand = new HistoryCommand(receiver, "Вывести историю: \"history\"", infoPrinter);
         Command minByFromCommand = new MinByFromCommand(receiver, "Вывести Route с минимальным полем LocationFrom: \"min_by_from\"", infoPrinter);
-        Command countRoutesLessDistanceCommand = new CountRoutesLessDistanceCommand(receiver, "Вывести количество Route с меньшим полем distance: \"count_less_than_distance\"", infoPrinter);
-        Command filterRoutesLessDistanceCommand = new FilterRoutesLessDistance(receiver, "Вывести Route с меньшим полем distance: \"filter_less_than_distance\"", infoPrinter);
+        Command countRoutesLessDistanceCommand = new CountRoutesLessDistanceCommand(receiver, "Вывести количество Route с меньшим полем distance: \"count_less_than_distance + (distance)\"", infoPrinter);
+        Command filterRoutesLessDistanceCommand = new FilterRoutesLessDistance(receiver, "Вывести Route с меньшим полем distance: \"filter_less_than_distance + (distance)\"", infoPrinter);
         Command executeScript = new ExecuteScriptCommand(receiver, "Чтение комманд со скрипта: \"execute_script + (filename)\"", infoPrinter);
 
         Map<String, Command> commandMap = new HashMap<>();
@@ -79,13 +101,18 @@ public class Runner {
         return commandMap;
     }
 
+    /**
+     *
+     * @param inputStream
+     * @param isScript
+     * @throws IOException
+     */
     private void runCommands(InputStream inputStream, boolean isScript) throws IOException {
 
         invoker.executeCommand("help");
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
         String line;
         while (!"exit".equals(line = br.readLine())) {
-            String startScript;
             if (line == null) {
                 break;
             } else {
@@ -94,8 +121,8 @@ public class Runner {
                         String[] par = line.split(" ");
                         if (par[0].equals("execute_script")) {
                             ScriptsCounter.scriptsList.add(par[1]);
-                            startScript = ScriptsCounter.scriptsList.get(0);
-                            if (ScriptsCounter.scriptsList.indexOf(startScript) == ScriptsCounter.scriptsList.lastIndexOf(startScript)) {
+                            ScriptsCounter.scriptsSet.add(par[1]);
+                            if (ScriptsCounter.scriptsList.size() != ScriptsCounter.scriptsSet.size()) {
                                 infoPrinter.printLine("Рекурсия!!!");
                                 break;
                             }
@@ -106,21 +133,33 @@ public class Runner {
                         String[] par = line.split(" ");
                         if (par[0].equals("execute_script")) {
                             ScriptsCounter.scriptsList.clear();
+                            ScriptsCounter.scriptsSet.clear();
+                            ScriptsCounter.scriptsSet.add(par[1]);
                             ScriptsCounter.scriptsList.add(par[1]);
                         }
                     }
                 }
 
 
-            if (!invoker.executeCommand(line)) {
-                commandPrinter.printLine("Неправильная команда");
+                if (!invoker.executeCommand(line)) {
+                    commandPrinter.printLine("Неправильная команда");
+                }
             }
         }
-    }
+        if (!ScriptsCounter.scriptsList.isEmpty()) {
+            ScriptsCounter.scriptsSet.remove(ScriptsCounter.scriptsList.get(ScriptsCounter.scriptsList.size() - 1));
+            ScriptsCounter.scriptsList.remove(ScriptsCounter.scriptsList.size() - 1);
+        }
+
         br.close();
-}
+    }
 
 
+    /**
+     *
+     * @param commandMap
+     * @return
+     */
     private List<String> createDescriptionList(Map<String, Command> commandMap) {
         List<String> descriptionList = new ArrayList<>();
         for (String key : commandMap.keySet()) {

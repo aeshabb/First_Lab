@@ -14,7 +14,14 @@ public class CountRoutesLessDistanceCommand extends Command {
         if (parameters.length != 1) {
             printer.printLine("Неверный ввод аргументов");
         } else {
-            printer.printLine("Количество Route с меньшим полем distance: " + receiver.countRoutesLessDistance(Integer.parseInt(parameters[0])));
+            try {
+                int i;
+                i = receiver.countRoutesLessDistance(Integer.parseInt(parameters[0]));
+                printer.printLine("Количество Route с меньшим полем distance: " + i);
+            } catch (NumberFormatException num) {
+                printer.printLine("Неверный ввод!");
+            }
+
         }
 
     }

@@ -1,11 +1,13 @@
 package org.itmo.command;
 
 import org.itmo.database.RouteStorage;
-import org.itmo.entity.LocationFrom;
 import org.itmo.entity.Route;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TreeSet;
 
 public class Receiver {
     private final RouteStorage routeStorage;
@@ -83,7 +85,7 @@ public class Receiver {
         Iterator<Route> iter = routeStorage.getRouteSet().iterator();
         List<Route> routesToDelete = new ArrayList<>();
         Route route;
-        while ((route = iter.next()).getDistance() < distance) {
+        while (iter.hasNext() && (route = iter.next()).getDistance() < distance) {
             routesToDelete.add(route);
         }
         for (Route route1 : routesToDelete) {
@@ -112,6 +114,7 @@ public class Receiver {
         }
         return cnt;
     }
+
     protected List<Route> getRoutesLessDistance(int distance) {
         List<Route> routes = new ArrayList<>();
         for (Route route : routeStorage.getRouteSet()) {

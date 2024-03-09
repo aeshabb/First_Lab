@@ -14,7 +14,11 @@ public class RemoveLowerCommand extends Command {
         if (parameters.length != 1) {
             printer.printLine("Неверный ввод аргументов");
         } else {
-            receiver.removeLowerDistance(Integer.parseInt(parameters[0]));
+            try {
+                receiver.removeLowerDistance(Integer.parseInt(parameters[0]));
+            } catch (NumberFormatException num) {
+                printer.printLine("Неверный ввод!");
+            }
         }
     }
 }
