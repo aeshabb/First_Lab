@@ -16,51 +16,49 @@ import java.util.*;
  * Runner для начала работы программы.
  */
 public class Runner {
-    private final Socket socket;
-    private final Receiver receiver;
+    private Socket socket;
+    private Receiver receiver;
     private Invoker invoker;
     private InfoPrinter commandPrinter;
-    private InfoPrinter infoPrinter;
+    private final InfoPrinter infoPrinter;
     private InputStreamReader inputStreamReader;
+    private BufferedReader br;
 
     public Runner(InfoPrinter commandPrinter, InputStreamReader inputStreamReader) {
-        this.socket = connectToServer();
-        this.receiver = new Receiver(socket);
         this.commandPrinter = commandPrinter;
+        this.infoPrinter = new InfoPrinter(new PrintStream(System.out));
         this.inputStreamReader = inputStreamReader;
+
     }
 
-    public static Socket connectToServer() {
-        Scanner scanner = new Scanner(System.in);
+    public Socket connectToServer() {
+
         Socket socket = null;
 
         while (true) {
             try {
-                System.out.print("Введите адрес сервера: ");
-                String host = scanner.nextLine();
-                System.out.print("Введите порт сервера: ");
-                int port = Integer.parseInt(scanner.nextLine());
+                infoPrinter.printLine("Введите адрес сервера: ");
+                String host = br.readLine();
+                infoPrinter.printLine("Введите порт сервера: ");
+                int port = Integer.parseInt(br.readLine());
                 socket = new Socket();
                 socket.connect(new InetSocketAddress(host, port), 1000);
                 break; // Если удалось подключиться к серверу, выходим из цикла
             } catch (IOException | NumberFormatException e) {
-                System.out.println("Ошибка подключения к серверу. Пожалуйста, проверьте введенные данные.");
+                infoPrinter.printLine("Ошибка подключения к серверу. Пожалуйста, проверьте введенные данные.");
             }
         }
 
         return socket;
     }
 
-    /**
-     *
-     * @param inputStream
-     * @param isScript
-     * @throws IOException
-     * @throws CsvException
-     */
+
     public void runMethods(InputStream inputStream, boolean isScript) throws IOException, CsvException {
+        br = new BufferedReader(new InputStreamReader(inputStream));
+        this.socket = connectToServer();
+        this.receiver = new Receiver(socket);
         initInvoker(commandPrinter);
-        runCommands(inputStream, isScript);
+        runCommands(isScript);
     }
 
 
@@ -76,9 +74,7 @@ public class Runner {
 
 
     private Map<String, Command> fillCommandMap(Receiver receiver, InfoPrinter printer) {
-        PrintStream printStream = new PrintStream(System.out);
-        InfoPrinter infoPrinter = new InfoPrinter(printStream);
-        this.infoPrinter = infoPrinter;
+
 
         Command infoCommand = new InfoCommand(receiver, infoPrinter, inputStreamReader);
         Command showCommand = new ShowCommand(receiver, infoPrinter, inputStreamReader);
@@ -117,10 +113,8 @@ public class Runner {
     }
 
 
-    private void runCommands(InputStream inputStream, boolean isScript) throws IOException {
+    private void runCommands(boolean isScript) throws IOException {
 
-        invoker.executeCommand("help");
-        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
         String line;
         while (!"exit".equals(line = br.readLine())) {
             if (line == null) {
@@ -152,7 +146,7 @@ public class Runner {
 
 
                 if (!invoker.executeCommand(line)) {
-                    commandPrinter.printLine("Неправильная команда");
+                    infoPrinter.printLine("Неправильная команда");
                 }
             }
         }

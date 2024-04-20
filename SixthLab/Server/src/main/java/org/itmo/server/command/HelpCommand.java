@@ -25,7 +25,7 @@ public class HelpCommand extends Command{
         HelpReply rep = new HelpReply();
 
         rep.setSuccess(true);
-        rep.setResult(commandList.toString());
+        rep.setResult(" ");
 
         System.out.println("[DEBUG] Запрос на показ справки");
 

@@ -13,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.CancelledKeyException;
 import java.nio.channels.SelectionKey;
@@ -23,7 +24,7 @@ import java.util.*;
 import static org.itmo.server.network.Network.*;
 
 public class Runner {
-    private final int port;
+    private int port;
     private Selector selector;
     private Map<String, Command> commandMap;
     private ServerSocketChannel server;
@@ -95,7 +96,31 @@ public class Runner {
         return descriptionList;
     }
 
+    public ServerSocketChannel choosePort() {
+        Scanner scanner = new Scanner(System.in);
+        ServerSocketChannel serverSocketChannel = null;
+
+        while (true) {
+            System.out.print("Введите номер порта: ");
+            try {
+                int port = Integer.parseInt(scanner.nextLine());
+                serverSocketChannel = ServerSocketChannel.open();
+                serverSocketChannel.socket().bind(new InetSocketAddress(port));
+                this.port = port;
+                break; // Если порт доступен, выходим из цикла
+            } catch (NumberFormatException e) {
+                System.out.println("Неверный формат порта. Пожалуйста, введите целое число.");
+            } catch (IOException e) {
+                System.out.println("Порт занят. Пожалуйста, выберите другой порт.");
+            }
+        }
+
+        return serverSocketChannel;
+    }
+
     private void listen() throws IOException {
+
+
         while (true) {
             selector.select();
             Set<SelectionKey> keys = selector.selectedKeys();
@@ -139,6 +164,7 @@ public class Runner {
 
 
     public void start(String fileName) throws IOException {
+        server = choosePort();
 
         this.routeStorage = new RouteStorage((TreeSet<Route>) ParseCSV.getRouteSet(), ParseCSV.getInitTimeSet());
         try {
