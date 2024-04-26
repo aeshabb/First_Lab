@@ -1,4 +1,4 @@
 package org.itmo.dto.reply;
 
-public class AddMinReply {
+public class AddMinReply extends AddReply {
 }

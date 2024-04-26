@@ -1,4 +1,10 @@
 package org.itmo.dto.reply;
 
-public class RemoveLowerReply {
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
+public class RemoveLowerReply extends Reply{
+    private String message;
 }

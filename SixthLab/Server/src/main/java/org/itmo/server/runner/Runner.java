@@ -8,12 +8,14 @@ import org.itmo.server.collection.Receiver;
 import org.itmo.server.collection.RouteStorage;
 import org.itmo.server.command.*;
 import org.itmo.server.output.InfoPrinter;
+import org.itmo.server.reader.ConsoleReader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.InetSocketAddress;
+import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.nio.channels.CancelledKeyException;
 import java.nio.channels.SelectionKey;
@@ -30,15 +32,13 @@ public class Runner {
     private ServerSocketChannel server;
     private RouteStorage routeStorage;
     private Receiver receiver;
-    private InfoPrinter infoPrinter;
+    private final InfoPrinter infoPrinter;
 
-    public Runner(int port) {
-        this.port = port;
+    public Runner(InfoPrinter infoPrinter) {
+        this.infoPrinter = infoPrinter;
     }
 
     private boolean init() {
-        infoPrinter = new InfoPrinter(new PrintStream(System.out));
-        commandMap = fillCommandMap(receiver, infoPrinter);
         try {
             selector = Selector.open();
             server.configureBlocking(false);
@@ -50,7 +50,6 @@ public class Runner {
     }
 
     private Map<String, Command> fillCommandMap(Receiver receiver, InfoPrinter printer) {
-        PrintStream printStream = new PrintStream(System.out);
 
         Command infoCommand = new InfoCommand(receiver, "Информация о коллекции: \"info\"", printer);
         Command showCommand = new ShowCommand(receiver, "Вывести коллекцию: \"show\"", printer);
@@ -58,14 +57,12 @@ public class Runner {
         Command updateCommand = new UpdateCommand(receiver, "Заменить элемент в колекции по id: \"update + (id)\"", printer);
         Command removeByIdCommand = new RemoveByIdCommand(receiver, "Удалить Route по id из коллекции: \"remove_by_id + (id)\"", printer);
         Command clearCommand = new ClearCommand(receiver, "Очистить коллекцию: \"clear\"", printer);
-        Command saveCommand = new SaveCommand(receiver, "Сохранить коллекцию в файл \"save\"", printer);
         Command addMinCommand = new AddMinCommand(receiver, "Добавить элемент в коллекцию, если он минимальный: \"add_if_min\"", printer);
         Command removeLowerCommand = new RemoveLowerCommand(receiver, "Удалить все элементы, меньше данного: \"remove_lower + (distance)\"", printer);
         Command historyCommand = new HistoryCommand(receiver, "Вывести историю: \"history\"", printer);
         Command minByFromCommand = new MinByFromCommand(receiver, "Вывести Route с минимальным полем LocationFrom: \"min_by_from\"", printer);
         Command countRoutesLessDistanceCommand = new CountRoutesLessDistanceCommand(receiver, "Вывести количество Route с меньшим полем distance: \"count_less_than_distance + (distance)\"", printer);
         Command filterRoutesLessDistanceCommand = new FilterRoutesLessDistance(receiver, "Вывести Route с меньшим полем distance: \"filter_less_than_distance + (distance)\"", printer);
-        Command executeScript = new ExecuteScriptCommand(receiver, "Чтение комманд со скрипта: \"execute_script + (filename)\"", printer);
 
         Map<String, Command> commandMap = new HashMap<>();
         commandMap.put("info", infoCommand);
@@ -74,14 +71,12 @@ public class Runner {
         commandMap.put("update", updateCommand);
         commandMap.put("remove_by_id", removeByIdCommand);
         commandMap.put("clear", clearCommand);
-        commandMap.put("save", saveCommand);
         commandMap.put("add_if_min", addMinCommand);
         commandMap.put("remove_lower", removeLowerCommand);
         commandMap.put("history", historyCommand);
         commandMap.put("min_by_from", minByFromCommand);
         commandMap.put("count_less_than_distance", countRoutesLessDistanceCommand);
         commandMap.put("filter_less_than_distance", filterRoutesLessDistanceCommand);
-        commandMap.put("execute_script", executeScript);
 
         Command help = new HelpCommand(receiver, "Вывести список команд: \"help\"", printer, createDescriptionList(commandMap));
         commandMap.put("help", help);
@@ -101,7 +96,7 @@ public class Runner {
         ServerSocketChannel serverSocketChannel = null;
 
         while (true) {
-            System.out.print("Введите номер порта: ");
+            infoPrinter.printLine("Введите номер порта: ");
             try {
                 int port = Integer.parseInt(scanner.nextLine());
                 serverSocketChannel = ServerSocketChannel.open();
@@ -109,9 +104,9 @@ public class Runner {
                 this.port = port;
                 break; // Если порт доступен, выходим из цикла
             } catch (NumberFormatException e) {
-                System.out.println("Неверный формат порта. Пожалуйста, введите целое число.");
+                infoPrinter.printLine("Неверный формат порта. Пожалуйста, введите целое число.");
             } catch (IOException e) {
-                System.out.println("Порт занят. Пожалуйста, выберите другой порт.");
+                infoPrinter.printLine("Порт занят. Пожалуйста, выберите другой порт.");
             }
         }
 
@@ -119,79 +114,72 @@ public class Runner {
     }
 
     private void listen() throws IOException {
-
-
-        while (true) {
-            selector.select();
-            Set<SelectionKey> keys = selector.selectedKeys();
-            for (var iter = keys.iterator(); iter.hasNext(); ) {
-                SelectionKey key = iter.next();
-                iter.remove();
-                if (key.isValid()) {
-                    if (key.isAcceptable()) {
-                        accept(key);
-                    }
-                    if (key.isReadable()) {
-                        Request req = read(key, (HashMap<String, Command>) commandMap);
-                        if (req != null) {
-                            Reply reply = commandMap.get(req.name).process(req);
-                            key.interestOps(SelectionKey.OP_WRITE);
-                            key.attach(reply);
+        try {
+            while (true) {
+                selector.select();
+                Set<SelectionKey> keys = selector.selectedKeys();
+                for (var iter = keys.iterator(); iter.hasNext(); ) {
+                    SelectionKey key = iter.next();
+                    iter.remove();
+                    if (key.isValid()) {
+                        if (key.isAcceptable()) {
+                            accept(key);
                         }
-                    }
-                    try {
-                        if (key.isWritable()) {
-                            write(key);
-                            ByteBuffer buf = ByteBuffer.allocate(4096);
-                            key.interestOps(SelectionKey.OP_READ);
-                            key.attach(buf);
+                        if (key.isReadable()) {
+                            Request req = read(key, (HashMap<String, Command>) commandMap);
+                            if (req != null) {
+                                Reply reply = commandMap.get(req.name).process(req);
+                                key.interestOps(SelectionKey.OP_WRITE);
+                                key.attach(reply);
+                            }
                         }
-                    } catch (CancelledKeyException | IOException e) {
-                        key.channel().close();
-                        key.cancel();
+                        try {
+                            if (key.isWritable()) {
+                                write(key);
+                                ByteBuffer buf = ByteBuffer.allocate(4096);
+                                key.interestOps(SelectionKey.OP_READ);
+                                key.attach(buf);
+                            }
+                        } catch (CancelledKeyException | IOException e) {
+                            key.channel().close();
+                            key.cancel();
+                        }
                     }
                 }
+            }
+        } catch (SocketException socketException) {
+            selector.close();
+            infoPrinter.printLine("Пользователь отключился, ожидание нового подключения");
+            if (init()) {
+                listen();
+            } else {
+                infoPrinter.printLine("Ошибка инициализации сервера!");
             }
         }
     }
 
 
     public void exit() throws IOException {
-        selector.close();
+        selector.wakeup();
         server.close();
         System.exit(0);
     }
 
 
-    public void start(String fileName) throws IOException {
+    public void start() throws IOException {
         server = choosePort();
-
         this.routeStorage = new RouteStorage((TreeSet<Route>) ParseCSV.getRouteSet(), ParseCSV.getInitTimeSet());
-        try {
-            // Создаем BufferedReader для чтения ввода с консоли
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-            System.out.println("Введите команду (для выхода введите exit):");
-
-            // Бесконечный цикл для чтения ввода до тех пор, пока не будет введено "exit"
-            String input;
-            while (true) {
-                if ((reader.readLine()).equals("exit")) {
-                    reader.close();
-                    System.exit(0);
-                    break;
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("Ошибка чтения ввода из stdin");
-        }
-
-
+        this.receiver = new Receiver(routeStorage);
+        commandMap = fillCommandMap(receiver, infoPrinter);
+        Thread consoleReaderThread = new Thread(new ConsoleReader(receiver, this));
+        consoleReaderThread.start();
         if (init()) {
+
             listen();
         } else {
-            System.out.println("Ошибка инициализации сервера!");
+            infoPrinter.printLine("Ошибка инициализации сервера!");
         }
+
     }
 
 }

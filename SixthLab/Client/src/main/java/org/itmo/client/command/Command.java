@@ -3,14 +3,15 @@ package org.itmo.client.command;
 import org.itmo.client.output.InfoPrinter;
 
 import java.io.InputStreamReader;
+import java.net.Socket;
 
 public abstract class Command {
-    protected Receiver receiver;
+    protected Socket socket;
     protected InfoPrinter printer;
     protected InputStreamReader inputStreamReader;
 
-    Command(Receiver receiver, InfoPrinter printer, InputStreamReader inputStreamReader) {
-        this.receiver = receiver;
+    Command(Socket socket, InfoPrinter printer, InputStreamReader inputStreamReader) {
+        this.socket = socket;
         this.printer = printer;
         this.inputStreamReader = inputStreamReader;
     }

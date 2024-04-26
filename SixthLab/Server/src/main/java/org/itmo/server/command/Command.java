@@ -9,10 +9,10 @@ import org.itmo.server.output.InfoPrinter;
 
 import java.io.*;
 import java.nio.ByteBuffer;
-
+@Getter
 public abstract class Command {
     protected final Receiver receiver;
-    @Getter
+
     protected final String description;
     protected final InfoPrinter printer;
 

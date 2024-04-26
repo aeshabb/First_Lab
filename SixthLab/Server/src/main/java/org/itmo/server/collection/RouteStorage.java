@@ -2,6 +2,8 @@ package org.itmo.server.collection;
 
 
 
+import lombok.Getter;
+import lombok.Setter;
 import org.itmo.entity.Route;
 
 import java.time.LocalDateTime;
@@ -9,8 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
+@Getter
+@Setter
 public class RouteStorage {
-    private final TreeSet<Route> routeSet;
+    private TreeSet<Route> routeSet;
 
     private final List<Integer> deletedRoute = new ArrayList<>();
     private final LocalDateTime initTime;
@@ -31,12 +35,8 @@ public class RouteStorage {
                 "Дата инициализации: " + initTime + "\n" +
                 "Размер: " + routeSet.size();
     }
-    public void createRoute(Route route) {
+    public void addRoute(Route route) {
         routeSet.add(route);
-    }
-
-    public TreeSet<Route> getRouteSet() {
-        return routeSet;
     }
 
 
@@ -45,13 +45,6 @@ public class RouteStorage {
     }
 
 
-    public LocalDateTime getInitTime() {
-        return initTime;
-    }
 
-
-    public List<Integer> getDeletedRoute() {
-        return deletedRoute;
-    }
 }
 

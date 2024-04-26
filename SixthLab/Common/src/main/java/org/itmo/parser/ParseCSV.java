@@ -3,6 +3,7 @@ package org.itmo.parser;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
+import lombok.Getter;
 import org.itmo.entity.Coordinates;
 import org.itmo.entity.LocationFrom;
 import org.itmo.entity.LocationTo;
@@ -17,10 +18,13 @@ import java.util.*;
 
 public class ParseCSV {
 
+    @Getter
     private static String[] headers;
 
+    @Getter
     private static LocalDateTime initTimeSet;
 
+    @Getter
     private static Set<Route> routeSet;
 
 
@@ -46,14 +50,12 @@ public class ParseCSV {
             System.exit(0);
         }
     }
-    public static String[] getHeaders() {
-        return headers;
-    }
 
 
     private static Set<Route> fillRouteSet(Map<String, List<String>> stringListMap) {
         Set<Route> routeSet = new TreeSet<>();
         int size = stringListMap.get("name").size();
+        int id = 1;
         for (int i = 0; i < size; i++) {
             try {
 
@@ -64,7 +66,7 @@ public class ParseCSV {
                     LocalDateTime date = LocalDateTime.now();
                     LocationTo locationTo = new LocationTo(Double.parseDouble(stringListMap.get("xLT").get(i)), Long.parseLong(stringListMap.get("yLT").get(i)), Integer.parseInt(stringListMap.get("zLT").get(i)));
                     Integer distance = Integer.parseInt(stringListMap.get("distance").get(i));
-                    routeSet.add(new Route(i + 1, name, coordinates, date, locationFrom, locationTo, distance));
+                    routeSet.add(new Route(id++, name, coordinates, date, locationFrom, locationTo, distance));
                 }
 
                 initTimeSet = LocalDateTime.now();
@@ -75,12 +77,5 @@ public class ParseCSV {
         return routeSet;
     }
 
-    public static LocalDateTime getInitTimeSet() {
-        return initTimeSet;
-    }
 
-
-    public static Set<Route> getRouteSet() {
-        return routeSet;
-    }
 }

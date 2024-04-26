@@ -1,7 +1,9 @@
 package org.itmo.entity;
 
 
-public class Coordinates {
+import java.io.Serializable;
+
+public class Coordinates implements Serializable {
 
     private Double xC; //Максимальное значение поля: 660, Поле не может быть null
 

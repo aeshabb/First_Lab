@@ -1,7 +1,9 @@
 package org.itmo.entity;
 
 
-public class LocationFrom {
+import java.io.Serializable;
+
+public class LocationFrom implements Serializable {
 
     private long xLF;
 

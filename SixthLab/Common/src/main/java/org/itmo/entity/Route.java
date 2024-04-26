@@ -1,9 +1,10 @@
 package org.itmo.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 
-public class Route implements Comparable<Route> {
+public class Route implements Comparable<Route>, Serializable {
     private int id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
 
     private String name; //Поле не может быть null, Строка не может быть пустой

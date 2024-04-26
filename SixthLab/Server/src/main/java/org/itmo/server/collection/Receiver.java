@@ -1,6 +1,15 @@
 package org.itmo.server.collection;
 
 
+import org.itmo.entity.Route;
+import org.itmo.parser.ParseCSV;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.List;
+import java.util.TreeSet;
 
 
 public class Receiver {
@@ -10,142 +19,158 @@ public class Receiver {
         this.routeStorage = routeStorage;
     }
 
-//    public boolean addIfMin(Route route) {
-//
-//        if (routeStorage.getRouteSet().isEmpty() || route.compareTo(routeStorage.getRouteSet().iterator().next()) < 0) {
-//            add(route);
-//            return true;
-//        }
-//        return false;
-//    }
-//
-//    public void add(Route route) {
-//        RouteParser routeParser = new RouteParser(receiver, printer, parameters);
-//        receiver.addRouteToTreeSet(routeParser.parseRouteFromConsole());
-//
-//        route.setId(routeStorage.getNewId());
-//
-//        routeStorage.add(route);
-//    }
-//
-//    public route getLabById(int id) {
-//        List<route> result = routeStorage.getRouteSet().stream().filter(lab -> lab.getId() == id).toList();
-//        return result.isEmpty() ? null : result.get(0);
-//    }
-//
-//    public boolean update(int id, route newLab) {
-//
-//        route oldLab = getLabById(id);
-//        if (oldLab == null)
-//            return false;
-//
-//        newLab.setId(id);
-//        newLab.setCreationDate(LocalDateTime.now().toLocalDate());
-//
-//        routeStorage.delete(oldLab);
-//        routeStorage.add(newLab);
-//        return true;
-//    }
-//
-//    public boolean removeById(int id) {
-//        route lab = getLabById(id);
-//        if (lab == null)
-//            return false;
-//        routeStorage.delete(lab);
-//        return true;
-//    }
+    protected int getFreeId() {
+        List<Integer> deletedRoute = routeStorage.getDeletedRoute();
+        int id;
+        if (!deletedRoute.isEmpty()) {
+            id = deletedRoute.get(0);
+            deletedRoute.remove(0);
+        } else {
+            id = routeStorage.getRouteSet().size() + 1;
+        }
+        return id;
+    }
+
+    public boolean addIfMin(Route route) {
+        if (routeStorage.getRouteSet().isEmpty() || route.compareTo(routeStorage.getRouteSet().iterator().next()) < 0) {
+            add(route);
+            return true;
+        }
+        return false;
+    }
+
+    public void add(Route route) {
+        if (route.getId() == -1) {
+            route.setId(getFreeId());
+        }
+        route.setCreationDate(LocalDateTime.now());
+        routeStorage.addRoute(route);
+    }
+
+    public Route getRouteById(int id) {
+        Route result = routeStorage.getRouteSet().stream().filter(route -> route.getId() == id).toList().get(0);
+        return result;
+    }
+    public Route minByFrom() {
+        Route result = routeStorage.getRouteSet()
+                .stream()
+                .min(Comparator.comparing(route -> route.getLocationFrom().getxLF())).get();
+        return result;
+    }
+
+    public boolean update(int id, Route route) {
+
+        Route oldRoute = getRouteById(id);
+        if (oldRoute == null)
+            return false;
+
+        route.setId(id);
+        route.setCreationDate(LocalDateTime.now());
+
+        routeStorage.deleteRoute(route);
+        routeStorage.addRoute(route);
+        return true;
+    }
+
+    public boolean removeById(int id) {
+        Route route = getRouteById(id);
+        if (route == null)
+            return false;
+        routeStorage.deleteRoute(route);
+        return true;
+    }
 
     public void clear() {
         routeStorage.clear();
     }
+    public void saveCollection() {
+        try {
+            TreeSet<Route> set = routeStorage.getRouteSet();
+            FileWriter csvWriter = new FileWriter(System.getProperty("CSVPATH"));
+            csvWriter.append(ParseCSV.getHeaders()[0]);
+            for (int i = 1; i < ParseCSV.getHeaders().length; i++) {
+                csvWriter.append(",");
+                csvWriter.append(ParseCSV.getHeaders()[i]);
 
-//    public boolean executeScript(PrintWriter infoPrinter, File file) throws FileNotFoundException {
-//        List<File> recursion = historyCall.stream().filter(previous -> previous.getName().equals(file.getName())).toList();
-//        if (!recursion.isEmpty()){
-//            infoPrinter.println("Обнаружена рекурсия " + recursion);
-//            return false;
-//        }
-//        PrintWriter scriptPrinter = new PrintWriter("/dev/null");
-//        BufferedReader scriptReader = new BufferedReader(new FileReader(file));
-//        Runner scriptRunner = new Runner(infoPrinter, file, scriptPrinter, scriptReader);
-//        scriptRunner.run(routeStorage.getRouteSet(), fileName);
-//        historyCall.remove(historyCall.size() - 1);
-//        return true;
-//    }
+            }
+            csvWriter.append("\n");
+            for (Route route : set) {
+                csvWriter.append(route.getName()).append(",");
+                csvWriter.append(String.valueOf(route.getCoordinates().getxC())).append(",");
+                csvWriter.append(String.valueOf(route.getCoordinates().getyC())).append(",");
+                if(route.getLocationFrom() == null) {
+                    csvWriter.append(null).append(",");
+                    csvWriter.append(null).append(",");
+                    csvWriter.append(null).append(",");
+                    csvWriter.append(null).append(",");
+                } else {
+                    csvWriter.append(String.valueOf(route.getLocationFrom().getxLF())).append(",");
+                    csvWriter.append(String.valueOf(route.getLocationFrom().getyLF())).append(",");
+                    csvWriter.append(String.valueOf(route.getLocationFrom().getzLF())).append(",");
+                    csvWriter.append(String.valueOf(route.getLocationFrom().getNameLF())).append(",");
+                }
+                csvWriter.append(String.valueOf(route.getLocationTo().getxLT())).append(",");
+                csvWriter.append(String.valueOf(route.getLocationTo().getyLT())).append(",");
+                csvWriter.append(String.valueOf(route.getLocationTo().getzLT())).append(",");
+                csvWriter.append(String.valueOf(route.getDistance()));
+                csvWriter.append("\n");
+            }
 
-//    public List<Route> getGroupCountingByCreationDate() {
-//        List<LocalDate> allDates = new ArrayList<>();
-//        List<route> result = new ArrayList<>();
-//
-//        for (route lab : routeStorage.getRouteSet()) {
-//            allDates.add(lab.getCreationDate());
-//        }
-//        for (LocalDate date : allDates)
-//            result = Stream.concat(result.stream(), routeStorage.getRouteSet().stream().filter(lab -> lab.getCreationDate() == date)).toList();
-//        return result;
-//    }
-//
-//    public String printGroupCountingByCreationDate() {
-//        List<route> labs = getGroupCountingByCreationDate();
-//        StringBuilder sb = new StringBuilder();
-//        for (route lab : labs) {
-//            sb.append("\n=================\n").append(lab);
-//        }
-//        return sb.toString();
-//    }
+            csvWriter.flush();
+            csvWriter.close();
+        } catch (IOException e) {
+            System.out.println("Возникла ошибка во время записи, проверьте данные.");
+        }
 
-//    public boolean saveCollection(String filePath) {
-//        try(FileWriter writer = new FileWriter(filePath)) {
-//            CsvHandler.writeRows(writer, new ArrayList<>(routeStorage.getRouteSet()));
-//        } catch (IOException e) {
-//            return false;
-//        } catch (CsvRequiredFieldEmptyException | CsvDataTypeMismatchException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return true; // успешно записали
-//    }
+    }
+
+    public boolean removeLower(int distance) {
+        List<Route> result = routeStorage.getRouteSet().stream().filter(route -> route.getDistance() < distance).toList();
+        result.forEach(routeStorage.getRouteSet()::remove);
+        return !result.isEmpty();
+    }
+
+    public String filterLessThanDistance(int distance) {
+        List<Route> result = routeStorage.getRouteSet().stream().filter(route -> route.getDistance() < distance).toList();
+        StringBuilder stringBuilder = new StringBuilder();
+        int cnt = 1;
+        for (Route route : result) {
+            stringBuilder.append(cnt).append(". ").append(route.toString());
+            stringBuilder.append("\n");
+            cnt++;
+        }
+        return stringBuilder.toString();
+    }
+
+    public long countLessThanDistance(int distance) {
+        long result = routeStorage.getRouteSet().stream().filter(route -> route.getDistance() < distance).count();
+        return result;
+    }
 
 
-//    public String show() {
-//        StringBuilder sb = new StringBuilder();
-//        for (route lab : routeStorage.getRouteSet()) {
-//            sb.append("\n===============\n").append(lab);
-//        }
-//        return sb.toString();
-//    }
+
 
     public String info() {
         return routeStorage.getInfo();
     }
+    public String help(List<String> commandList) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String command : commandList) {
+            stringBuilder.append(command);
+            stringBuilder.append("\n");
+        }
+        return stringBuilder.toString();
+    }
 
-//    public String printUniqueDifficulty() {
-//        // вывести уникальные значения поля difficulty всех элементов в коллекции
-//        List<Difficulty> result = new ArrayList<>();
-//        for (Difficulty cur : Difficulty.values())
-//            if (!routeStorage.getRouteSet().stream().filter(route -> route.getDifficulty() == cur).toList().isEmpty()) {
-//                result.add(cur);
-//            }
-//        StringBuilder sb = new StringBuilder();
-//        for (var difficulty : result) {
-//            sb.append(difficulty).append("\n");
-//        }
-//        return sb.toString();
-//    }
-//
-//    public List<Person> getAuthors() {
-//        List<Person> result = new ArrayList<>();
-//        for (route lab : routeStorage.getRouteSet())
-//            if (lab.getAuthor() != null)
-//                result.add(lab.getAuthor());
-//        Collections.sort(result);
-//        return result;
-//    }
-//
-//    public String printFieldAscendingAuthors() {
-//        StringBuilder sb = new StringBuilder();
-//        for (var man : getAuthors()) {
-//            sb.append("\n============\n").append(man);
-//        }
-//        return sb.toString();
-//    }
+    public String show() {
+        StringBuilder stringBuilder = new StringBuilder();
+        int cnt = 1;
+        for (Route route : routeStorage.getRouteSet()) {
+            stringBuilder.append(cnt).append(". ").append(route.toString());
+            stringBuilder.append("\n");
+            cnt++;
+        }
+        return stringBuilder.toString();
+    }
+
 }

@@ -1,7 +1,9 @@
 package org.itmo.entity;
 
 
-public class LocationTo {
+import java.io.Serializable;
+
+public class LocationTo implements Serializable {
 
     private Double xLT; //Поле не может быть null
 

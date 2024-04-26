@@ -12,7 +12,7 @@ import java.util.List;
 
 
 public class HelpCommand extends Command{
-    private List<String> commandList;
+    private final List<String> commandList;
 
 
     public HelpCommand(Receiver receiver, String description, InfoPrinter printer, List<String> commandList) {
@@ -25,9 +25,9 @@ public class HelpCommand extends Command{
         HelpReply rep = new HelpReply();
 
         rep.setSuccess(true);
-        rep.setResult(" ");
+        rep.setResult(receiver.help(commandList));
 
-        System.out.println("[DEBUG] Запрос на показ справки");
+        printer.printLine("[DEBUG] Запрос на показ справки");
 
         return rep;
     }

@@ -11,14 +11,13 @@ import org.itmo.entity.Route;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.Socket;
 import java.time.LocalDateTime;
 
 public class RouteParser {
-    private Receiver receiver;
     private InfoPrinter printer;
 
-    RouteParser(Receiver receiver, InfoPrinter printer) {
-        this.receiver = receiver;
+    RouteParser(InfoPrinter printer) {
         this.printer = printer;
     }
 
@@ -86,9 +85,7 @@ public class RouteParser {
             } else {
                 distance = Integer.parseInt(line);
             }
-            int id;
-            Route route = new Route(1, name, coordinates, null, locationFrom, locationTo, distance);
-
+            Route route = new Route(-1, name, coordinates, null, locationFrom, locationTo, distance);
             return route;
         } catch (IOException exception) {
             printer.printLine("Неправильная команда");

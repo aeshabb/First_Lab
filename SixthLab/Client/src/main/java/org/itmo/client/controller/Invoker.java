@@ -2,29 +2,28 @@ package org.itmo.client.controller;
 
 
 import org.itmo.client.command.Command;
+import org.itmo.client.command.HistoryCommand;
 
 import java.util.Arrays;
 import java.util.Map;
 
 public class Invoker {
     private final Map<String, Command> commands;
-    //private final HistoryCommand historyCmd;
+    private final HistoryCommand historyCommand;
     public Invoker(Map<String, Command> commands) {
         this.commands = commands;
-        //this.historyCmd = (HistoryCommand) commands.get("history");
+        historyCommand = (HistoryCommand) commands.get("history");
     }
 
-    // Парсит команду с аргументами и делегирует выполнение классу Command
     public boolean executeCommand(String commandAndArgs) {
         commandAndArgs = commandAndArgs.trim();
         String[] parsed = commandAndArgs.split(" ");
         String[] args = Arrays.copyOfRange(parsed, 1, parsed.length);
-        // проверка существования такой команды
         if (!commands.containsKey(parsed[0]))
             return false;
 
         Command command =  commands.get(parsed[0]);
-        //historyCmd.add((AbstractCommand)command, args);
+        historyCommand.addCommand(parsed[0]);
         command.execute(args);
         return true;
     }
