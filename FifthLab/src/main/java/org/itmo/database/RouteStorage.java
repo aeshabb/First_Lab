@@ -41,10 +41,6 @@ public class RouteStorage {
         return initTime;
     }
 
-    /**
-     *
-     * @return deletedRoute
-     */
     public List<Integer> getDeletedRoute() {
         return deletedRoute;
     }
