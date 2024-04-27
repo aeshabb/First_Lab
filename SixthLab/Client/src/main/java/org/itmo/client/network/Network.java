@@ -1,6 +1,7 @@
 package org.itmo.client.network;
 
 
+import org.itmo.client.runner.Runner;
 import org.itmo.dto.reply.Reply;
 import org.itmo.dto.request.Request;
 
@@ -25,9 +26,9 @@ public class Network {
             os.write(byteBuf.array());
             // теперь основной буфер с данными
             os.write(buf);
-            os.flush();
         } catch (IOException e) {
             System.out.println("DEBUG CATCHED IOEXCEPTION");
+            Runner.setSocket(Runner.connectToServer());
             return false;
         }
         return true;

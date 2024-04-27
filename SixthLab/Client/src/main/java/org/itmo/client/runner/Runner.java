@@ -1,6 +1,7 @@
 package org.itmo.client.runner;
 
 import com.opencsv.exceptions.CsvException;
+import lombok.Setter;
 import org.itmo.client.command.*;
 import org.itmo.client.controller.Invoker;
 import org.itmo.client.output.InfoPrinter;
@@ -13,12 +14,14 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 /**
  * Runner для начала работы программы.
  */
 public class Runner {
-    private Socket socket;
+    @Setter
+    private static Socket socket;
     private Invoker invoker;
     private InfoPrinter commandPrinter;
     private final InfoPrinter infoPrinter;
@@ -36,26 +39,26 @@ public class Runner {
         this.commandPrinter = commandPrinter;
         this.infoPrinter = new InfoPrinter(new PrintStream(System.out));
         this.inputStreamReader = inputStreamReader;
-        this.socket = socket;
+        Runner.socket = socket;
 
     }
 
-    public Socket connectToServer() {
-
+    public static Socket connectToServer() {
+        Scanner scanner = new Scanner(System.in);
         Socket socket = null;
 
         while (true) {
             try {
-                infoPrinter.printLine("Введите адрес сервера: ");
-                String host = br.readLine();
-                infoPrinter.printLine("Введите порт сервера: ");
-                int port = Integer.parseInt(br.readLine());
+                System.out.print("Введите адрес сервера: ");
+                String host = scanner.nextLine();
+                System.out.print("Введите порт сервера: ");
+                int port = Integer.parseInt(scanner.nextLine());
                 socket = new Socket();
-                socket.connect(new InetSocketAddress(host, port), 100);
-                infoPrinter.printLine("Вы успешно подключились!");
+                socket.connect(new InetSocketAddress(host, port), 1000);
+                System.out.println("Вы успешно подключились к серверу");
                 break; // Если удалось подключиться к серверу, выходим из цикла
             } catch (IOException | NumberFormatException e) {
-                infoPrinter.printLine("Ошибка подключения к серверу. Пожалуйста, проверьте введенные данные.");
+                System.out.println("Ошибка подключения к серверу. Пожалуйста, проверьте введенные данные.");
             }
         }
 
@@ -66,7 +69,7 @@ public class Runner {
     public void runMethods(boolean isScript) throws IOException, CsvException {
         br = new BufferedReader(inputStreamReader);
         if (!isScript) {
-            this.socket = connectToServer();
+            Runner.socket = connectToServer();
         }
 
         initInvoker(commandPrinter);
@@ -126,43 +129,39 @@ public class Runner {
 
         String line;
         while (!"exit".equals(line = br.readLine())) {
-//            if (socket.isBound()) {
-                if (line == null) {
-                    break;
-                } else {
-                    if (isScript) {
-                        if (line.split(" ").length == 2) {
-                            String[] par = line.split(" ");
-                            if (par[0].equals("execute_script")) {
-                                ScriptsCounter.scriptsList.add(par[1]);
-                                ScriptsCounter.scriptsSet.add(par[1]);
-                                if (ScriptsCounter.scriptsList.size() != ScriptsCounter.scriptsSet.size()) {
-                                    infoPrinter.printLine("Рекурсия!!!");
-                                    break;
-                                }
-                            }
-                        }
-                    } else {
-                        if (line.split(" ").length == 2) {
-                            String[] par = line.split(" ");
-                            if (par[0].equals("execute_script")) {
-                                ScriptsCounter.scriptsList.clear();
-                                ScriptsCounter.scriptsSet.clear();
-                                ScriptsCounter.scriptsSet.add(par[1]);
-                                ScriptsCounter.scriptsList.add(par[1]);
+
+            if (line == null) {
+                break;
+            }
+            else {
+                if (isScript) {
+                    if (line.split(" ").length == 2) {
+                        String[] par = line.split(" ");
+                        if (par[0].equals("execute_script")) {
+                            ScriptsCounter.scriptsList.add(par[1]);
+                            ScriptsCounter.scriptsSet.add(par[1]);
+                            if (ScriptsCounter.scriptsList.size() != ScriptsCounter.scriptsSet.size()) {
+                                infoPrinter.printLine("Рекурсия!!!");
+                                break;
                             }
                         }
                     }
-
-
-                    if (!invoker.executeCommand(line)) {
-                        infoPrinter.printLine("Неправильная команда");
+                } else {
+                    if (line.split(" ").length == 2) {
+                        String[] par = line.split(" ");
+                        if (par[0].equals("execute_script")) {
+                            ScriptsCounter.scriptsList.clear();
+                            ScriptsCounter.scriptsSet.clear();
+                            ScriptsCounter.scriptsSet.add(par[1]);
+                            ScriptsCounter.scriptsList.add(par[1]);
+                        }
                     }
                 }
-//            } else {
-//                infoPrinter.printLine("Соединение потеряно, подключитесь еще раз.");
-//                runMethods(isScript);
-//            }
+            }
+
+            if (!invoker.executeCommand(line)) {
+                infoPrinter.printLine("Неправильная команда");
+            }
         }
         if (!ScriptsCounter.scriptsList.isEmpty()) {
             ScriptsCounter.scriptsSet.remove(ScriptsCounter.scriptsList.get(ScriptsCounter.scriptsList.size() - 1));
@@ -172,4 +171,6 @@ public class Runner {
         br.close();
     }
 
+
 }
+
