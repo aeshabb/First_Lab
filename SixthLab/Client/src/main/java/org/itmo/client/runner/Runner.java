@@ -16,12 +16,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-/**
- * Runner для начала работы программы.
- */
+
 public class Runner {
     @Setter
-    private static Socket socket;
+    private Socket socket;
     private Invoker invoker;
     private InfoPrinter commandPrinter;
     private final InfoPrinter infoPrinter;
@@ -39,7 +37,7 @@ public class Runner {
         this.commandPrinter = commandPrinter;
         this.infoPrinter = new InfoPrinter(new PrintStream(System.out));
         this.inputStreamReader = inputStreamReader;
-        Runner.socket = socket;
+        this.socket = socket;
 
     }
 
@@ -69,35 +67,31 @@ public class Runner {
     public void runMethods(boolean isScript) throws IOException, CsvException {
         br = new BufferedReader(inputStreamReader);
         if (!isScript) {
-            Runner.socket = connectToServer();
+            this.socket = connectToServer();
         }
 
-        initInvoker(commandPrinter);
+        initInvoker();
         runCommands(isScript);
     }
 
 
-    /**
-     * @param printer
-     */
-    private void initInvoker(InfoPrinter printer) {
-        this.commandPrinter = printer;
-        Map<String, Command> commandMap = fillCommandMap(printer);
+    private void initInvoker() {
+        Map<String, Command> commandMap = fillCommandMap();
         invoker = new Invoker(commandMap);
     }
 
 
-    private Map<String, Command> fillCommandMap(InfoPrinter printer) {
+    private Map<String, Command> fillCommandMap() {
 
 
         Command infoCommand = new InfoCommand(socket, infoPrinter, inputStreamReader);
         Command showCommand = new ShowCommand(socket, infoPrinter, inputStreamReader);
-        Command addCommand = new AddCommand(socket, printer, inputStreamReader);
-        Command updateCommand = new UpdateCommand(socket, printer, inputStreamReader);
-        Command removeByIdCommand = new RemoveByIdCommand(socket, printer, inputStreamReader);
+        Command addCommand = new AddCommand(socket, commandPrinter, inputStreamReader);
+        Command updateCommand = new UpdateCommand(socket, commandPrinter, inputStreamReader);
+        Command removeByIdCommand = new RemoveByIdCommand(socket, commandPrinter, inputStreamReader);
         Command clearCommand = new ClearCommand(socket, infoPrinter, inputStreamReader);
-        Command addMinCommand = new AddMinCommand(socket, printer, inputStreamReader);
-        Command removeLowerCommand = new RemoveLowerCommand(socket, printer, inputStreamReader);
+        Command addMinCommand = new AddMinCommand(socket, commandPrinter, inputStreamReader);
+        Command removeLowerCommand = new RemoveLowerCommand(socket, commandPrinter, inputStreamReader);
         Command historyCommand = new HistoryCommand(socket, infoPrinter, inputStreamReader);
         Command minByFromCommand = new MinByFromCommand(socket, infoPrinter, inputStreamReader);
         Command countRoutesLessDistanceCommand = new CountRoutesLessDistanceCommand(socket, infoPrinter, inputStreamReader);
@@ -125,15 +119,14 @@ public class Runner {
     }
 
 
-    private void runCommands(boolean isScript) throws IOException, CsvException {
+    private void runCommands(boolean isScript) throws IOException {
 
         String line;
         while (!"exit".equals(line = br.readLine())) {
 
             if (line == null) {
                 break;
-            }
-            else {
+            } else {
                 if (isScript) {
                     if (line.split(" ").length == 2) {
                         String[] par = line.split(" ");
@@ -158,9 +151,16 @@ public class Runner {
                     }
                 }
             }
-
-            if (!invoker.executeCommand(line)) {
-                infoPrinter.printLine("Неправильная команда");
+            try {
+                if (!invoker.executeCommand(line)) {
+                    infoPrinter.printLine("Неправильная команда");
+                }
+            } catch (NullPointerException e) {
+                infoPrinter.printLine("Соединение с сервером потеряно, попробуйте переподключиться");
+                this.socket = connectToServer();
+                for (Command command : invoker.getCommands().values()) {
+                    command.setSocket(socket);
+                }
             }
         }
         if (!ScriptsCounter.scriptsList.isEmpty()) {

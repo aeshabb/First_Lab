@@ -1,12 +1,14 @@
 package org.itmo.client.controller;
 
 
+import lombok.Getter;
+import lombok.Setter;
 import org.itmo.client.command.Command;
 import org.itmo.client.command.HistoryCommand;
 
 import java.util.Arrays;
 import java.util.Map;
-
+@Getter
 public class Invoker {
     private final Map<String, Command> commands;
     private final HistoryCommand historyCommand;

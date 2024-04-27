@@ -1,10 +1,12 @@
 package org.itmo.client.command;
 
+import lombok.Setter;
 import org.itmo.client.output.InfoPrinter;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-
+@Setter
 public abstract class Command {
     protected Socket socket;
     protected InfoPrinter printer;

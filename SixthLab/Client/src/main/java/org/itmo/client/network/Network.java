@@ -1,16 +1,14 @@
 package org.itmo.client.network;
 
 
-import org.itmo.client.runner.Runner;
 import org.itmo.dto.reply.Reply;
 import org.itmo.dto.request.Request;
 
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
-import java.util.Objects;
 
 public class Network {
     public static Socket connect(InetAddress inetAddress, int port) throws IOException {
@@ -28,7 +26,6 @@ public class Network {
             os.write(buf);
         } catch (IOException e) {
             System.out.println("DEBUG CATCHED IOEXCEPTION");
-            Runner.setSocket(Runner.connectToServer());
             return false;
         }
         return true;
@@ -48,10 +45,10 @@ public class Network {
         return bos.toByteArray();
     }
 
-    public static Reply sendAndReceive(Socket socket, Request request) {
+    public static Reply sendAndReceive(Socket socket, Request request) throws NullPointerException {
         try {
             if (!send(socket, serialize(request)))
-                return null;
+                throw new NullPointerException();
         } catch (IOException e) {
             return null;
         }
