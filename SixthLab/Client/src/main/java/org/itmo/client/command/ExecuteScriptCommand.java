@@ -12,7 +12,6 @@ public class ExecuteScriptCommand extends Command {
     public ExecuteScriptCommand(Socket socket, InfoPrinter printer, InputStreamReader inputStreamReader) {
         super(socket, printer, inputStreamReader);
 
-
     }
 
     @Override

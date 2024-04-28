@@ -6,22 +6,24 @@ import org.itmo.dto.reply.AddMinReply;
 import org.itmo.dto.request.AddMinRequest;
 import org.itmo.entity.Route;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
 public class AddMinCommand extends Command {
 
-    public AddMinCommand(Socket socket, InfoPrinter printer, InputStreamReader inputStreamReader) {
+    private BufferedReader br;
+
+    public AddMinCommand(Socket socket, InfoPrinter printer, InputStreamReader inputStreamReader, BufferedReader br) {
         super(socket, printer, inputStreamReader);
-
-
+        this.br = br;
     }
 
     @Override
     public void execute(String[] args) {
         Route route;
-        RouteParser routeParser = new RouteParser(printer);
+        RouteParser routeParser = new RouteParser(printer, br);
         route = routeParser.parseRouteFromConsole(inputStreamReader);
 
         AddMinRequest addMinRequest = new AddMinRequest(route);

@@ -1,6 +1,7 @@
 package org.itmo.client.network;
 
 
+import org.itmo.client.exception.NotAvailableServer;
 import org.itmo.dto.reply.Reply;
 import org.itmo.dto.request.Request;
 
@@ -45,10 +46,10 @@ public class Network {
         return bos.toByteArray();
     }
 
-    public static Reply sendAndReceive(Socket socket, Request request) throws NullPointerException {
+    public static Reply sendAndReceive(Socket socket, Request request) throws NotAvailableServer {
         try {
             if (!send(socket, serialize(request)))
-                throw new NullPointerException();
+                throw new NotAvailableServer();
         } catch (IOException e) {
             return null;
         }

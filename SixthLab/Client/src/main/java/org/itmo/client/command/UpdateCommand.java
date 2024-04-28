@@ -6,15 +6,17 @@ import org.itmo.dto.reply.UpdateReply;
 import org.itmo.dto.request.UpdateRequest;
 import org.itmo.entity.Route;
 
+import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
 public class UpdateCommand extends Command {
 
-    public UpdateCommand(Socket socket, InfoPrinter printer, InputStreamReader inputStreamReader) {
+    private BufferedReader br;
+
+    public UpdateCommand(Socket socket, InfoPrinter printer, InputStreamReader inputStreamReader, BufferedReader br) {
         super(socket, printer, inputStreamReader);
-
-
+        this.br = br;
     }
 
     @Override
@@ -25,7 +27,7 @@ public class UpdateCommand extends Command {
         } else {
             try {
                 id = Integer.parseInt(args[0]);
-                RouteParser routeParser = new RouteParser(printer);
+                RouteParser routeParser = new RouteParser(printer, br);
                 Route route = routeParser.parseRouteFromConsole(inputStreamReader);
 
                 UpdateRequest updRequest = new UpdateRequest(id, route);

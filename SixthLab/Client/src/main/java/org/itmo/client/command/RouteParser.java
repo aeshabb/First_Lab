@@ -1,5 +1,6 @@
 package org.itmo.client.command;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.itmo.client.output.InfoPrinter;
 import org.itmo.client.validator.Validator;
 import org.itmo.entity.Coordinates;
@@ -16,13 +17,15 @@ import java.time.LocalDateTime;
 
 public class RouteParser {
     private InfoPrinter printer;
+    private BufferedReader br;
 
-    RouteParser(InfoPrinter printer) {
+    RouteParser(InfoPrinter printer, BufferedReader br) {
         this.printer = printer;
+        this.br = br;
     }
 
     protected Route parseRouteFromConsole(InputStreamReader inputStreamReader) {
-        BufferedReader br = new BufferedReader(inputStreamReader);
+
         String line;
         try {
             printer.printLine("Введите имя Route: ");
@@ -87,7 +90,7 @@ public class RouteParser {
             }
             Route route = new Route(-1, name, coordinates, null, locationFrom, locationTo, distance);
             return route;
-        } catch (IOException exception) {
+        } catch (IOException | NullPointerException n) {
             printer.printLine("Неправильная команда");
             return null;
         }

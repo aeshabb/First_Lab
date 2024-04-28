@@ -4,12 +4,10 @@ import com.opencsv.exceptions.CsvException;
 import lombok.Setter;
 import org.itmo.client.command.*;
 import org.itmo.client.controller.Invoker;
+import org.itmo.client.exception.NotAvailableServer;
 import org.itmo.client.output.InfoPrinter;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.HashMap;
@@ -86,11 +84,11 @@ public class Runner {
 
         Command infoCommand = new InfoCommand(socket, infoPrinter, inputStreamReader);
         Command showCommand = new ShowCommand(socket, infoPrinter, inputStreamReader);
-        Command addCommand = new AddCommand(socket, commandPrinter, inputStreamReader);
-        Command updateCommand = new UpdateCommand(socket, commandPrinter, inputStreamReader);
+        Command addCommand = new AddCommand(socket, commandPrinter, inputStreamReader, br);
+        Command updateCommand = new UpdateCommand(socket, commandPrinter, inputStreamReader, br);
         Command removeByIdCommand = new RemoveByIdCommand(socket, commandPrinter, inputStreamReader);
         Command clearCommand = new ClearCommand(socket, infoPrinter, inputStreamReader);
-        Command addMinCommand = new AddMinCommand(socket, commandPrinter, inputStreamReader);
+        Command addMinCommand = new AddMinCommand(socket, commandPrinter, inputStreamReader, br);
         Command removeLowerCommand = new RemoveLowerCommand(socket, commandPrinter, inputStreamReader);
         Command historyCommand = new HistoryCommand(socket, infoPrinter, inputStreamReader);
         Command minByFromCommand = new MinByFromCommand(socket, infoPrinter, inputStreamReader);
@@ -155,7 +153,7 @@ public class Runner {
                 if (!invoker.executeCommand(line)) {
                     infoPrinter.printLine("Неправильная команда");
                 }
-            } catch (NullPointerException e) {
+            } catch (NotAvailableServer e) {
                 infoPrinter.printLine("Соединение с сервером потеряно, попробуйте переподключиться");
                 this.socket = connectToServer();
                 for (Command command : invoker.getCommands().values()) {
