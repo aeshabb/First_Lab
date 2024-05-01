@@ -86,7 +86,7 @@ public class Receiver {
     public void saveCollection() {
         try {
             TreeSet<Route> set = routeStorage.getRouteSet();
-            FileWriter csvWriter = new FileWriter(System.getProperty("CSVPATH"));
+            FileWriter csvWriter = new FileWriter(System.getenv("CSVPATH"));
             csvWriter.append(ParseCSV.getHeaders()[0]);
             for (int i = 1; i < ParseCSV.getHeaders().length; i++) {
                 csvWriter.append(",");
