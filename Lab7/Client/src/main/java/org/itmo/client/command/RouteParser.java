@@ -77,11 +77,11 @@ public class RouteParser {
 
             LocationTo locationTo = new LocationTo(Double.parseDouble(nums[0]), Long.parseLong(nums[1]), Integer.parseInt(nums[2]));
 
-            printer.printLine("Введите дистанцию(натуральное число)");
+            printer.printLine("Введите дистанцию(натуральное число > 1)");
             Integer distance;
             while (!Validator.validateRouteDistance(line = br.readLine())) {
                 printer.printLine("Неверный ввод!");
-                printer.printLine("Введите дистанцию(натуральное число)");
+                printer.printLine("Введите дистанцию(натуральное число > 1)");
             }
             if (line.isBlank()) {
                 distance = null;

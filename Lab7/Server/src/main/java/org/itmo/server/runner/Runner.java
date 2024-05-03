@@ -1,27 +1,19 @@
 package org.itmo.server.runner;
 
-import org.itmo.dto.reply.Reply;
-import org.itmo.dto.request.Request;
-import org.itmo.entity.Route;
-import org.itmo.parser.ParseCSV;
 import org.itmo.server.collection.Receiver;
-import org.itmo.server.collection.RouteStorage;
 import org.itmo.server.command.*;
+import org.itmo.server.database.DatabaseReceiver;
 import org.itmo.server.output.InfoPrinter;
 import org.itmo.server.reader.ConsoleReader;
+import org.itmo.server.thread.ReadThread;
+import org.itmo.server.util.ConnectionManager;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
 import java.net.InetSocketAddress;
 import java.net.SocketException;
-import java.nio.ByteBuffer;
-import java.nio.channels.CancelledKeyException;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.*;
 import java.util.*;
+import java.util.concurrent.locks.ReentrantLock;
 
 import static org.itmo.server.network.Network.*;
 
@@ -30,9 +22,11 @@ public class Runner {
     private Selector selector;
     private Map<String, Command> commandMap;
     private ServerSocketChannel server;
-    private RouteStorage routeStorage;
     private Receiver receiver;
+    private DatabaseReceiver databaseReceiver;
     private final InfoPrinter infoPrinter;
+
+    private final Map<SocketChannel, ReentrantLock> locksMap = new HashMap<>();
 
     public Runner(InfoPrinter infoPrinter) {
         this.infoPrinter = infoPrinter;
@@ -53,7 +47,9 @@ public class Runner {
 
         Command infoCommand = new InfoCommand(receiver, "Информация о коллекции: \"info\"", printer);
         Command showCommand = new ShowCommand(receiver, "Вывести коллекцию: \"show\"", printer);
-        Command addCommand = new AddCommand(receiver, "Добавить элемент в коллекцию: \"add\"", printer);
+        Command addCommand = new AddCommand(receiver, "Добавить элемент в коллекцию: \"add\"", printer, databaseReceiver);
+        Command loginCommand = new LoginCommand(receiver, "Войти в аккаунт: \"login\"", printer, databaseReceiver);
+        Command registerCommand = new RegisterCommand(receiver, "Зарегистрировать аккаунт: \"register\"", printer, databaseReceiver);
         Command updateCommand = new UpdateCommand(receiver, "Заменить элемент в колекции по id: \"update + (id)\"", printer);
         Command removeByIdCommand = new RemoveByIdCommand(receiver, "Удалить Route по id из коллекции: \"remove_by_id + (id)\"", printer);
         Command clearCommand = new ClearCommand(receiver, "Очистить коллекцию: \"clear\"", printer);
@@ -68,6 +64,8 @@ public class Runner {
         commandMap.put("info", infoCommand);
         commandMap.put("show", showCommand);
         commandMap.put("add", addCommand);
+        commandMap.put("login", loginCommand);
+        commandMap.put("register", registerCommand);
         commandMap.put("update", updateCommand);
         commandMap.put("remove_by_id", removeByIdCommand);
         commandMap.put("clear", clearCommand);
@@ -83,6 +81,7 @@ public class Runner {
 
         return commandMap;
     }
+
     private List<String> createDescriptionList(Map<String, Command> commandMap) {
         List<String> descriptionList = new ArrayList<>();
         for (String key : commandMap.keySet()) {
@@ -114,67 +113,51 @@ public class Runner {
     }
 
     private void listen() throws IOException {
-        try {
             while (true) {
-                selector.select();
+                selector.selectNow();
                 Set<SelectionKey> keys = selector.selectedKeys();
+
                 for (var iter = keys.iterator(); iter.hasNext(); ) {
                     SelectionKey key = iter.next();
                     iter.remove();
                     if (key.isValid()) {
                         if (key.isAcceptable()) {
-                            accept(key);
+                            var newKey = accept(key);
+                            locksMap.put((SocketChannel) newKey.channel(), new ReentrantLock());
                         }
                         if (key.isReadable()) {
-                            Request req = read(key, (HashMap<String, Command>) commandMap);
-                            if (req != null) {
-                                Reply reply = commandMap.get(req.name).process(req);
-                                key.interestOps(SelectionKey.OP_WRITE);
-                                key.attach(reply);
-                            }
+                            var attachment = key.attachment();
+                            key.channel().register(selector, 0).attach(attachment);
+                            ReadThread readThread = new ReadThread(key, locksMap.get(key.channel()), commandMap);
+                            Thread thread = new Thread(readThread);
+                            thread.start();
                         }
-                        try {
-                            if (key.isWritable()) {
-                                write(key);
-                                ByteBuffer buf = ByteBuffer.allocate(4096);
-                                key.interestOps(SelectionKey.OP_READ);
-                                key.attach(buf);
-                            }
-                        } catch (CancelledKeyException | IOException e) {
-                            key.channel().close();
-                            key.cancel();
-                        }
+
                     }
                 }
             }
-        } catch (SocketException socketException) {
-            selector.close();
-            infoPrinter.printLine("Пользователь отключился, ожидание нового подключения");
-            if (init()) {
-                listen();
-            } else {
-                infoPrinter.printLine("Ошибка инициализации сервера!");
-            }
-        }
+
     }
 
 
     public void exit() throws IOException {
         selector.wakeup();
         server.close();
+        ConnectionManager.closePool();
         System.exit(0);
     }
 
 
     public void start() throws IOException {
         server = choosePort();
-        this.routeStorage = new RouteStorage((TreeSet<Route>) ParseCSV.getRouteSet(), ParseCSV.getInitTimeSet());
-        this.receiver = new Receiver(routeStorage);
+
+        this.databaseReceiver = new DatabaseReceiver();
+        this.receiver = new Receiver(databaseReceiver.fillRouteStorage());
+
         commandMap = fillCommandMap(receiver, infoPrinter);
         Thread consoleReaderThread = new Thread(new ConsoleReader(receiver, this));
         consoleReaderThread.start();
         if (init()) {
-
             listen();
         } else {
             infoPrinter.printLine("Ошибка инициализации сервера!");

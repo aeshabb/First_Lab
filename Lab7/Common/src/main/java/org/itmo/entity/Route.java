@@ -103,7 +103,7 @@ public class Route implements Comparable<Route>, Serializable {
 
     @Override
     public int compareTo(Route o) {
-        return distance - o.distance;
+        return this.distance - o.distance;
     }
 
 

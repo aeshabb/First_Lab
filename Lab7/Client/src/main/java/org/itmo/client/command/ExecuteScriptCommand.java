@@ -1,6 +1,7 @@
 package org.itmo.client.command;
 
 import com.opencsv.exceptions.CsvException;
+import org.itmo.client.entity.User;
 import org.itmo.client.output.InfoPrinter;
 import org.itmo.client.runner.Runner;
 
@@ -9,8 +10,8 @@ import java.net.Socket;
 
 public class ExecuteScriptCommand extends Command {
 
-    public ExecuteScriptCommand(Socket socket, InfoPrinter printer, InputStreamReader inputStreamReader) {
-        super(socket, printer, inputStreamReader);
+    public ExecuteScriptCommand(Socket socket, InfoPrinter printer, InputStreamReader inputStreamReader, User user) {
+        super(socket, printer, inputStreamReader, user);
 
     }
 

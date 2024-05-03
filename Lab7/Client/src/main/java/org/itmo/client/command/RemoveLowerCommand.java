@@ -1,5 +1,6 @@
 package org.itmo.client.command;
 
+import org.itmo.client.entity.User;
 import org.itmo.client.network.Network;
 import org.itmo.client.output.InfoPrinter;
 import org.itmo.dto.reply.RemoveByIdReply;
@@ -12,8 +13,8 @@ import java.net.Socket;
 
 public class RemoveLowerCommand extends Command {
 
-    public RemoveLowerCommand(Socket socket, InfoPrinter printer, InputStreamReader inputStreamReader) {
-        super(socket, printer, inputStreamReader);
+    public RemoveLowerCommand(Socket socket, InfoPrinter printer, InputStreamReader inputStreamReader, User user) {
+        super(socket, printer, inputStreamReader, user);
 
 
     }

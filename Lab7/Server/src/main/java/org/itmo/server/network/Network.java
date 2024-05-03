@@ -13,11 +13,10 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.util.HashMap;
 
 public class Network {
 
-    public static void accept(SelectionKey key) throws IOException {
+    public static SelectionKey accept(SelectionKey key) throws IOException {
         var ssc = (ServerSocketChannel) key.channel();
         var sc = ssc.accept();
         ByteBuffer buf = ByteBuffer.allocate(4096);
@@ -25,11 +24,12 @@ public class Network {
         var newKey = sc.register(key.selector(), SelectionKey.OP_READ);
         newKey.attach(buf);
         System.out.println("New client connected from " + sc.getRemoteAddress());
+        return newKey;
     }
 
 
     // получает Worker'а для конкретного запроса. Здесь же происходит десериализация
-    public static Request read(SelectionKey key, HashMap<String, Command> workersMap) throws IOException {
+    public static Request read(SelectionKey key) throws IOException {
         SocketChannel channel = (SocketChannel) key.channel();
         ByteBuffer byteBuf = (ByteBuffer) key.attachment();
 
@@ -71,9 +71,7 @@ public class Network {
 
     }
 
-    public static void write(SelectionKey key) throws IOException {
-        SocketChannel channel = (SocketChannel) key.channel();
-        Reply reply = (Reply) key.attachment();
+    public static void write(SocketChannel channel, Reply reply) throws IOException {
         ByteBuffer buffer = Command.serialize(reply);
         // сперва запишем длину
         var lenBuf = ByteBuffer.wrap(intToBytes(buffer.array().length));

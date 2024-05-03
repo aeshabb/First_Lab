@@ -24,10 +24,10 @@ public class ConsoleReader implements Runnable {
             String input;
             while (!(input = reader.readLine()).equals("exit")) {
                 if (input.equals("save")) {
-                    receiver.saveCollection();
+//                    receiver.saveCollection();
                 }
             }
-            receiver.saveCollection();
+//            receiver.saveCollection();
             reader.close();
             exit();
         } catch (IOException e) {

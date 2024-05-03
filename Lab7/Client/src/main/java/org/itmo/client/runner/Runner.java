@@ -4,12 +4,14 @@ import com.opencsv.exceptions.CsvException;
 import lombok.Setter;
 import org.itmo.client.command.*;
 import org.itmo.client.controller.Invoker;
+import org.itmo.client.entity.User;
 import org.itmo.client.exception.NotAvailableServer;
 import org.itmo.client.output.InfoPrinter;
 
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -22,6 +24,7 @@ public class Runner {
     private InfoPrinter commandPrinter;
     private final InfoPrinter infoPrinter;
     private InputStreamReader inputStreamReader;
+    private User user;
     private BufferedReader br;
 
     public Runner(InfoPrinter commandPrinter, InputStreamReader inputStreamReader) {
@@ -67,7 +70,32 @@ public class Runner {
         if (!isScript) {
             this.socket = connectToServer();
         }
-
+        Command loginCommand = new LoginCommand(socket, commandPrinter, inputStreamReader, user);
+        Command registerCommand = new RegisterCommand(socket, commandPrinter, inputStreamReader, user);
+        String line;
+        while (this.user == null) {
+            infoPrinter.printLine("1. Зарегистрироваться");
+            infoPrinter.printLine("2. Войти");
+            while (!((line = br.readLine()).equals("1") || (line).equals("2"))) {
+                infoPrinter.printLine("Такого варианта нет!");
+            }
+            infoPrinter.printLine("Введите username и password: (username) + (password)");
+            if (line.equals("1")) {
+                line = br.readLine().trim();
+                String[] args = line.split(" ");
+                registerCommand.execute(args);
+                if (registerCommand.getUser() != null) {
+                    user = new User(args[0], args[1]);
+                }
+            } else {
+                line = br.readLine().trim();
+                String[] args = line.split(" ");
+                loginCommand.execute(args);
+                if (loginCommand.getUser() != null) {
+                    user = new User(args[0], args[1]);
+                }
+            }
+        }
         initInvoker();
         runCommands(isScript);
     }
@@ -81,21 +109,20 @@ public class Runner {
 
     private Map<String, Command> fillCommandMap() {
 
-
-        Command infoCommand = new InfoCommand(socket, infoPrinter, inputStreamReader);
-        Command showCommand = new ShowCommand(socket, infoPrinter, inputStreamReader);
-        Command addCommand = new AddCommand(socket, commandPrinter, inputStreamReader, br);
-        Command updateCommand = new UpdateCommand(socket, commandPrinter, inputStreamReader, br);
-        Command removeByIdCommand = new RemoveByIdCommand(socket, commandPrinter, inputStreamReader);
-        Command clearCommand = new ClearCommand(socket, infoPrinter, inputStreamReader);
-        Command addMinCommand = new AddMinCommand(socket, commandPrinter, inputStreamReader, br);
-        Command removeLowerCommand = new RemoveLowerCommand(socket, commandPrinter, inputStreamReader);
-        Command historyCommand = new HistoryCommand(socket, infoPrinter, inputStreamReader);
-        Command minByFromCommand = new MinByFromCommand(socket, infoPrinter, inputStreamReader);
-        Command countRoutesLessDistanceCommand = new CountRoutesLessDistanceCommand(socket, infoPrinter, inputStreamReader);
-        Command filterRoutesLessDistanceCommand = new FilterRoutesLessDistance(socket, infoPrinter, inputStreamReader);
-        Command executeScript = new ExecuteScriptCommand(socket, infoPrinter, inputStreamReader);
-        Command help = new HelpCommand(socket, infoPrinter, inputStreamReader);
+        Command infoCommand = new InfoCommand(socket, infoPrinter, inputStreamReader, user);
+        Command showCommand = new ShowCommand(socket, infoPrinter, inputStreamReader, user);
+        Command addCommand = new AddCommand(socket, commandPrinter, inputStreamReader, br, user);
+        Command updateCommand = new UpdateCommand(socket, commandPrinter, inputStreamReader, br, user);
+        Command removeByIdCommand = new RemoveByIdCommand(socket, commandPrinter, inputStreamReader, user);
+        Command clearCommand = new ClearCommand(socket, infoPrinter, inputStreamReader, user);
+        Command addMinCommand = new AddMinCommand(socket, commandPrinter, inputStreamReader, br, user);
+        Command removeLowerCommand = new RemoveLowerCommand(socket, commandPrinter, inputStreamReader, user);
+        Command historyCommand = new HistoryCommand(socket, infoPrinter, inputStreamReader, user);
+        Command minByFromCommand = new MinByFromCommand(socket, infoPrinter, inputStreamReader, user);
+        Command countRoutesLessDistanceCommand = new CountRoutesLessDistanceCommand(socket, infoPrinter, inputStreamReader, user);
+        Command filterRoutesLessDistanceCommand = new FilterRoutesLessDistance(socket, infoPrinter, inputStreamReader, user);
+        Command executeScript = new ExecuteScriptCommand(socket, infoPrinter, inputStreamReader, user);
+        Command help = new HelpCommand(socket, infoPrinter, inputStreamReader, user);
 
         Map<String, Command> commandMap = new HashMap<>();
         commandMap.put("info", infoCommand);

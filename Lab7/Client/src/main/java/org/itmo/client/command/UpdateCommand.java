@@ -1,5 +1,6 @@
 package org.itmo.client.command;
 
+import org.itmo.client.entity.User;
 import org.itmo.client.network.Network;
 import org.itmo.client.output.InfoPrinter;
 import org.itmo.dto.reply.UpdateReply;
@@ -14,8 +15,8 @@ public class UpdateCommand extends Command {
 
     private BufferedReader br;
 
-    public UpdateCommand(Socket socket, InfoPrinter printer, InputStreamReader inputStreamReader, BufferedReader br) {
-        super(socket, printer, inputStreamReader);
+    public UpdateCommand(Socket socket, InfoPrinter printer, InputStreamReader inputStreamReader, BufferedReader br, User user) {
+        super(socket, printer, inputStreamReader, user);
         this.br = br;
     }
 

@@ -40,10 +40,6 @@ public class Receiver {
     }
 
     public void add(Route route) {
-        if (route.getId() == -1) {
-            route.setId(getFreeId());
-        }
-        route.setCreationDate(LocalDateTime.now());
         routeStorage.addRoute(route);
     }
 
@@ -82,46 +78,6 @@ public class Receiver {
 
     public void clear() {
         routeStorage.clear();
-    }
-    public void saveCollection() {
-        try {
-            TreeSet<Route> set = routeStorage.getRouteSet();
-            FileWriter csvWriter = new FileWriter(System.getProperty("CSVPATH"));
-            csvWriter.append(ParseCSV.getHeaders()[0]);
-            for (int i = 1; i < ParseCSV.getHeaders().length; i++) {
-                csvWriter.append(",");
-                csvWriter.append(ParseCSV.getHeaders()[i]);
-
-            }
-            csvWriter.append("\n");
-            for (Route route : set) {
-                csvWriter.append(route.getName()).append(",");
-                csvWriter.append(String.valueOf(route.getCoordinates().getxC())).append(",");
-                csvWriter.append(String.valueOf(route.getCoordinates().getyC())).append(",");
-                if(route.getLocationFrom() == null) {
-                    csvWriter.append(null).append(",");
-                    csvWriter.append(null).append(",");
-                    csvWriter.append(null).append(",");
-                    csvWriter.append(null).append(",");
-                } else {
-                    csvWriter.append(String.valueOf(route.getLocationFrom().getxLF())).append(",");
-                    csvWriter.append(String.valueOf(route.getLocationFrom().getyLF())).append(",");
-                    csvWriter.append(String.valueOf(route.getLocationFrom().getzLF())).append(",");
-                    csvWriter.append(String.valueOf(route.getLocationFrom().getNameLF())).append(",");
-                }
-                csvWriter.append(String.valueOf(route.getLocationTo().getxLT())).append(",");
-                csvWriter.append(String.valueOf(route.getLocationTo().getyLT())).append(",");
-                csvWriter.append(String.valueOf(route.getLocationTo().getzLT())).append(",");
-                csvWriter.append(String.valueOf(route.getDistance()));
-                csvWriter.append("\n");
-            }
-
-            csvWriter.flush();
-            csvWriter.close();
-        } catch (IOException e) {
-            System.out.println("Возникла ошибка во время записи, проверьте данные.");
-        }
-
     }
 
     public boolean removeLower(int distance) {

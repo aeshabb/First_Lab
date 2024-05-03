@@ -1,5 +1,6 @@
 package org.itmo.client.command;
 
+import org.itmo.client.entity.User;
 import org.itmo.client.output.InfoPrinter;
 
 import java.io.InputStreamReader;
@@ -9,8 +10,8 @@ import java.util.Stack;
 public class HistoryCommand extends Command {
     private final Stack<String> commandsHistory = new Stack<>();
 
-    public HistoryCommand(Socket socket, InfoPrinter printer, InputStreamReader inputStreamReader) {
-        super(socket, printer, inputStreamReader);
+    public HistoryCommand(Socket socket, InfoPrinter printer, InputStreamReader inputStreamReader, User user) {
+        super(socket, printer, inputStreamReader, user);
 
     }
 

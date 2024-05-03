@@ -1,5 +1,6 @@
 package org.itmo.client.command;
 
+import org.itmo.client.entity.User;
 import org.itmo.client.network.Network;
 import org.itmo.client.output.InfoPrinter;
 import org.itmo.dto.reply.AddMinReply;
@@ -15,8 +16,8 @@ public class AddMinCommand extends Command {
 
     private BufferedReader br;
 
-    public AddMinCommand(Socket socket, InfoPrinter printer, InputStreamReader inputStreamReader, BufferedReader br) {
-        super(socket, printer, inputStreamReader);
+    public AddMinCommand(Socket socket, InfoPrinter printer, InputStreamReader inputStreamReader, BufferedReader br, User user) {
+        super(socket, printer, inputStreamReader, user);
         this.br = br;
     }
 
@@ -25,8 +26,7 @@ public class AddMinCommand extends Command {
         Route route;
         RouteParser routeParser = new RouteParser(printer, br);
         route = routeParser.parseRouteFromConsole(inputStreamReader);
-
-        AddMinRequest addMinRequest = new AddMinRequest(route);
+        AddMinRequest addMinRequest = new AddMinRequest(route, user.getUsername(), user.getPassword());
         AddMinReply addIfMinReply = (AddMinReply) Network.sendAndReceive(socket, addMinRequest);
         if (addIfMinReply != null && addIfMinReply.isSuccess())
             printer.printLine(addIfMinReply.getMessage());
