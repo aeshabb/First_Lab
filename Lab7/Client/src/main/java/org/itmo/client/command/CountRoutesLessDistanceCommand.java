@@ -23,7 +23,7 @@ public class CountRoutesLessDistanceCommand extends Command {
             printer.printLine("Неверный ввод аргументов");
         } else {
             try {
-                CountRoutesLessDistanceRequest request = new CountRoutesLessDistanceRequest(Integer.parseInt(parameters[0]), "count_routes_less_distance", user.getUsername(), user.getPassword());
+                CountRoutesLessDistanceRequest request = new CountRoutesLessDistanceRequest(Integer.parseInt(parameters[0]), "count_less_than_distance", user.getUsername(), user.getPassword());
                 CountRoutesLessDistanceReply reply = (CountRoutesLessDistanceReply) Network.sendAndReceive(socket, request);
                 if (reply != null && reply.isSuccess())
                     printer.printLine(reply.getResult());

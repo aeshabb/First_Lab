@@ -21,12 +21,46 @@ public class Receiver {
 
      static {
         PREDICATE_MAP.put("name", (route, value) -> route.getName().contains(value));
-        PREDICATE_MAP.put("distance", (route, value) -> {
+        PREDICATE_MAP.put("distanceHigher", (route, value) -> {
             Integer distance = route.getDistance();
-            Integer filterValue = Integer.valueOf(value);
+            Double filterValue = Double.valueOf(value);
             return distance != null && distance > filterValue;
         });
-        // ... добавить другие предикаты ...
+         PREDICATE_MAP.put("distanceLower", (route, value) -> {
+             Integer distance = route.getDistance();
+             Integer filterValue = Integer.valueOf(value);
+             return distance != null && distance < filterValue;
+         });
+         PREDICATE_MAP.put("idHigher", (route, value) -> {
+             Integer id = route.getId();
+             Integer filterValue = Integer.valueOf(value);
+             return id > filterValue;
+         });
+         PREDICATE_MAP.put("idLower", (route, value) -> {
+             Integer id = route.getId();
+             Integer filterValue = Integer.valueOf(value);
+             return id < filterValue;
+         });
+         PREDICATE_MAP.put("coordinateXHigher", (route, value) -> {
+             Double x = route.getCoordinates().getxC();
+             Double filterValue = Double.valueOf(value);
+             return x != null && x > filterValue;
+         });
+         PREDICATE_MAP.put("coordinateXLower", (route, value) -> {
+             Integer x = route.getDistance();
+             Double filterValue = Double.valueOf(value);
+             return x != null && x < filterValue;
+         });
+         PREDICATE_MAP.put("coordinateYHigher", (route, value) -> {
+             Integer y = route.getCoordinates().getyC();
+             Double filterValue = Double.valueOf(value);
+             return y > filterValue;
+         });
+         PREDICATE_MAP.put("coordinateYLower", (route, value) -> {
+             Integer y = route.getCoordinates().getyC();
+             Double filterValue = Double.valueOf(value);
+             return y < filterValue;
+         });
     }
 
 
@@ -75,7 +109,7 @@ public class Receiver {
         route.setId(id);
         route.setCreationDate(LocalDateTime.now());
 
-        routeStorage.deleteRoute(route);
+        removeById(id);
         routeStorage.addRoute(route);
         return true;
     }

@@ -32,13 +32,13 @@ public class FilterCommand extends Command {
         printer.printLine("Введите фильтры: name + value");
 
         try {
-            while (!"Нет".equals(line = bufferedReader.readLine())) {
+            while (!"end".equals(line = bufferedReader.readLine())) {
                 String[] parsed = line.trim().split(" ");
                 if (parsed.length != 2) {
                     printer.printLine("Неверный набор аргументов");
                 } else {
                     userFilters.put(parsed[0], parsed[1]);
-                    printer.printLine("Закончить вводить фильтры: \"Нет\"");
+                    printer.printLine("Закончить вводить фильтры: \"end\"");
                 }
             }
         } catch (IOException e) {

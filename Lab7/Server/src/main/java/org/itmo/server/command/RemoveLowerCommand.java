@@ -27,10 +27,10 @@ public class RemoveLowerCommand extends Command {
         if (databaseReceiver.removeLower(req.getDistance(), req.getUsername(), req.getPassword())) {
             receiver.fillStorage(databaseReceiver.fillRouteStorage());
             rep.setSuccess(true);
-            rep.setMessage("Элемент успешно удалён");
+            rep.setMessage("Элементы успешно удалены");
         } else{
             rep.setSuccess(false);
-            rep.setMessage("Не удалось удалить элемент. Проверьте введённую distance");
+            rep.setMessage("Не удалось удалить элементы меньше данного. Проверьте введённую distance");
         }
 
         printer.printLine("[DEBUG] Запрос на удаление элементов с меньшим полем distance");

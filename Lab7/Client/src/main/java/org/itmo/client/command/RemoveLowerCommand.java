@@ -33,7 +33,10 @@ public class RemoveLowerCommand extends Command {
         RemoveLowerReply reply = (RemoveLowerReply) Network.sendAndReceive(socket, request);
         if (reply != null && reply.isSuccess())
             printer.printLine(reply.getMessage());
-        else
+        else if (reply != null) {
+            printer.printLine(reply.getMessage());
+        } else {
             printer.printLine("Не удалось удалить элементы из коллекции");
+        }
     }
 }

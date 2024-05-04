@@ -419,7 +419,7 @@ public class DatabaseReceiver {
 
         String sql = """
                 SELECT route.coordinates_id, route.location_from_id, route.location_to_id, route.user_id FROM route
-                WHERE id = %s
+                WHERE route.id = %s
                 """.formatted(id);
         try {
             connection = ConnectionManager.get();
@@ -471,8 +471,10 @@ public class DatabaseReceiver {
                         preparedStatement2.setFloat(3, route.getLocationFrom().getzLF());
                         preparedStatement2.setString(4, route.getLocationFrom().getNameLF());
                         preparedStatement2.executeUpdate();
-                        preparedStatement1.setInt(3, preparedStatement2.getGeneratedKeys().getInt(
-                                1));
+                        ResultSet keys = preparedStatement2.getGeneratedKeys();
+                        if(keys.next()) {
+                            preparedStatement1.setInt(3, keys.getInt(1));
+                        }
                     } else if ((route.getLocationFrom() != null) && (
                             locationFromId != 0)) {
                         String sql2 =
@@ -498,8 +500,10 @@ public class DatabaseReceiver {
                                 );
                         preparedStatement2.executeUpdate();
                         preparedStatement1.setInt(3, locationFromId);
+                    } else if (route.getLocationFrom() == null) {
+                        preparedStatement1.setNull(3, Types.NULL);
                     }
-                    preparedStatement1.setNull(3, Types.NULL);
+
                     String sql3 = """
                             UPDATE coordinates SET
                             x = ?,
@@ -613,12 +617,14 @@ public class DatabaseReceiver {
              var statement = connection.prepareStatement(sql)) {
             statement.setInt(1, distance);
             statement.setInt(2, id);
-            statement.executeUpdate();
+            if (statement.executeUpdate() != 0) {
+                return true;
+            }
 
         } catch (SQLException e) {
             System.out.println("Данные не корректны");
             return false;
         }
-        return true;
+        return false;
     }
 }

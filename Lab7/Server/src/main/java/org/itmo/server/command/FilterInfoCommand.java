@@ -25,7 +25,14 @@ public class FilterInfoCommand extends Command {
         rep.setSuccess(true);
         rep.setResult("""
                 name + value (Routes у которых содержится value в name);
-                distance + value (Routes у которых distance > value);
+                distanceHigher + value (Routes у которых distance > value);
+                distanceLower + value (Routes у которых distance < value);
+                idHigher + value (Routes у которых distance > value);
+                idLower + value (Routes у которых distance < value);
+                coordinateXHigher + value (Routes у которых distance > value);
+                coordinateXLower + value (Routes у которых distance < value);
+                coordinateYHigher + value (Routes у которых distance > value);
+                coordinateYLower + value (Routes у которых distance < value);
                 """);
 
         printer.printLine("[DEBUG] Запрос на показ фильтров");
