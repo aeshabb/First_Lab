@@ -27,7 +27,7 @@ public class RemoveByIdCommand extends Command {
             return;
         }
 
-        RemoveByIdRequest request = new RemoveByIdRequest(id);
+        RemoveByIdRequest request = new RemoveByIdRequest(id, "remove_by_id", user.getUsername(), user.getPassword());
         RemoveByIdReply reply = (RemoveByIdReply) Network.sendAndReceive(socket, request);
         if (reply != null && reply.isSuccess())
             printer.printLine("Элемент успешно удалён");

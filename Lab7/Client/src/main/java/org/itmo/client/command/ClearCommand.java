@@ -18,10 +18,10 @@ public class ClearCommand extends Command {
 
     @Override
     public void execute(String[] args) {
-        ClearRequest request = new ClearRequest();
+        ClearRequest request = new ClearRequest("clear", user.getUsername(), user.getPassword());
         ClearReply clearReply = (ClearReply) Network.sendAndReceive(socket, request);
         if (clearReply != null && clearReply.isSuccess())
-            printer.printLine("Коллекция очищена");
+            printer.printLine("Коллекция очищена (элементы которые добавляли вы)");
         else
             printer.printLine("Не удалось очистить коллекцию");
     }

@@ -5,21 +5,16 @@ import org.itmo.entity.Route;
 
 @Getter
 public class AddRequest extends Request {
-    public final Route route;
-    public final String username;
-    public final String password;
+    private final Route route;
+
     public AddRequest(Route route, String username, String password){
-        super("add");
+        super("add", username, password);
         this.route = route;
-        this.username = username;
-        this.password = password;
     }
 
     protected AddRequest(String name, Route route, String username, String password){
-        super(name);
+        super(name, username, password);
         this.route = route;
-        this.username = username;
-        this.password = password;
     }
 
 }

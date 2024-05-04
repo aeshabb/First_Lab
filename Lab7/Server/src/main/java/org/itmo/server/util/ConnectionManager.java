@@ -17,7 +17,7 @@ public class ConnectionManager {
     private static final String URL_KEY = "db.url";
     private static final String POOL_SIZE_KEY = "db.pool.size";
     private static final int DEFAULT_POOL_SIZE = 10;
-    private static BlockingQueue<Connection> pool;
+    public static BlockingQueue<Connection> pool;
     private static List<Connection> sourceConnections;
 
     static {

@@ -19,7 +19,7 @@ public class RegisterCommand extends Command {
         if (args.length != 2) {
             printer.printLine("Неверный набор аргументов");
         } else {
-            RegisterRequest registerRequest = new RegisterRequest(args[0], args[1]);
+            RegisterRequest registerRequest = new RegisterRequest("register", args[0], args[1]);
             RegisterReply registerReply = (RegisterReply) Network.sendAndReceive(socket, registerRequest);
             if (registerReply != null && registerReply.isSuccess()) {
                 user = new User(args[0], args[1]);

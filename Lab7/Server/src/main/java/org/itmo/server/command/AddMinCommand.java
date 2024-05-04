@@ -6,22 +6,27 @@ import org.itmo.dto.request.AddMinRequest;
 import org.itmo.dto.request.Request;
 import org.itmo.entity.Route;
 import org.itmo.server.collection.Receiver;
+import org.itmo.server.database.DatabaseReceiver;
 import org.itmo.server.output.InfoPrinter;
 
 public class AddMinCommand extends Command {
 
-    public AddMinCommand(Receiver receiver, String description, InfoPrinter printer) {
-        super(receiver, description, printer);
+    DatabaseReceiver databaseReceiver;
 
+    public AddMinCommand(Receiver receiver, String description, InfoPrinter printer, DatabaseReceiver databaseReceiver) {
+        super(receiver, description, printer);
+        this.databaseReceiver = databaseReceiver;
     }
 
     @Override
     public Reply process(Request request) {
         AddMinRequest req = (AddMinRequest) request;
         AddMinReply rep = new AddMinReply();
-        if (receiver.addIfMin(req.getRoute())) {
+        if (databaseReceiver.addIfMin(req.getRoute(), req.getUsername(), req.getPassword()) != -1) {
+            receiver.add(req.getRoute());
             rep.setMessage("Элемент упешно добавлен в коллекцию");
-        } else{
+
+        } else {
             rep.setMessage("Элемент не является минимальным. Не добавлен в коллекцию");
         }
         rep.setSuccess(true);

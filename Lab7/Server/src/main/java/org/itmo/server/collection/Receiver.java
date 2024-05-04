@@ -7,39 +7,58 @@ import org.itmo.parser.ParseCSV;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Comparator;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
+import java.util.function.BiPredicate;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class Receiver {
     private final RouteStorage routeStorage;
 
+    private static final Map<String, BiPredicate<Route, String>> PREDICATE_MAP = new HashMap<>();
+
+     static {
+        PREDICATE_MAP.put("name", (route, value) -> route.getName().contains(value));
+        PREDICATE_MAP.put("distance", (route, value) -> {
+            Integer distance = route.getDistance();
+            Integer filterValue = Integer.valueOf(value);
+            return distance != null && distance > filterValue;
+        });
+        // ... добавить другие предикаты ...
+    }
+
+
     public Receiver(RouteStorage routeStorage) {
         this.routeStorage = routeStorage;
     }
 
-    protected int getFreeId() {
-        List<Integer> deletedRoute = routeStorage.getDeletedRoute();
-        int id;
-        if (!deletedRoute.isEmpty()) {
-            id = deletedRoute.get(0);
-            deletedRoute.remove(0);
-        } else {
-            id = routeStorage.getRouteSet().size() + 1;
+    public String getFilteredRoutes(Map<String, String> userFilters) {
+        Stream<Route> routeStream = routeStorage.getRouteSet().stream();
+
+        // Применение каждого фильтра в цикле
+        for (Map.Entry<String, String> entry : userFilters.entrySet()) {
+            BiPredicate<Route, String> predicate = PREDICATE_MAP.get(entry.getKey());
+            String filterValue = entry.getValue();
+
+            routeStream = routeStream.filter(route -> predicate.test(route, filterValue));
         }
-        return id;
+        List<Route> routes = routeStream.toList();
+
+        StringBuilder stringBuilder = new StringBuilder();
+        int cnt = 1;
+        for (Route route : routes) {
+            stringBuilder.append(cnt).append(". ").append(route.toString());
+            stringBuilder.append("\n");
+            cnt++;
+        }
+        return stringBuilder.toString();
     }
 
-    public boolean addIfMin(Route route) {
-        if (routeStorage.getRouteSet().isEmpty() || route.compareTo(routeStorage.getRouteSet().iterator().next()) < 0) {
-            add(route);
-            return true;
-        }
-        return false;
-    }
 
-    public void add(Route route) {
+
+        public void add(Route route) {
         routeStorage.addRoute(route);
     }
 
@@ -47,15 +66,8 @@ public class Receiver {
         Route result = routeStorage.getRouteSet().stream().filter(route -> route.getId() == id).toList().get(0);
         return result;
     }
-    public Route minByFrom() {
-        Route result = routeStorage.getRouteSet()
-                .stream()
-                .min(Comparator.comparing(route -> route.getLocationFrom().getxLF())).get();
-        return result;
-    }
 
     public boolean update(int id, Route route) {
-
         Route oldRoute = getRouteById(id);
         if (oldRoute == null)
             return false;
@@ -67,24 +79,18 @@ public class Receiver {
         routeStorage.addRoute(route);
         return true;
     }
-
     public boolean removeById(int id) {
-        Route route = getRouteById(id);
-        if (route == null)
-            return false;
-        routeStorage.deleteRoute(route);
-        return true;
+        return routeStorage.getRouteSet().remove(getRouteById(id));
     }
 
-    public void clear() {
-        routeStorage.clear();
+    public void fillStorage(RouteStorage routeStorage) {
+        this.routeStorage.clear();
+        for (Route route : routeStorage.getRouteSet()) {
+            this.routeStorage.addRoute(route);
+        }
+
     }
 
-    public boolean removeLower(int distance) {
-        List<Route> result = routeStorage.getRouteSet().stream().filter(route -> route.getDistance() < distance).toList();
-        result.forEach(routeStorage.getRouteSet()::remove);
-        return !result.isEmpty();
-    }
 
     public String filterLessThanDistance(int distance) {
         List<Route> result = routeStorage.getRouteSet().stream().filter(route -> route.getDistance() < distance).toList();
@@ -128,5 +134,12 @@ public class Receiver {
         }
         return stringBuilder.toString();
     }
+    public Route minByFrom() {
+        Route result = routeStorage.getRouteSet()
+                .stream()
+                .min(Comparator.comparing(route -> route.getLocationFrom().getxLF())).get();
+        return result;
+    }
+
 
 }

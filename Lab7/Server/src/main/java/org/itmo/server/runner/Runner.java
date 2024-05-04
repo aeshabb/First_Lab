@@ -5,6 +5,7 @@ import org.itmo.server.command.*;
 import org.itmo.server.database.DatabaseReceiver;
 import org.itmo.server.output.InfoPrinter;
 import org.itmo.server.reader.ConsoleReader;
+import org.itmo.server.thread.ProcessThread;
 import org.itmo.server.thread.ReadThread;
 import org.itmo.server.util.ConnectionManager;
 
@@ -13,6 +14,9 @@ import java.net.InetSocketAddress;
 import java.net.SocketException;
 import java.nio.channels.*;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.locks.ReentrantLock;
 
 import static org.itmo.server.network.Network.*;
@@ -25,6 +29,9 @@ public class Runner {
     private Receiver receiver;
     private DatabaseReceiver databaseReceiver;
     private final InfoPrinter infoPrinter;
+    private final ExecutorService cachedPool = Executors.newCachedThreadPool();
+    private ProcessThread processThread;
+    ReadThread readThread = new ReadThread(null, null);
 
     private final Map<SocketChannel, ReentrantLock> locksMap = new HashMap<>();
 
@@ -48,24 +55,24 @@ public class Runner {
         Command infoCommand = new InfoCommand(receiver, "Информация о коллекции: \"info\"", printer);
         Command showCommand = new ShowCommand(receiver, "Вывести коллекцию: \"show\"", printer);
         Command addCommand = new AddCommand(receiver, "Добавить элемент в коллекцию: \"add\"", printer, databaseReceiver);
-        Command loginCommand = new LoginCommand(receiver, "Войти в аккаунт: \"login\"", printer, databaseReceiver);
-        Command registerCommand = new RegisterCommand(receiver, "Зарегистрировать аккаунт: \"register\"", printer, databaseReceiver);
-        Command updateCommand = new UpdateCommand(receiver, "Заменить элемент в колекции по id: \"update + (id)\"", printer);
-        Command removeByIdCommand = new RemoveByIdCommand(receiver, "Удалить Route по id из коллекции: \"remove_by_id + (id)\"", printer);
-        Command clearCommand = new ClearCommand(receiver, "Очистить коллекцию: \"clear\"", printer);
-        Command addMinCommand = new AddMinCommand(receiver, "Добавить элемент в коллекцию, если он минимальный: \"add_if_min\"", printer);
-        Command removeLowerCommand = new RemoveLowerCommand(receiver, "Удалить все элементы, меньше данного: \"remove_lower + (distance)\"", printer);
+        Command loginCommand = new LoginCommand(receiver, "", printer, databaseReceiver);
+        Command registerCommand = new RegisterCommand(receiver, "", printer, databaseReceiver);
+        Command updateCommand = new UpdateCommand(receiver, "Заменить элемент в колекции по id: \"update + (id)\"", printer, databaseReceiver);
+        Command removeByIdCommand = new RemoveByIdCommand(receiver, "Удалить Route по id из коллекции: \"remove_by_id + (id)\"", printer, databaseReceiver);
+        Command clearCommand = new ClearCommand(receiver, "Очистить коллекцию: \"clear\"", printer, databaseReceiver);
+        Command addMinCommand = new AddMinCommand(receiver, "Добавить элемент в коллекцию, если он минимальный: \"add_if_min\"", printer, databaseReceiver);
+        Command removeLowerCommand = new RemoveLowerCommand(receiver, "Удалить все элементы, меньше данного: \"remove_lower + (distance)\"", printer, databaseReceiver);
         Command historyCommand = new HistoryCommand(receiver, "Вывести историю: \"history\"", printer);
         Command minByFromCommand = new MinByFromCommand(receiver, "Вывести Route с минимальным полем LocationFrom: \"min_by_from\"", printer);
         Command countRoutesLessDistanceCommand = new CountRoutesLessDistanceCommand(receiver, "Вывести количество Route с меньшим полем distance: \"count_less_than_distance + (distance)\"", printer);
         Command filterRoutesLessDistanceCommand = new FilterRoutesLessDistance(receiver, "Вывести Route с меньшим полем distance: \"filter_less_than_distance + (distance)\"", printer);
+        Command filterCommand = new FilterCommand(receiver, "Отфильтровать коллекцию: \"filter\"", printer);
+        Command filterInfoCommand = new FilterInfoCommand(receiver, "Доступные фильтры: \"filter_info\"", printer);
 
         Map<String, Command> commandMap = new HashMap<>();
         commandMap.put("info", infoCommand);
         commandMap.put("show", showCommand);
         commandMap.put("add", addCommand);
-        commandMap.put("login", loginCommand);
-        commandMap.put("register", registerCommand);
         commandMap.put("update", updateCommand);
         commandMap.put("remove_by_id", removeByIdCommand);
         commandMap.put("clear", clearCommand);
@@ -75,9 +82,13 @@ public class Runner {
         commandMap.put("min_by_from", minByFromCommand);
         commandMap.put("count_less_than_distance", countRoutesLessDistanceCommand);
         commandMap.put("filter_less_than_distance", filterRoutesLessDistanceCommand);
+        commandMap.put("filter", filterCommand);
+        commandMap.put("filter_info", filterInfoCommand);
 
         Command help = new HelpCommand(receiver, "Вывести список команд: \"help\"", printer, createDescriptionList(commandMap));
         commandMap.put("help", help);
+        commandMap.put("login", loginCommand);
+        commandMap.put("register", registerCommand);
 
         return commandMap;
     }
@@ -128,7 +139,9 @@ public class Runner {
                         if (key.isReadable()) {
                             var attachment = key.attachment();
                             key.channel().register(selector, 0).attach(attachment);
-                            ReadThread readThread = new ReadThread(key, locksMap.get(key.channel()), commandMap);
+                            processThread = new ProcessThread(null, null, cachedPool, commandMap, databaseReceiver);
+                            readThread.setKey(key);
+                            readThread.setProcessThread(processThread);
                             Thread thread = new Thread(readThread);
                             thread.start();
                         }

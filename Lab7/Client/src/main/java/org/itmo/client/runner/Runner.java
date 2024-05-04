@@ -1,6 +1,5 @@
 package org.itmo.client.runner;
 
-import com.opencsv.exceptions.CsvException;
 import lombok.Setter;
 import org.itmo.client.command.*;
 import org.itmo.client.controller.Invoker;
@@ -8,10 +7,12 @@ import org.itmo.client.entity.User;
 import org.itmo.client.exception.NotAvailableServer;
 import org.itmo.client.output.InfoPrinter;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -24,6 +25,7 @@ public class Runner {
     private InfoPrinter commandPrinter;
     private final InfoPrinter infoPrinter;
     private InputStreamReader inputStreamReader;
+    @Setter
     private User user;
     private BufferedReader br;
 
@@ -31,6 +33,7 @@ public class Runner {
         this.commandPrinter = commandPrinter;
         this.infoPrinter = new InfoPrinter(new PrintStream(System.out));
         this.inputStreamReader = inputStreamReader;
+        br = new BufferedReader(inputStreamReader);
 
     }
 
@@ -39,6 +42,7 @@ public class Runner {
         this.infoPrinter = new InfoPrinter(new PrintStream(System.out));
         this.inputStreamReader = inputStreamReader;
         this.socket = socket;
+        br = new BufferedReader(inputStreamReader);
 
     }
 
@@ -55,6 +59,7 @@ public class Runner {
                 socket = new Socket();
                 socket.connect(new InetSocketAddress(host, port), 1000);
                 System.out.println("Вы успешно подключились к серверу");
+
                 break; // Если удалось подключиться к серверу, выходим из цикла
             } catch (IOException | NumberFormatException e) {
                 System.out.println("Ошибка подключения к серверу. Пожалуйста, проверьте введенные данные.");
@@ -65,37 +70,38 @@ public class Runner {
     }
 
 
-    public void runMethods(boolean isScript) throws IOException, CsvException {
-        br = new BufferedReader(inputStreamReader);
+    public void runMethods(boolean isScript) throws IOException {
         if (!isScript) {
             this.socket = connectToServer();
-        }
-        Command loginCommand = new LoginCommand(socket, commandPrinter, inputStreamReader, user);
-        Command registerCommand = new RegisterCommand(socket, commandPrinter, inputStreamReader, user);
-        String line;
-        while (this.user == null) {
-            infoPrinter.printLine("1. Зарегистрироваться");
-            infoPrinter.printLine("2. Войти");
-            while (!((line = br.readLine()).equals("1") || (line).equals("2"))) {
-                infoPrinter.printLine("Такого варианта нет!");
-            }
-            infoPrinter.printLine("Введите username и password: (username) + (password)");
-            if (line.equals("1")) {
-                line = br.readLine().trim();
-                String[] args = line.split(" ");
-                registerCommand.execute(args);
-                if (registerCommand.getUser() != null) {
-                    user = new User(args[0], args[1]);
+            user = null;
+            Command loginCommand = new LoginCommand(socket, commandPrinter, inputStreamReader, user);
+            Command registerCommand = new RegisterCommand(socket, commandPrinter, inputStreamReader, user);
+            String line;
+            while (this.user == null) {
+                infoPrinter.printLine("1. Зарегистрироваться");
+                infoPrinter.printLine("2. Войти");
+                while (!((line = br.readLine()).equals("1") || (line).equals("2"))) {
+                    infoPrinter.printLine("Такого варианта нет!");
                 }
-            } else {
-                line = br.readLine().trim();
-                String[] args = line.split(" ");
-                loginCommand.execute(args);
-                if (loginCommand.getUser() != null) {
-                    user = new User(args[0], args[1]);
+                infoPrinter.printLine("Введите username и password: (username) + (password)");
+                if (line.equals("1")) {
+                    line = br.readLine().trim();
+                    String[] args = line.split(" ");
+                    registerCommand.execute(args);
+                    if (registerCommand.getUser() != null) {
+                        user = new User(args[0], args[1]);
+                    }
+                } else {
+                    line = br.readLine().trim();
+                    String[] args = line.split(" ");
+                    loginCommand.execute(args);
+                    if (loginCommand.getUser() != null) {
+                        user = new User(args[0], args[1]);
+                    }
                 }
             }
         }
+
         initInvoker();
         runCommands(isScript);
     }
@@ -123,6 +129,8 @@ public class Runner {
         Command filterRoutesLessDistanceCommand = new FilterRoutesLessDistance(socket, infoPrinter, inputStreamReader, user);
         Command executeScript = new ExecuteScriptCommand(socket, infoPrinter, inputStreamReader, user);
         Command help = new HelpCommand(socket, infoPrinter, inputStreamReader, user);
+        Command filter = new FilterCommand(socket, infoPrinter, inputStreamReader, br, user);
+        Command filterInfo = new FilterInfoCommand(socket, infoPrinter, inputStreamReader, user);
 
         Map<String, Command> commandMap = new HashMap<>();
         commandMap.put("info", infoCommand);
@@ -139,6 +147,8 @@ public class Runner {
         commandMap.put("filter_less_than_distance", filterRoutesLessDistanceCommand);
         commandMap.put("execute_script", executeScript);
         commandMap.put("help", help);
+        commandMap.put("filter", filter);
+        commandMap.put("filter_info", filterInfo);
 
         return commandMap;
     }
@@ -182,20 +192,27 @@ public class Runner {
                 }
             } catch (NotAvailableServer e) {
                 infoPrinter.printLine("Соединение с сервером потеряно, попробуйте переподключиться");
-                this.socket = connectToServer();
-                for (Command command : invoker.getCommands().values()) {
-                    command.setSocket(socket);
-                }
+                runMethods(false);
             }
         }
         if (!ScriptsCounter.scriptsList.isEmpty()) {
             ScriptsCounter.scriptsSet.remove(ScriptsCounter.scriptsList.get(ScriptsCounter.scriptsList.size() - 1));
             ScriptsCounter.scriptsList.remove(ScriptsCounter.scriptsList.size() - 1);
         }
+        if (isScript) {
+            br.close();
+        } else {
+            exit();
+        }
 
-        br.close();
     }
 
+    public void exit() throws IOException {
+        socket.close();
+        br.close();
+        System.exit(0);
+    }
 
 }
+
 

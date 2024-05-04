@@ -27,7 +27,7 @@ public class FilterRoutesLessDistance extends Command {
             printer.printLine("Неверный ввод аргументов");
         } else {
             try {
-                FilterRoutesLessDistanceRequest request = new FilterRoutesLessDistanceRequest(Integer.parseInt(parameters[0]));
+                FilterRoutesLessDistanceRequest request = new FilterRoutesLessDistanceRequest(Integer.parseInt(parameters[0]), "filter_routes_less_distance", user.getUsername(), user.getPassword());
                 FilterRoutesLessDistanceReply reply = (FilterRoutesLessDistanceReply) Network.sendAndReceive(socket, request);
                 if (reply != null && reply.isSuccess())
                     printer.printLine(reply.getResult());

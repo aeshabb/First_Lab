@@ -19,7 +19,7 @@ public class ShowCommand extends Command {
 
     @Override
     public void execute(String[] args) {
-        ShowRequest showRequest = new ShowRequest();
+        ShowRequest showRequest = new ShowRequest("show", user.getUsername(), user.getPassword());
         ShowReply showReply = (ShowReply) Network.sendAndReceive(socket, showRequest);
         if (showReply != null && showReply.isSuccess())
             printer.printLine(showReply.getResult());

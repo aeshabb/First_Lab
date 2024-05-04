@@ -7,8 +7,8 @@ import lombok.Setter;
 @Setter
 public class FilterRoutesLessDistanceRequest extends Request {
     private int distance;
-    public FilterRoutesLessDistanceRequest(int distance) {
-        super("filter_less_than_distance");
+    public FilterRoutesLessDistanceRequest(int distance, String name, String username, String password){
+        super(name, username, password);
         this.distance = distance;
     }
 }

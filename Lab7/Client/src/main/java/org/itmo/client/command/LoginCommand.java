@@ -19,7 +19,7 @@ public class LoginCommand extends Command {
         if (args.length != 2) {
             printer.printLine("Неверный набор аргументов");
         } else {
-            LoginRequest loginRequest = new LoginRequest(args[0], args[1]);
+            LoginRequest loginRequest = new LoginRequest("login", args[0], args[1]);
             LoginReply loginReply = (LoginReply) Network.sendAndReceive(socket, loginRequest);
             if (loginReply != null && loginReply.isSuccess()) {
                 user = new User(args[0], args[1]);

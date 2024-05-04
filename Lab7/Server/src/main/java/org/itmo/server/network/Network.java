@@ -28,12 +28,10 @@ public class Network {
     }
 
 
-    // получает Worker'а для конкретного запроса. Здесь же происходит десериализация
     public static Request read(SelectionKey key) throws IOException {
         SocketChannel channel = (SocketChannel) key.channel();
         ByteBuffer byteBuf = (ByteBuffer) key.attachment();
 
-        // считаем длину входящего пакета - 4 байта
         int total = 0;
         while (total < 4) {
             int bytesRead = channel.read(byteBuf);

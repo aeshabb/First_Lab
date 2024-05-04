@@ -18,7 +18,7 @@ public class HelpCommand extends Command {
 
     @Override
     public void execute(String[] parameters) {
-        HelpRequest request = new HelpRequest();
+        HelpRequest request = new HelpRequest("help", user.getUsername(), user.getPassword());
         HelpReply helpReply = (HelpReply) Network.sendAndReceive(socket, request);
         if (helpReply != null && helpReply.isSuccess())
             printer.printLine(helpReply.getResult());

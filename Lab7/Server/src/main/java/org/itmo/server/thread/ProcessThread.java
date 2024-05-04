@@ -7,41 +7,50 @@ import org.itmo.dto.request.LoginRequest;
 import org.itmo.dto.request.RegisterRequest;
 import org.itmo.dto.request.Request;
 import org.itmo.server.command.Command;
+import org.itmo.server.database.DatabaseReceiver;
 
 import java.nio.channels.SelectionKey;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class ProcessThread implements Runnable{
-    private final Request request;
-    private final SelectionKey key;
-    private final ReentrantLock lock;
-
+public class ProcessThread implements Runnable {
+    private Request request;
+    private SelectionKey key;
+    private final ExecutorService cachedPool;
     private final Map<String, Command> commandMap;
-    private static boolean login;
+    private final DatabaseReceiver databaseReceiver;
 
-    public ProcessThread(Request request, SelectionKey key, ReentrantLock lock, Map<String, Command> commandMap) {
+
+    public ProcessThread(Request request, SelectionKey key, ExecutorService cachedPool, Map<String, Command> commandMap, DatabaseReceiver databaseReceiver) {
         this.request = request;
         this.key = key;
-        this.lock = lock;
+        this.cachedPool = cachedPool;
         this.commandMap = commandMap;
+        this.databaseReceiver = databaseReceiver;
     }
 
     @Override
     public void run() {
-        Reply reply = commandMap.get(request.name).process(request);
+        Reply reply = commandMap.get(request.getName()).process(request);
         if (reply != null) {
-            if (!login) {
-                if (reply.isSuccess() && ((reply.getClass() == LoginReply.class) || (reply.getClass() == RegisterReply.class))) {
-                    login = true;
-                } else {
+            if (!(reply.isSuccess() && ((reply.getClass() == LoginReply.class) || (reply.getClass() == RegisterReply.class)))) {
+                if (databaseReceiver.findUserByNameAndPassword(request.getUsername(), request.getPassword()) == -1) {
                     reply.setSuccess(false);
                 }
             }
         }
 
-        var cachedPool = Executors.newCachedThreadPool();
-        cachedPool.submit(new WriteThread(reply, key, lock));
+        cachedPool.submit(new WriteThread(reply, key));
     }
+
+    public void setRequest(Request request) {
+        this.request = request;
+    }
+
+    public void setKey(SelectionKey key) {
+        this.key = key;
+    }
+
 }

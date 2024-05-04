@@ -19,7 +19,7 @@ public class InfoCommand extends Command {
 
     @Override
     public void execute(String[] parameters) {
-        InfoRequest infoRequest = new InfoRequest();
+        InfoRequest infoRequest = new InfoRequest("info", user.getUsername(), user.getPassword());
         InfoReply infoReply = (InfoReply) Network.sendAndReceive(socket, infoRequest);
         if (infoReply != null && infoReply.isSuccess())
             printer.printLine(infoReply.getResult());

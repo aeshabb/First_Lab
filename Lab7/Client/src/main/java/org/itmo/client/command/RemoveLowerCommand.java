@@ -29,7 +29,7 @@ public class RemoveLowerCommand extends Command {
             return;
         }
 
-        RemoveLowerRequest request = new RemoveLowerRequest(distance);
+        RemoveLowerRequest request = new RemoveLowerRequest(distance, "remove_lower", user.getUsername(), user.getPassword());
         RemoveLowerReply reply = (RemoveLowerReply) Network.sendAndReceive(socket, request);
         if (reply != null && reply.isSuccess())
             printer.printLine(reply.getMessage());

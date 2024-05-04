@@ -31,7 +31,7 @@ public class UpdateCommand extends Command {
                 RouteParser routeParser = new RouteParser(printer, br);
                 Route route = routeParser.parseRouteFromConsole(inputStreamReader);
 
-                UpdateRequest updRequest = new UpdateRequest(id, route);
+                UpdateRequest updRequest = new UpdateRequest(id, route, "update", user.getUsername(), user.getPassword());
                 UpdateReply updReply = (UpdateReply) Network.sendAndReceive(socket, updRequest);
                 printer.printLine(updReply != null ? updReply.getMessage() : "Не удалось обновить элемент в коллекции");
             } catch (NumberFormatException numberFormatException) {

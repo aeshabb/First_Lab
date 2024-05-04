@@ -7,8 +7,8 @@ import lombok.Setter;
 @Setter
 public class CountRoutesLessDistanceRequest extends Request {
     private int distance;
-    public CountRoutesLessDistanceRequest(int distance) {
-        super("count_less_than_distance");
+    public CountRoutesLessDistanceRequest(int distance, String name, String username, String password){
+        super(name, username, password);
         this.distance = distance;
     }
 }

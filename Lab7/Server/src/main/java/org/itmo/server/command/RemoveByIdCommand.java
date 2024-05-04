@@ -5,13 +5,15 @@ import org.itmo.dto.reply.Reply;
 import org.itmo.dto.request.RemoveByIdRequest;
 import org.itmo.dto.request.Request;
 import org.itmo.server.collection.Receiver;
+import org.itmo.server.database.DatabaseReceiver;
 import org.itmo.server.output.InfoPrinter;
 
 public class RemoveByIdCommand extends Command {
+    DatabaseReceiver databaseReceiver;
 
-    public RemoveByIdCommand(Receiver receiver, String description, InfoPrinter printer) {
+    public RemoveByIdCommand(Receiver receiver, String description, InfoPrinter printer, DatabaseReceiver databaseReceiver) {
         super(receiver, description, printer);
-
+        this.databaseReceiver = databaseReceiver;
     }
 
     @Override
@@ -19,9 +21,12 @@ public class RemoveByIdCommand extends Command {
         RemoveByIdRequest req = (RemoveByIdRequest) request;
         RemoveByIdReply rep = new RemoveByIdReply();
 
-        if (receiver.removeById(req.getId())) {
-            rep.setSuccess(true);
-            rep.setMessage("Элемент успешно удалён");
+        int routeId;
+        if ((routeId = databaseReceiver.removeById(req.getId(), req.getUsername(), req.getPassword())) != -1) {
+            if(receiver.removeById(routeId)) {
+                rep.setSuccess(true);
+                rep.setMessage("Элемент успешно удалён");
+            }
         } else{
             rep.setSuccess(false);
             rep.setMessage("Не удалось удалить элемент. Проверьте введённый id");

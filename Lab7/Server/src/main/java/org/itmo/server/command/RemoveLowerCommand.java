@@ -7,13 +7,16 @@ import org.itmo.dto.request.RemoveByIdRequest;
 import org.itmo.dto.request.RemoveLowerRequest;
 import org.itmo.dto.request.Request;
 import org.itmo.server.collection.Receiver;
+import org.itmo.server.database.DatabaseReceiver;
 import org.itmo.server.output.InfoPrinter;
 
 public class RemoveLowerCommand extends Command {
 
-    public RemoveLowerCommand(Receiver receiver, String description, InfoPrinter printer) {
-        super(receiver, description, printer);
+    DatabaseReceiver databaseReceiver;
 
+    public RemoveLowerCommand(Receiver receiver, String description, InfoPrinter printer, DatabaseReceiver databaseReceiver) {
+        super(receiver, description, printer);
+        this.databaseReceiver = databaseReceiver;
     }
 
     @Override
@@ -21,7 +24,8 @@ public class RemoveLowerCommand extends Command {
         RemoveLowerRequest req = (RemoveLowerRequest) request;
         RemoveLowerReply rep = new RemoveLowerReply();
 
-        if (receiver.removeLower(req.getDistance())) {
+        if (databaseReceiver.removeLower(req.getDistance(), req.getUsername(), req.getPassword())) {
+            receiver.fillStorage(databaseReceiver.fillRouteStorage());
             rep.setSuccess(true);
             rep.setMessage("Элемент успешно удалён");
         } else{

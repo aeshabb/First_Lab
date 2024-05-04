@@ -1,6 +1,5 @@
 package org.itmo.server.database;
 
-import lombok.SneakyThrows;
 import org.itmo.entity.Coordinates;
 import org.itmo.entity.LocationFrom;
 import org.itmo.entity.LocationTo;
@@ -11,7 +10,6 @@ import org.itmo.server.util.ConnectionManager;
 
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.util.Locale;
 import java.util.TreeSet;
 
 public class DatabaseReceiver {
@@ -25,7 +23,8 @@ public class DatabaseReceiver {
         String sql = """
                 SELECT * FROM users;
                 """;
-        try (var statement = ConnectionManager.get().createStatement()) {
+        try (var connection = ConnectionManager.get();
+             var statement = connection.createStatement()) {
             var executeResult = statement.executeQuery(sql);
             while (executeResult.next()) {
                 if (executeResult.getString("name").equals(username)) {
@@ -49,9 +48,9 @@ public class DatabaseReceiver {
     public boolean registerUser(String username, String password) {
         if (findUserByNameAndPassword(username, password) == -1) {
             String sql1 = """
-                        INSERT INTO users(name, password)
-                        VALUES (?, ?);
-                        """;
+                    INSERT INTO users(name, password)
+                    VALUES (?, ?);
+                    """;
             try (Connection connection = ConnectionManager.get();
                  var statement1 = connection.prepareStatement(sql1)) {
                 statement1.setString(1, username);
@@ -110,7 +109,8 @@ public class DatabaseReceiver {
                     FOREIGN KEY (user_id) REFERENCES users(id)
                 )
                 """;
-        try (var statement = ConnectionManager.get().createStatement()) {
+        try (var connection = ConnectionManager.get();
+             var statement = connection.createStatement()) {
             statement.execute(sql);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -126,7 +126,8 @@ public class DatabaseReceiver {
                          LEFT JOIN public.location_from lf on route.location_from_id = lf.id
                          LEFT JOIN public.location_to lt on route.location_to_id = lt.id;
                 """;
-        try (var statement = ConnectionManager.get().createStatement()) {
+        try (var connection = ConnectionManager.get();
+             var statement = connection.createStatement()) {
             var resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 LocationFrom locationFrom = null;
@@ -183,16 +184,16 @@ public class DatabaseReceiver {
                     """;
             Coordinates coordinates = route.getCoordinates();
             LocationTo locationTo = route.getLocationTo();
-            PreparedStatement preparedStatement1 = null;
-            PreparedStatement preparedStatement2 = null;
-            PreparedStatement preparedStatement3 = null;
+            PreparedStatement preparedStatement1;
+            PreparedStatement preparedStatement2;
+            PreparedStatement preparedStatement3;
 
             try {
                 connection = ConnectionManager.get();
 
                 preparedStatement1 = connection.prepareStatement(sql1);
                 preparedStatement2 = connection.prepareStatement(sql2);
-                preparedStatement3 = connection.prepareStatement(sql3);
+                preparedStatement3 = connection.prepareStatement(sql3, Statement.RETURN_GENERATED_KEYS);
                 connection.setAutoCommit(false);
 
                 preparedStatement1.setDouble(1, coordinates.getxC());
@@ -207,10 +208,16 @@ public class DatabaseReceiver {
                 preparedStatement3.setString(1, route.getName());
                 preparedStatement3.setTimestamp(2, Timestamp.valueOf(route.getCreationDate()));
                 preparedStatement3.setInt(3, route.getDistance());
-                preparedStatement3.setInt(4, id = findUserByNameAndPassword(username, password));
+                preparedStatement3.setInt(4, findUserByNameAndPassword(username, password));
                 preparedStatement3.executeUpdate();
 
+                var generatedKeys = preparedStatement3.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    id = generatedKeys.getInt(1);
+                }
+
                 connection.commit();
+                connection.setAutoCommit(true);
                 preparedStatement1.close();
                 preparedStatement2.close();
                 preparedStatement3.close();
@@ -250,15 +257,15 @@ public class DatabaseReceiver {
             LocationFrom locationFrom = route.getLocationFrom();
             LocationTo locationTo = route.getLocationTo();
 
-            PreparedStatement preparedStatement1 = null;
-            PreparedStatement preparedStatement2 = null;
-            PreparedStatement preparedStatement3 = null;
-            PreparedStatement preparedStatement4 = null;
-            try  {
+            PreparedStatement preparedStatement1;
+            PreparedStatement preparedStatement2;
+            PreparedStatement preparedStatement3;
+            PreparedStatement preparedStatement4;
+            try {
                 connection = ConnectionManager.get();
                 preparedStatement1 = connection.prepareStatement(sql1);
                 preparedStatement2 = connection.prepareStatement(sql2);
-                preparedStatement3 = connection.prepareStatement(sql3);
+                preparedStatement3 = connection.prepareStatement(sql3, Statement.RETURN_GENERATED_KEYS);
                 preparedStatement4 = connection.prepareStatement(sql4);
                 connection.setAutoCommit(false);
 
@@ -280,10 +287,16 @@ public class DatabaseReceiver {
                 preparedStatement3.setString(1, route.getName());
                 preparedStatement3.setTimestamp(2, Timestamp.valueOf(route.getCreationDate()));
                 preparedStatement3.setInt(3, route.getDistance());
-                preparedStatement3.setInt(4, id = findUserByNameAndPassword(username, password));
+                preparedStatement3.setInt(4, findUserByNameAndPassword(username, password));
                 preparedStatement3.executeUpdate();
 
+                var generatedKeys = preparedStatement3.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    id = generatedKeys.getInt(1);
+                }
+
                 connection.commit();
+                connection.setAutoCommit(true);
                 preparedStatement1.close();
                 preparedStatement2.close();
                 preparedStatement3.close();
@@ -305,4 +318,307 @@ public class DatabaseReceiver {
         return id;
     }
 
+    public int removeById(int id, String username, String password) {
+        Connection connection;
+        PreparedStatement preparedStatement1;
+        PreparedStatement preparedStatement2;
+        PreparedStatement preparedStatement3;
+        PreparedStatement preparedStatement4;
+        Statement statement;
+        int coordinatesId = 0;
+        int locationToId = 0;
+        int locationFromId = 0;
+        int user_id = findUserByNameAndPassword(username, password);
+
+        String sql = """
+                             SELECT route.coordinates_id, route.location_from_id, route.location_to_id FROM route
+                             WHERE id =
+                             """ + id;
+        try {
+            connection = ConnectionManager.get();
+            statement = connection.createStatement();
+            var resultSet = statement.executeQuery(sql);
+            if (resultSet.next()) {
+                coordinatesId = resultSet.getInt(1);
+
+                if (resultSet.getString(2) != null) {
+                    locationFromId = resultSet.getInt(2);
+                }
+                locationToId = resultSet.getInt(3);
+            }
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        String sql1 = """
+                DELETE FROM route WHERE id = ? AND user_id = ?;
+                """;
+        String sql2 = """
+                DELETE FROM coordinates WHERE id = ?;
+                """;
+        String sql3 = """
+                DELETE FROM location_from WHERE id = ?;
+                """;
+        String sql4 = """
+                                
+                DELETE FROM location_to WHERE id = ?;
+                """;
+
+        try {
+            connection = ConnectionManager.get();
+            connection.setAutoCommit(false);
+            preparedStatement1 = connection.prepareStatement(sql1);
+            preparedStatement2 = connection.prepareStatement(sql2);
+            preparedStatement3 = connection.prepareStatement(sql3);
+            preparedStatement4 = connection.prepareStatement(sql4);
+
+            preparedStatement1.setInt(1, id);
+            preparedStatement1.setInt(2, user_id);
+            if (preparedStatement1.executeUpdate() == 0) {
+                return -1;
+            }
+
+
+            preparedStatement2.setInt(1, coordinatesId);
+            preparedStatement2.executeUpdate();
+            if (locationFromId != 0) {
+                preparedStatement3.setInt(1, locationFromId);
+                preparedStatement3.executeUpdate();
+            }
+            preparedStatement4.setInt(1, locationToId);
+            preparedStatement4.executeUpdate();
+
+            connection.commit();
+            connection.setAutoCommit(true);
+            preparedStatement1.close();
+            preparedStatement2.close();
+            preparedStatement3.close();
+            preparedStatement4.close();
+            connection.close();
+            return id;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public int update(int id, Route route, String username, String password) {
+        Connection connection;
+        PreparedStatement preparedStatement1;
+        PreparedStatement preparedStatement2 = null;
+        PreparedStatement preparedStatement3;
+        PreparedStatement preparedStatement4;
+        Statement statement;
+        int coordinatesId = 0;
+        int locationToId = 0;
+        int locationFromId = 0;
+        int userId = findUserByNameAndPassword(username, password);
+        int realUserId = 0;
+
+        String sql = """
+                SELECT route.coordinates_id, route.location_from_id, route.location_to_id, route.user_id FROM route
+                WHERE id = %s
+                """.formatted(id);
+        try {
+            connection = ConnectionManager.get();
+            statement = connection.createStatement();
+            var resultSet = statement.executeQuery(sql);
+            if (resultSet.next()) {
+                coordinatesId = resultSet.getInt(1);
+
+                if (resultSet.getString(2) != null) {
+                    locationFromId = resultSet.getInt(2);
+                }
+                locationToId = resultSet.getInt(3);
+                realUserId = resultSet.getInt(4);
+            }
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        if (coordinatesId != 0) {
+            String sql1 = """
+                    UPDATE route SET
+                    name = ?,
+                    local_date_time = ?,
+                    location_from_id = ?,
+                    distance = ? WHERE id = ? AND route.user_id = ?;
+                    """;
+
+            try {
+                if (realUserId == userId) {
+                    connection = ConnectionManager.get();
+                    connection.setAutoCommit(false);
+                    preparedStatement1 = connection.prepareStatement(sql1);
+                    preparedStatement1.setString(1, route.getName());
+
+
+                    preparedStatement1.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+
+
+                    if ((route.getLocationFrom() != null) && (locationFromId == 0)) {
+                        String sql2 = """
+                                                
+                                            INSERT INTO location_from(x, y, z, name)
+                                VALUES (?, ?, ?, ?)
+                                """;
+                        preparedStatement2 = connection.prepareStatement(sql2, Statement.RETURN_GENERATED_KEYS);
+                        preparedStatement2.setLong(1, route.getLocationFrom().getxLF());
+                        preparedStatement2.setDouble(2, route.getLocationFrom().getyLF());
+                        preparedStatement2.setFloat(3, route.getLocationFrom().getzLF());
+                        preparedStatement2.setString(4, route.getLocationFrom().getNameLF());
+                        preparedStatement2.executeUpdate();
+                        preparedStatement1.setInt(3, preparedStatement2.getGeneratedKeys().getInt(
+                                1));
+                    } else if ((route.getLocationFrom() != null) && (
+                            locationFromId != 0)) {
+                        String sql2 =
+                                """     
+                                    UPDATE location_from SET
+                                    x = ?,
+                                    y = ?,
+                                    z = ?,
+                                    name = ? WHERE id = ?
+                                        """;
+                        preparedStatement2 =
+                                connection.prepareStatement(sql2);
+                        preparedStatement2.setLong(1, route.getLocationFrom().getxLF());
+                        preparedStatement2.setDouble(2, route.getLocationFrom().getyLF());
+                        preparedStatement2.
+                                setFloat(3, route.getLocationFrom().getzLF());
+                        preparedStatement2.setString(4, route.
+                                getLocationFrom().getNameLF(
+                                ));
+                        preparedStatement2.setInt
+                                (5,
+                                        locationFromId
+                                );
+                        preparedStatement2.executeUpdate();
+                        preparedStatement1.setInt(3, locationFromId);
+                    }
+                    preparedStatement1.setNull(3, Types.NULL);
+                    String sql3 = """
+                            UPDATE coordinates SET
+                            x = ?,
+                            y = ?
+                            WHERE id = ?
+                            """;
+                    preparedStatement3 =
+                            connection.prepareStatement(sql3);
+                    preparedStatement3.setDouble(1,
+                            route.getCoordinates().
+                                    getxC()
+                    );
+                    preparedStatement3.setInt(2, route.
+                            getCoordinates().getyC());
+                    preparedStatement3.setInt(3, coordinatesId);
+                    preparedStatement3.executeUpdate();
+
+                    String sql4 = """
+                            UPDATE location_to SET
+                            x = ?,
+                            y = ?,
+                            z = ? WHERE id = ?
+                            """;
+                    preparedStatement4 =
+                            connection.prepareStatement(sql4);
+                    preparedStatement4.setDouble(1, route.getLocationTo().
+                            getxLT());
+                    preparedStatement4.setLong(2, route.getLocationTo().getyLT()
+                    );
+                    preparedStatement4.
+
+                            setInt(3, route.
+                                    getLocationTo().getzLT());
+                    preparedStatement4.setInt(4,
+                            locationToId);
+                    preparedStatement4.
+                            executeUpdate();
+                    preparedStatement1.setInt(4, route.getDistance()
+                    );
+                    preparedStatement1.setInt(5, id);
+                    preparedStatement1.setInt(6,
+                            userId);
+                    preparedStatement1.executeUpdate();
+
+                    connection.commit();
+                    connection.setAutoCommit(true);
+                    preparedStatement1.close();
+                    if (preparedStatement2 != null) {
+                        preparedStatement2.close();
+                    }
+                    preparedStatement3.close();
+                    preparedStatement4.close();
+                    connection.close();
+                    return id;
+
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return -1;
+    }
+
+    public int addIfMin(Route route, String username, String password) {
+        String sql = """
+                SELECT route.distance FROM route;
+                """;
+        int minDist = 0;
+        try (var connection = ConnectionManager.get();
+             var statement = connection.createStatement()) {
+            var executeResult = statement.executeQuery(sql);
+            while (executeResult.next()) {
+                int dist;
+                if (minDist > (dist = executeResult.getInt(2))) {
+                    minDist = dist;
+                }
+            }
+            if (route.getDistance() < minDist) {
+                return addRouteToDB(route, username, password);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Данные не корректны");
+
+        }
+        return -1;
+    }
+
+    public void clear(String username, String password) {
+        int id = findUserByNameAndPassword(username, password);
+        String sql = """
+                DELETE FROM route WHERE route.user_id = ?;
+                """;
+        try (var connection = ConnectionManager.get();
+             var statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Данные не корректны");
+
+        }
+    }
+
+    public boolean removeLower(int distance, String username, String password) {
+        int id = findUserByNameAndPassword(username, password);
+        String sql = """
+                DELETE FROM route WHERE route.distance < ? AND route.user_id = ?;
+                """;
+        try (var connection = ConnectionManager.get();
+             var statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, distance);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Данные не корректны");
+            return false;
+        }
+        return true;
+    }
 }

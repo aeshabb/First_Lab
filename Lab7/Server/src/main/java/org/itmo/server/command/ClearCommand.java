@@ -5,13 +5,16 @@ import org.itmo.dto.reply.Reply;
 import org.itmo.dto.request.ClearRequest;
 import org.itmo.dto.request.Request;
 import org.itmo.server.collection.Receiver;
+import org.itmo.server.database.DatabaseReceiver;
 import org.itmo.server.output.InfoPrinter;
 
 public class ClearCommand extends Command {
 
-    public ClearCommand(Receiver receiver, String description, InfoPrinter printer) {
-        super(receiver, description, printer);
+    DatabaseReceiver databaseReceiver;
 
+    public ClearCommand(Receiver receiver, String description, InfoPrinter printer, DatabaseReceiver databaseReceiver) {
+        super(receiver, description, printer);
+        this.databaseReceiver = databaseReceiver;
     }
 
     @Override
@@ -19,7 +22,8 @@ public class ClearCommand extends Command {
         ClearRequest req = (ClearRequest) request;
         ClearReply rep = new ClearReply();
 
-        receiver.clear();
+        databaseReceiver.clear(req.getUsername(), req.getPassword());
+        receiver.fillStorage(databaseReceiver.fillRouteStorage());
         rep.setSuccess(true);
 
         System.out.println("[DEBUG] Запрос на очистку коллекции");

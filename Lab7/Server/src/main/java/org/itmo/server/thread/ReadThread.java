@@ -1,40 +1,34 @@
 package org.itmo.server.thread;
 
+import lombok.Setter;
 import org.itmo.dto.request.Request;
-import org.itmo.server.command.Command;
 import org.itmo.server.network.Network;
 
 import java.io.IOException;
 import java.nio.channels.SelectionKey;
-import java.util.Map;
-import java.util.concurrent.locks.ReentrantLock;
-
+@Setter
 public class ReadThread implements Runnable {
 
-    private final SelectionKey key;
-    private final ReentrantLock lock;
-    private final Map<String, Command> commandMap;
+    private SelectionKey key;
+    private ProcessThread processThread;
 
-    public ReadThread(SelectionKey key, ReentrantLock lock, Map<String, Command> commandMap) {
+    public ReadThread(SelectionKey key, ProcessThread processThread) {
         this.key = key;
-        this.lock = lock;
-        this.commandMap = commandMap;
+        this.processThread = processThread;
     }
 
     @Override
     public void run() {
         try {
-            //lock.lock();
             Request req = Network.read(key);
             var attachment = key.attachment();
             key.channel().register(key.selector(), SelectionKey.OP_READ, attachment);
-            ProcessThread processThread = new ProcessThread(req, key, lock, commandMap);
+            processThread.setKey(key);
+            processThread.setRequest(req);
             Thread thread = new Thread(processThread);
             thread.start();
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        } finally {
-            //lock.unlock();
+            System.out.println("Пользователь отключился");
         }
     }
 

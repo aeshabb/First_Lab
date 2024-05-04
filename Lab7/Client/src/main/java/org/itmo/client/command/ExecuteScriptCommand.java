@@ -23,8 +23,9 @@ public class ExecuteScriptCommand extends Command {
             try {
                 InputStream inputStream = new FileInputStream(parameters[0]);
                 Runner runner = new Runner(new InfoPrinter(new PrintStream("nul")), new InputStreamReader(inputStream), socket);
+                runner.setUser(user);
                 runner.runMethods(true);
-            } catch (CsvException | IOException e) {
+            } catch (IOException e) {
                 printer.printLine("Проверьте путь к файлу");
             }
         }

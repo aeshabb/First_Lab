@@ -25,7 +25,7 @@ public class MinByFromCommand extends Command {
         if (parameters.length != 0) {
             printer.printLine("Неверный ввод аргументов");
         } else {
-            MinByFromRequest request = new MinByFromRequest();
+            MinByFromRequest request = new MinByFromRequest("min_by_from", user.getUsername(), user.getPassword());
             MinByFromReply minByFromReply = (MinByFromReply) Network.sendAndReceive(socket, request);
             if (minByFromReply != null && minByFromReply.isSuccess())
                 printer.printLine(minByFromReply.getMessage());
