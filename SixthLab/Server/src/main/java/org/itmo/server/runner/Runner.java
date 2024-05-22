@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.InetSocketAddress;
+import java.net.ServerSocket;
 import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.nio.channels.CancelledKeyException;
@@ -94,7 +95,6 @@ public class Runner {
     public ServerSocketChannel choosePort() {
         Scanner scanner = new Scanner(System.in);
         ServerSocketChannel serverSocketChannel = null;
-
         while (true) {
             infoPrinter.printLine("Введите номер порта: ");
             try {

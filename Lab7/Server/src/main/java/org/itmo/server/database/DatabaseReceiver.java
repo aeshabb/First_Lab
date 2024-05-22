@@ -122,9 +122,9 @@ public class DatabaseReceiver {
         String sql = """
                 SELECT route.id, route.name, c.x, c.y, route.local_date_time, route.location_from_id, lf.x, lf.y, lf.z, lf.name, lt.x, lt.y, lt.z, route.distance
                 FROM route
-                         LEFT JOIN public.coordinates c on route.coordinates_id = c.id
-                         LEFT JOIN public.location_from lf on route.location_from_id = lf.id
-                         LEFT JOIN public.location_to lt on route.location_to_id = lt.id;
+                         LEFT JOIN coordinates c on route.coordinates_id = c.id
+                         LEFT JOIN location_from lf on route.location_from_id = lf.id
+                         LEFT JOIN location_to lt on route.location_to_id = lt.id;
                 """;
         try (var connection = ConnectionManager.get();
              var statement = connection.createStatement()) {
@@ -160,7 +160,7 @@ public class DatabaseReceiver {
                 treeSet.add(route);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Не удалось заполнить коллекцию. Проверьте БД на наличие верных таблиц.");
+            throw new RuntimeException(e);
         }
         return new RouteStorage(treeSet, LocalDateTime.now());
     }

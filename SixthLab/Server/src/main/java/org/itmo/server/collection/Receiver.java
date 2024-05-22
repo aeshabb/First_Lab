@@ -32,6 +32,7 @@ public class Receiver {
     }
 
     public boolean addIfMin(Route route) {
+
         if (routeStorage.getRouteSet().isEmpty() || route.compareTo(routeStorage.getRouteSet().iterator().next()) < 0) {
             add(route);
             return true;
@@ -48,28 +49,42 @@ public class Receiver {
     }
 
     public Route getRouteById(int id) {
-        Route result = routeStorage.getRouteSet().stream().filter(route -> route.getId() == id).toList().get(0);
-        return result;
+        try {
+            Route result = routeStorage.getRouteSet().stream().filter(route -> route.getId() == id).toList().get(0);
+            return result;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return null;
+        }
+
     }
     public Route minByFrom() {
-        Route result = routeStorage.getRouteSet()
-                .stream()
-                .min(Comparator.comparing(route -> route.getLocationFrom().getxLF())).get();
-        return result;
+        try {
+            Route result = routeStorage.getRouteSet()
+                    .stream()
+                    .min(Comparator.comparing(route -> route.getLocationFrom().getxLF())).get();
+            return result;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return null;
+        }
+
     }
 
     public boolean update(int id, Route route) {
+        if(getRouteById(id) != null) {
 
-        Route oldRoute = getRouteById(id);
-        if (oldRoute == null)
-            return false;
 
-        route.setId(id);
-        route.setCreationDate(LocalDateTime.now());
+            Route oldRoute = getRouteById(id);
+            if (oldRoute == null)
+                return false;
 
-        routeStorage.deleteRoute(route);
-        routeStorage.addRoute(route);
-        return true;
+            route.setId(id);
+            route.setCreationDate(LocalDateTime.now());
+
+            routeStorage.deleteRoute(route);
+            routeStorage.addRoute(route);
+            return true;
+        }
+        return false;
     }
 
     public boolean removeById(int id) {
@@ -125,26 +140,35 @@ public class Receiver {
     }
 
     public boolean removeLower(int distance) {
-        List<Route> result = routeStorage.getRouteSet().stream().filter(route -> route.getDistance() < distance).toList();
-        result.forEach(routeStorage.getRouteSet()::remove);
-        return !result.isEmpty();
+        if (!routeStorage.getRouteSet().isEmpty()) {
+            List<Route> result = routeStorage.getRouteSet().stream().filter(route -> route.getDistance() < distance).toList();
+            result.forEach(routeStorage.getRouteSet()::remove);
+            return !result.isEmpty();
+        }
+        return false;
     }
 
     public String filterLessThanDistance(int distance) {
-        List<Route> result = routeStorage.getRouteSet().stream().filter(route -> route.getDistance() < distance).toList();
-        StringBuilder stringBuilder = new StringBuilder();
-        int cnt = 1;
-        for (Route route : result) {
-            stringBuilder.append(cnt).append(". ").append(route.toString());
-            stringBuilder.append("\n");
-            cnt++;
+        if (!routeStorage.getRouteSet().isEmpty()) {
+            List<Route> result = routeStorage.getRouteSet().stream().filter(route -> route.getDistance() < distance).toList();
+            StringBuilder stringBuilder = new StringBuilder();
+            int cnt = 1;
+            for (Route route : result) {
+                stringBuilder.append(cnt).append(". ").append(route.toString());
+                stringBuilder.append("\n");
+                cnt++;
+            }
+            return stringBuilder.toString();
         }
-        return stringBuilder.toString();
+        return "";
     }
 
     public long countLessThanDistance(int distance) {
-        long result = routeStorage.getRouteSet().stream().filter(route -> route.getDistance() < distance).count();
-        return result;
+        if (!routeStorage.getRouteSet().isEmpty()) {
+            long result = routeStorage.getRouteSet().stream().filter(route -> route.getDistance() < distance).count();
+            return result;
+        }
+        return 0;
     }
 
 

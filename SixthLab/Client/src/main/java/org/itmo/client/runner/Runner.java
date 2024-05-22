@@ -166,9 +166,18 @@ public class Runner {
             ScriptsCounter.scriptsList.remove(ScriptsCounter.scriptsList.size() - 1);
         }
 
-        br.close();
+        if (isScript) {
+            br.close();
+        } else {
+            exit();
+        }
     }
 
+    public void exit() throws IOException {
+        socket.close();
+        br.close();
+        System.exit(0);
+    }
 
 }
 

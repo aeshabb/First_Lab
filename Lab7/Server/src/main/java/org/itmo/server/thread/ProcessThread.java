@@ -3,8 +3,6 @@ package org.itmo.server.thread;
 import org.itmo.dto.reply.LoginReply;
 import org.itmo.dto.reply.RegisterReply;
 import org.itmo.dto.reply.Reply;
-import org.itmo.dto.request.LoginRequest;
-import org.itmo.dto.request.RegisterRequest;
 import org.itmo.dto.request.Request;
 import org.itmo.server.command.Command;
 import org.itmo.server.database.DatabaseReceiver;
@@ -12,8 +10,6 @@ import org.itmo.server.database.DatabaseReceiver;
 import java.nio.channels.SelectionKey;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class ProcessThread implements Runnable {
     private Request request;
