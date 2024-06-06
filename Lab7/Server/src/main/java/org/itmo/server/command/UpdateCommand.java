@@ -28,7 +28,7 @@ public class UpdateCommand extends Command {
             }
         } else{
             rep.setSuccess(false);
-            rep.setMessage("Не удалось обновить элемент. Проверьте введённый id");
+            rep.setMessage("Не удалось обновить элемент. По данному id нет вашего route");
         }
 
         printer.printLine("[DEBUG] Запрос на обновление элемента в коллекции");

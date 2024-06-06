@@ -67,8 +67,6 @@ public class DatabaseReceiver {
 
     public void createStartTables() {
         String sql = """
-                DROP TABLE coordinates, location_from, location_to, users, route CASCADE;
-                DROP SEQUENCE route_sequence CASCADE;
                 CREATE TABLE IF NOT EXISTS coordinates (
                     id SERIAL PRIMARY KEY,
                     x DECIMAL NOT NULL CHECK (x <= 660),

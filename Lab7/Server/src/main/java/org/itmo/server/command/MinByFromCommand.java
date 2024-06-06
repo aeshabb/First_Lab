@@ -22,8 +22,13 @@ public class MinByFromCommand extends Command {
         MinByFromRequest req = (MinByFromRequest) request;
         MinByFromReply rep = new MinByFromReply();
 
-        rep.setSuccess(true);
-        rep.setMessage(receiver.minByFrom().toString());
+        if (receiver.minByFrom() != null) {
+            rep.setSuccess(true);
+            rep.setMessage(receiver.minByFrom().toString());
+        } else {
+            rep.setSuccess(true);
+            rep.setMessage("В коллекции нет Route с полем LocationFrom");
+        }
 
         printer.printLine("[DEBUG] Запрос на показ коллекции");
 

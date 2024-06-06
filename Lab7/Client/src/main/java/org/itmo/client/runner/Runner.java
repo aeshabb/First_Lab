@@ -7,10 +7,7 @@ import org.itmo.client.entity.User;
 import org.itmo.client.exception.NotAvailableServer;
 import org.itmo.client.output.InfoPrinter;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.HashMap;
@@ -78,26 +75,37 @@ public class Runner {
             Command registerCommand = new RegisterCommand(socket, commandPrinter, inputStreamReader, user);
             String line;
             while (this.user == null) {
-                infoPrinter.printLine("1. Зарегистрироваться");
-                infoPrinter.printLine("2. Войти");
-                while (!((line = br.readLine()).equals("1") || (line).equals("2"))) {
-                    infoPrinter.printLine("Такого варианта нет!");
-                }
-                infoPrinter.printLine("Введите username и password: (username) + (password)");
-                if (line.equals("1")) {
-                    line = br.readLine().trim();
-                    String[] args = line.split(" ");
-                    registerCommand.execute(args);
-                    if (registerCommand.getUser() != null) {
-                        user = new User(args[0], args[1]);
+                try {
+                    infoPrinter.printLine("1. Зарегистрироваться");
+                    infoPrinter.printLine("2. Войти");
+                    while (!((line = br.readLine()).equals("1") || (line).equals("2"))) {
+                        infoPrinter.printLine("Такого варианта нет!");
                     }
-                } else {
-                    line = br.readLine().trim();
-                    String[] args = line.split(" ");
-                    loginCommand.execute(args);
-                    if (loginCommand.getUser() != null) {
-                        user = new User(args[0], args[1]);
+                    if (line.equals("1")) {
+                        commandPrinter.printLine("Введите username: ");
+                        String login = br.readLine();
+                        commandPrinter.printLine("Введите password: ");
+                        commandPrinter.flush();
+                        String password = new String(System.console().readPassword());
+                        String[] args = new String[]{login, password};
+                        registerCommand.execute(args);
+                        if (registerCommand.getUser() != null) {
+                            user = new User(args[0], args[1]);
+                        }
+                    } else {
+                        commandPrinter.printLine("Введите username: ");
+                        String login = br.readLine();
+                        commandPrinter.printLine("Введите password: ");
+                        commandPrinter.flush();
+                        String password = new String(System.console().readPassword());
+                        String[] args = new String[]{login, password};
+                        loginCommand.execute(args);
+                        if (loginCommand.getUser() != null) {
+                            user = new User(args[0], args[1]);
+                        }
                     }
+                } catch (IOException e) {
+                    commandPrinter.printLine("Ошибка чтения");
                 }
             }
         }
@@ -206,6 +214,8 @@ public class Runner {
         }
 
     }
+
+
 
     public void exit() throws IOException {
         socket.close();

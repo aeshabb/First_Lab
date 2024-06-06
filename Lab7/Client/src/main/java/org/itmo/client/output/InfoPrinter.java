@@ -39,5 +39,8 @@ public class InfoPrinter {
             i++;
         }
     }
+    public void flush() {
+        printStream.flush();
+    }
 
 }

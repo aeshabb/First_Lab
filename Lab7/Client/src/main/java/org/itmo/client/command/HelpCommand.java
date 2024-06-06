@@ -21,7 +21,7 @@ public class HelpCommand extends Command {
         HelpRequest request = new HelpRequest("help", user.getUsername(), user.getPassword());
         HelpReply helpReply = (HelpReply) Network.sendAndReceive(socket, request);
         if (helpReply != null && helpReply.isSuccess())
-            printer.printLine(helpReply.getResult());
+            printer.printLine(helpReply.getResult() + "\n" + "Чтение комманд со скрипта: \\\"execute_script + (filename)\\\"");
         else
             printer.printLine("Не удалось получить справочную информацию");
 

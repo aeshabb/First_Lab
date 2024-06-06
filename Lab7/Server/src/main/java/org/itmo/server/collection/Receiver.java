@@ -6,6 +6,7 @@ import org.itmo.parser.ParseCSV;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.spec.ECField;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.BiPredicate;
@@ -69,25 +70,33 @@ public class Receiver {
     }
 
     public String getFilteredRoutes(Map<String, String> userFilters) {
-        Stream<Route> routeStream = routeStorage.getRouteSet().stream();
+         try {
+             Stream<Route> routeStream = routeStorage.getRouteSet().stream();
 
-        // Применение каждого фильтра в цикле
-        for (Map.Entry<String, String> entry : userFilters.entrySet()) {
-            BiPredicate<Route, String> predicate = PREDICATE_MAP.get(entry.getKey());
-            String filterValue = entry.getValue();
+             // Применение каждого фильтра в цикле
+             for (Map.Entry<String, String> entry : userFilters.entrySet()) {
+                 BiPredicate<Route, String> predicate = PREDICATE_MAP.get(entry.getKey());
+                 if (predicate != null) {
+                     String filterValue = entry.getValue();
 
-            routeStream = routeStream.filter(route -> predicate.test(route, filterValue));
-        }
-        List<Route> routes = routeStream.toList();
+                     routeStream = routeStream.filter(route -> predicate.test(route, filterValue));
+                 } else {
+                     return "Фильтры указаны неверно";
+                 }
+             }
+             List<Route> routes = routeStream.toList();
 
-        StringBuilder stringBuilder = new StringBuilder();
-        int cnt = 1;
-        for (Route route : routes) {
-            stringBuilder.append(cnt).append(". ").append(route.toString());
-            stringBuilder.append("\n");
-            cnt++;
-        }
-        return stringBuilder.toString();
+             StringBuilder stringBuilder = new StringBuilder();
+             int cnt = 1;
+             for (Route route : routes) {
+                 stringBuilder.append(cnt).append(". ").append(route.toString());
+                 stringBuilder.append("\n");
+                 cnt++;
+             }
+             return stringBuilder.toString();
+         } catch (Exception e) {
+             return "Неверный ввод аргументов";
+         }
     }
 
 
@@ -169,10 +178,19 @@ public class Receiver {
         return stringBuilder.toString();
     }
     public Route minByFrom() {
-        Route result = routeStorage.getRouteSet()
-                .stream()
-                .min(Comparator.comparing(route -> route.getLocationFrom().getxLF())).get();
-        return result;
+         TreeSet<Route> newRouteSet = new TreeSet<>();
+         for (Route route : routeStorage.getRouteSet()) {
+             if (route.getLocationFrom() != null) {
+                 newRouteSet.add(route);
+             }
+         }
+         if (!newRouteSet.isEmpty()) {
+             Route result = newRouteSet
+                     .stream()
+                     .min(Comparator.comparing(route -> route.getLocationFrom().getxLF())).get();
+             return result;
+         }
+         return null;
     }
 
 
