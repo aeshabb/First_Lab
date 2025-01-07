@@ -1,4 +1,4 @@
-package org.itmo;
+package src.main.java.org.itmo;
 
 public class Main {
     public static void main(String[] args) {

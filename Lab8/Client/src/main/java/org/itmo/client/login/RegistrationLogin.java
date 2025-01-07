@@ -1,16 +1,33 @@
 package org.itmo.client.login;
 
+import lombok.Getter;
+import org.itmo.client.command.Command;
+import org.itmo.client.command.LoginCommand;
+import org.itmo.client.command.RegisterCommand;
+import org.itmo.client.entity.User;
+import org.itmo.client.output.InfoPrinter;
+
 import javax.swing.*;
 import java.awt.*;
+import java.io.InputStreamReader;
+import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
+@Getter
 public class RegistrationLogin {
 
-    private static Map<String, String> users = new HashMap<>();
-    private static JFrame frame;
+    private JFrame frame;
+    private final Command loginCommand;
+    private final Command registerCommand;
+    private User user;
 
-    public void login() {
+    public RegistrationLogin(Socket socket, InfoPrinter commandPrinter, InputStreamReader inputStreamReader, User user) {
+        loginCommand = new LoginCommand(socket, commandPrinter, inputStreamReader, user);
+        registerCommand = new RegisterCommand(socket, commandPrinter, inputStreamReader, user);
+    }
+
+    public User login() {
         frame = new JFrame("Login");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -19,13 +36,15 @@ public class RegistrationLogin {
 
         JPanel panel = new JPanel();
         frame.add(panel);
-        placeComponents(panel);
 
+        placeComponents(panel);
         frame.setVisible(true);
 
+        return user;
+        
     }
 
-    private void  placeComponents(JPanel panel) {
+    private void placeComponents(JPanel panel) {
         panel.setLayout(null);
 
         JLabel userLabel = new JLabel("Username");
@@ -59,10 +78,11 @@ public class RegistrationLogin {
         loginButton.addActionListener(e -> {
             String user = userText.getText();
             String password = new String(passwordText.getPassword());
+            loginCommand.execute(new String[]{user, password});
 
-            if (users.containsKey(user) && users.get(user).equals(password)) {
+            if (loginCommand.getUser() != null) {
                 messageLabel.setText("Login successful!");
-                frame.dispose();
+                this.user = loginCommand.getUser();
             } else {
                 messageLabel.setText("Invalid username or password.");
             }
@@ -71,14 +91,15 @@ public class RegistrationLogin {
         registerButton.addActionListener(e -> {
             String user = userText.getText();
             String password = new String(passwordText.getPassword());
+            registerCommand.execute(new String[]{user, password});
 
-            if (users.containsKey(user)) {
+            if (registerCommand.getUser() == null) {
                 messageLabel.setText("Username already exists.");
             } else {
-                users.put(user, password);
                 messageLabel.setText("Registration successful!");
-                frame.dispose();
+                this.user = registerCommand.getUser();
             }
         });
-    }
+
+}
 }

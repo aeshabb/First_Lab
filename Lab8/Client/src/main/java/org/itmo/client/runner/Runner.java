@@ -5,6 +5,7 @@ import org.itmo.client.command.*;
 import org.itmo.client.controller.Invoker;
 import org.itmo.client.entity.User;
 import org.itmo.client.exception.NotAvailableServer;
+import org.itmo.client.login.RegistrationLogin;
 import org.itmo.client.output.InfoPrinter;
 
 import java.io.*;
@@ -71,43 +72,9 @@ public class Runner {
         if (!isScript) {
             this.socket = connectToServer();
             user = null;
-            Command loginCommand = new LoginCommand(socket, commandPrinter, inputStreamReader, user);
-            Command registerCommand = new RegisterCommand(socket, commandPrinter, inputStreamReader, user);
-            String line;
-            while (this.user == null) {
-                try {
-                    infoPrinter.printLine("1. Зарегистрироваться");
-                    infoPrinter.printLine("2. Войти");
-                    while (!((line = br.readLine()).equals("1") || (line).equals("2"))) {
-                        infoPrinter.printLine("Такого варианта нет!");
-                    }
-                    if (line.equals("1")) {
-                        commandPrinter.printLine("Введите username: ");
-                        String login = br.readLine();
-                        commandPrinter.printLine("Введите password: ");
-                        commandPrinter.flush();
-                        String password = new String(System.console().readPassword());
-                        String[] args = new String[]{login, password};
-                        registerCommand.execute(args);
-                        if (registerCommand.getUser() != null) {
-                            user = new User(args[0], args[1]);
-                        }
-                    } else {
-                        commandPrinter.printLine("Введите username: ");
-                        String login = br.readLine();
-                        commandPrinter.printLine("Введите password: ");
-                        commandPrinter.flush();
-                        String password = new String(System.console().readPassword());
-                        String[] args = new String[]{login, password};
-                        loginCommand.execute(args);
-                        if (loginCommand.getUser() != null) {
-                            user = new User(args[0], args[1]);
-                        }
-                    }
-                } catch (IOException e) {
-                    commandPrinter.printLine("Ошибка чтения");
-                }
-            }
+            RegistrationLogin registrationLogin = new RegistrationLogin(socket, commandPrinter, inputStreamReader, user);
+            user = registrationLogin.login();
+
         }
 
         initInvoker();

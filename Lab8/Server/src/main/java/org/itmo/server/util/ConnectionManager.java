@@ -1,7 +1,5 @@
 package org.itmo.server.util;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -69,9 +67,10 @@ public class ConnectionManager {
             throw new RuntimeException(e);
         }
     }
+
     public static void closePool() {
         try {
-            for(Connection connection : sourceConnections) {
+            for (Connection connection : sourceConnections) {
                 connection.close();
             }
         } catch (SQLException e) {
