@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="95ad94a3-b4f7-4854-88c6-140f047211f4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../SixthLab/Client/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SixthLab/Common/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SixthLab/Server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FifthLab/src/main/java/org/itmo/command/RouteParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/../FifthLab/src/main/java/org/itmo/command/RouteParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FifthLab/src/main/java/org/itmo/database/RouteStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/../FifthLab/src/main/java/org/itmo/database/RouteStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FifthLab/src/main/java/org/itmo/output/CommandPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../FifthLab/src/main/java/org/itmo/output/CommandPrinter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FifthLab/src/main/resources/1" beforeDir="false" afterPath="$PROJECT_DIR$/../FifthLab/src/main/resources/1" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2VZaDl3U0qJkZ6QX9wGB2LVAsfF" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Changes&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Алексей/OneDrive/Рабочий стол/codes/Trashbox/ThirdLab&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.javacompiler&quot;,
+    &quot;settings.editor.splitter.proportion&quot;: &quot;0.28134558&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="$USER_HOME$/.sdkman/candidates/java/17.0.8-oracle" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="org.itmo.Main" />
+      <module name="thirdLab" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.itmo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="95ad94a3-b4f7-4854-88c6-140f047211f4" name="Changes" comment="" />
+      <created>1695045942581</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1695045942581</updated>
+      <workItem from="1707126397995" duration="226000" />
+      <workItem from="1707127863851" duration="603000" />
+      <workItem from="1707331911821" duration="72000" />
+      <workItem from="1707338597128" duration="2704000" />
+      <workItem from="1707370655711" duration="1491000" />
+      <workItem from="1707372236437" duration="3848000" />
+      <workItem from="1707389335289" duration="976000" />
+      <workItem from="1707552062151" duration="711000" />
+      <workItem from="1707564206696" duration="9000" />
+      <workItem from="1713553914102" duration="645000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

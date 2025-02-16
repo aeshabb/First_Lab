@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8071cf9a-e366-46f5-8a76-25c3c0f37178" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/command/AddCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/command/AddMinCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/command/ClearCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/command/Command.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/command/CountRoutesLessDistanceCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/command/ExecuteScriptCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/command/FilterCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/command/FilterInfoCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/command/FilterRoutesLessDistance.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/command/HelpCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/command/HistoryCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/command/InfoCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/command/LoginCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/command/MinByFromCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/command/RegisterCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/command/RemoveByIdCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/command/RemoveLowerCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/command/RouteParser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/command/ScriptsCounter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/command/ShowCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/command/UpdateCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/controller/Invoker.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/entity/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/exception/NotAvailableServer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/login/RegistrationLogin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/network/Network.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/output/InfoPrinter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/runner/Runner.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Client/src/main/java/org/itmo/client/validator/Validator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/reply/AddMinReply.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/reply/AddReply.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/reply/ClearReply.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/reply/CountRoutesLessDistanceReply.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/reply/FilterInfoReply.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/reply/FilterReply.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/reply/FilterRoutesLessDistanceReply.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/reply/HelpReply.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/reply/InfoReply.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/reply/LoginReply.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/reply/MinByFromReply.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/reply/RegisterReply.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/reply/RemoveByIdReply.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/reply/RemoveLowerReply.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/reply/Reply.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/reply/ShowReply.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/reply/UpdateReply.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/request/AddMinRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/request/AddRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/request/ClearRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/request/CountRoutesLessDistanceRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/request/FilterInfoRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/request/FilterRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/request/FilterRoutesLessDistanceRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/request/HelpRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/request/InfoRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/request/LoginRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/request/MinByFromRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/request/RegisterRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/request/RemoveByIdRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/request/RemoveLowerRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/request/Request.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/request/ShowRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/dto/request/UpdateRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/entity/Coordinates.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/entity/LocationFrom.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/entity/LocationTo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/entity/Route.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Common/src/main/java/org/itmo/parser/ParseCSV.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/collection/Receiver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/collection/RouteStorage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/command/AddCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/command/AddMinCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/command/ClearCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/command/Command.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/command/CountRoutesLessDistanceCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/command/FilterCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/command/FilterInfoCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/command/FilterRoutesLessDistance.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/command/HelpCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/command/HistoryCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/command/InfoCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/command/LoginCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/command/MinByFromCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/command/RegisterCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/command/RemoveByIdCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/command/RemoveLowerCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/command/ShowCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/command/UpdateCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/database/DatabaseReceiver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/hasher/SHA1Hasher.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/network/Network.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/output/InfoPrinter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/reader/ConsoleReader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/runner/Runner.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/thread/ProcessThread.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/thread/ReadThread.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/thread/WriteThread.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/util/ConnectionManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/java/org/itmo/server/util/PropertiesUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/Server/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab8/src/main/java/org/itmo/Main.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2ebWX2b9wW1AgLpP0l1oHX0edUH" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Changes&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17 (2)&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Алексей/OneDrive/Рабочий стол/codes/Trashbox/Lab7&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Алексей\OneDrive\Рабочий стол\codes\Trashbox\SixthLab\Server\src\main\resources" />
+      <recent name="C:\Users\Алексей\OneDrive\Рабочий стол\codes\Trashbox\SixthLab\Server\src\main\java\org\itmo\server" />
+      <recent name="C:\Users\Алексей\OneDrive\Рабочий стол\codes\Trashbox\SixthLab\Common\src\main\java\org\itmo\entity" />
+      <recent name="C:\Users\Алексей\OneDrive\Рабочий стол\codes\Trashbox\SixthLab\Client\src\main\java\org\itmo\client\command" />
+      <recent name="C:\Users\Алексей\OneDrive\Рабочий стол\codes\Trashbox\SixthLab\Server\src\main\java\org\itmo\server\entity" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.org.itmo.client.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.itmo.server.Main" />
+      <module name="Server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.itmo.server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="org.itmo.client.Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.itmo.client.Main" />
+      <module name="Client" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.itmo.client.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.org.itmo.client.Main" />
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8071cf9a-e366-46f5-8a76-25c3c0f37178" name="Changes" comment="" />
+      <created>1712173796684</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1712173796684</updated>
+      <workItem from="1712173798154" duration="1850000" />
+      <workItem from="1712336793629" duration="3739000" />
+      <workItem from="1712944325138" duration="1228000" />
+      <workItem from="1713298650572" duration="1988000" />
+      <workItem from="1713538866549" duration="18092000" />
+      <workItem from="1713568181131" duration="714000" />
+      <workItem from="1713595968757" duration="13102000" />
+      <workItem from="1713825645002" duration="5000" />
+      <workItem from="1713884167996" duration="1264000" />
+      <workItem from="1713890592539" duration="1160000" />
+      <workItem from="1714078139698" duration="7489000" />
+      <workItem from="1714148691200" duration="25040000" />
+      <workItem from="1714219444071" duration="15682000" />
+      <workItem from="1714505197887" duration="13544000" />
+      <workItem from="1714526598740" duration="628000" />
+      <workItem from="1714527288105" duration="60000" />
+      <workItem from="1714560154672" duration="74000" />
+      <workItem from="1714560245615" duration="1446000" />
+      <workItem from="1714561713378" duration="28308000" />
+      <workItem from="1714643938860" duration="36194000" />
+      <workItem from="1714727612161" duration="42602000" />
+      <workItem from="1714808774356" duration="377000" />
+      <workItem from="1714847442342" duration="11645000" />
+      <workItem from="1714905180906" duration="6148000" />
+      <workItem from="1715087776604" duration="971000" />
+      <workItem from="1715358461145" duration="1516000" />
+      <workItem from="1716023904915" duration="2364000" />
+      <workItem from="1716156571091" duration="607000" />
+      <workItem from="1716326603754" duration="28000" />
+      <workItem from="1716459609314" duration="3789000" />
+      <workItem from="1716632813739" duration="1622000" />
+      <workItem from="1716635063941" duration="1741000" />
+      <workItem from="1716923566781" duration="68000" />
+      <workItem from="1716925391068" duration="304000" />
+      <workItem from="1717190373439" duration="3674000" />
+      <workItem from="1717234360307" duration="2990000" />
+      <workItem from="1717239864552" duration="2000" />
+      <workItem from="1717447595520" duration="9000" />
+      <workItem from="1717707785175" duration="6488000" />
+      <workItem from="1718405263004" duration="205000" />
+      <workItem from="1726507976368" duration="14000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

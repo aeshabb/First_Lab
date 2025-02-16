@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6c428027-b981-4cbe-9655-1859de3785f9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../ThirdLab/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/ThirdLab.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/resources/Abitura.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/resources/Directions.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/command/ChangeDirNameCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/command/Command.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/command/CompareScoreCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/command/DeleteByIdCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/command/HelpCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/command/Receiver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/command/ShowAllDirectionsCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/command/ShowAllEnrolleesCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/command/ShowEnrolleesWithOriginalsCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/command/UpdateScoreCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/controller/Invoker.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/database/DirectionStorage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/database/EnrolleeStorage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/entity/Direction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/entity/Division.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/entity/Enrollee.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/entity/Subject.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/handlers/DirectionsDataHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/handlers/DirectionsDataHandlerImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/handlers/EnrolleeDataHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/handlers/EnrolleeDataHandlerImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/logger/Logger.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/reader/DatabaseReader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/reader/FileDataReader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/reader/InputStream.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ThirdLab/src/runner/Runner.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2VNH4o0QUMmWsnqgNN4041MDaCh" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "Changes",
+    "last_opened_file_path": "C:/Users/Алексей/OneDrive/Рабочий стол/codes/Trashbox/FirstLab"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6c428027-b981-4cbe-9655-1859de3785f9" name="Changes" comment="" />
+      <created>1694669429158</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1694669429158</updated>
+    </task>
+    <servers />
+  </component>
+</project>
