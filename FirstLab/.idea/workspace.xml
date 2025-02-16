@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6c428027-b981-4cbe-9655-1859de3785f9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../Lab7/Server/src/main/java/org/itmo/server/database/DatabaseReceiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Lab7/Server/src/main/java/org/itmo/server/database/DatabaseReceiver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Lab7/Server/src/main/java/org/itmo/server/thread/ProcessThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Lab7/Server/src/main/java/org/itmo/server/thread/ProcessThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SixthLab/Client/src/main/java/org/itmo/client/runner/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SixthLab/Client/src/main/java/org/itmo/client/runner/Runner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SixthLab/Server/src/main/java/org/itmo/server/collection/Receiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SixthLab/Server/src/main/java/org/itmo/server/collection/Receiver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SixthLab/Server/src/main/java/org/itmo/server/runner/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SixthLab/Server/src/main/java/org/itmo/server/runner/Runner.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2VNH4o0QUMmWsnqgNN4041MDaCh" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Changes&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Алексей/OneDrive/Рабочий стол/codes/Trashbox/FirstLab&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6c428027-b981-4cbe-9655-1859de3785f9" name="Changes" comment="" />
+      <created>1694669429158</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1694669429158</updated>
+      <workItem from="1716326633421" duration="171000" />
+      <workItem from="1716364144944" duration="631000" />
+      <workItem from="1716366994025" duration="8000" />
+      <workItem from="1716392591627" duration="168000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
